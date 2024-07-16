@@ -1,0 +1,67 @@
+.checkschool {
+    width: 50%;
+    margin: 10% auto;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+
+    img {
+        width: 258px;
+    }
+
+    margin-bottom: 70px;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    input {
+        width: 450px;
+        height: 70px;
+        border-radius: 35px;
+        padding: 10px 30px;
+        margin: 20px 0;
+        font-size: 25px;
+
+    }
+
+    .btn {
+        padding: 10px;
+        width: 60px;
+        width: 180px;
+        background-color: black;
+        border: white 1px solid;
+        color: white;
+        justify-content: center;
+    }
+
+    .btn:hover {
+        background: linear-gradient(90deg, #3851FF, #8037FF);
+        border: none;
+    }
+
+    .email {
+        background-color: white;
+        color: #AE88FF;
+    }
+
+    .email::placeholder {
+        color: #AE88FF;
+    }
+
+    .number {
+        background-color: #AE88FF;
+        color: white;
+    }
+
+    .number::placeholder {
+        color: white;
+    }
+}
