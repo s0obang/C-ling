@@ -1,6 +1,8 @@
 import React from 'react'
 import LOGO from '../assets/img/logo.png'
 import '../assets/scss/section/Header.scss'
+import '../assets/scss/section/base.scss'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
   return (
@@ -10,7 +12,7 @@ const Header = () => {
       </div>
       <div className="nav">
         <button className='Home'>HOME</button>
-        <button className='Login nodisplay'>LOGIN</button>
+        <Link to= '/login'><button className='Login nodisplay'>LOGIN</button></Link>
         <button className='Matching'>MATCHING</button>
         <button className='Community'>COMMUNITY</button>
         <button className='My'>MY</button>
