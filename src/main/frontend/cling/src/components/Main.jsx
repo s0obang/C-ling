@@ -8,7 +8,7 @@ const Main = () => {
     <div className='randing'>
       <Header></Header>
       
-    </div>
+     </div>
   )
 }
 
