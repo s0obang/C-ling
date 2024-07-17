@@ -1,0 +1,15 @@
+.myhome {
+    display: flex;
+    flex-direction: column;
+}
+text{
+    color:white;
+}
+
+#badge{
+    width: 50%;
+    margin:50%;
+    justify-content: center;
+    text-decoration: underline;
+    color:white;
+}
