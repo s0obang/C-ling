@@ -1,9 +1,12 @@
 import React from 'react'
-import Commuhome from "./contents/community/commuhome";
+import Header from './Header'
 
 const Main = () => {
+  
   return (
-    <div>
+    
+    <div className='randing'>
+      <Header></Header>
       
      </div>
   )
