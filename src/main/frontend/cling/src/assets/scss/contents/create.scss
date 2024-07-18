@@ -1,4 +1,11 @@
-.checkschool {
+
+.create {
+    width: 880px;
+    margin: 10% auto;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    .checkschool {
     width: 50%;
     margin: 10% auto;
     justify-content: center;
@@ -8,18 +15,12 @@
 .caution{
     color: white;
 }
-.create {
-    width: 880px;
-    margin: 10% auto;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
 }
 
 .logo {
     display: flex;
     justify-content: center;
-
+    margin-top: 100px;
     img {
         width: 258px;
     }
