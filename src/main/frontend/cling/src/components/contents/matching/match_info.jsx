@@ -21,10 +21,10 @@ const input_info = () => {
                 <input className="major" type="text" placeholder='Major' />
 
                 <div className="button-group">
-                    <Link to='/create/info'>
+                    <Link to='/nomatches/info/samemajor'>
                         <input className="matchingbtn" type="button" value="Clink" />
                     </Link>
-                    <Link to='/create/info'>
+                    <Link to='/nomatches/othermajor'>
                         <input className="matchingbtn" type="button" value="타 과 Clink" />
                     </Link>
                 </div>
