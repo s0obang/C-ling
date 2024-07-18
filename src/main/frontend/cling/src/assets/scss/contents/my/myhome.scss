@@ -1,15 +1,17 @@
 .myhome {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 text{
     color:white;
 }
 
 #badge{
-    width: 50%;
-    margin:50%;
-    justify-content: center;
+    width: 100%;
+    margin:0%;
     text-decoration: underline;
     color:white;
+    text-align: center;
 }
