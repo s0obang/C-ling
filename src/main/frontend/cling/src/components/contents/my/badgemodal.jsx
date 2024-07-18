@@ -20,12 +20,12 @@ const BadgeModal = ({ isOpen, onRequestClose })=>{
             <IoIosCloseCircleOutline id="modalClose" onClick={onRequestClose} />
             <div id="modaldiv">
                 <form action="post" className="form">
-                    <div className='formcolumn'><text className ="formtext">이름</text><input className="name" type="text" /></div>
-                    <div className='formcolumn'><text className ="formtext">학과</text><input className="major" type="text" /></div>
-                    <div className='formcolumn'><text className ="formtext">학번</text><input className="num" type="text" /></div>
-                    <div className='formcolumn'><text className ="formtext">직책</text><input className="mark" type="text" /></div>
+                    <div className='formcolumn'><span className ="formtext">이름</span><input className="name" type="text" /></div>
+                    <div className='formcolumn'><span className ="formtext">학과</span><input className="major" type="text" /></div>
+                    <div className='formcolumn'><span className ="formtext">학번</span><input className="num" type="text" /></div>
+                    <div className='formcolumn'><span className ="formtext">직책</span><input className="mark" type="text" /></div>
                 </form>
-                <text id ="imgselect">인증 이미지 선택</text>
+                <span id ="imgselect">인증 이미지 선택</span>
                 <div className="btn_modal">
                     <img src={BTNMO} alt="btn_modal"  />
                     

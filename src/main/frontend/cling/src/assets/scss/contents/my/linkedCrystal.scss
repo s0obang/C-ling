@@ -1,0 +1,119 @@
+.linkedprofil{
+    position: relative; 
+    left: 0;
+	right: 0;
+    margin: 150px auto;
+    width: 1000px;
+    
+    #title{
+        margin-left:15px;
+        margin-bottom:50px;
+        position: relative; 
+        font-weight: bold;
+        
+        #username{
+            font-size: 45px;
+            padding:10px;
+        }
+    }
+    
+    //스크롤뷰
+    #profillist{
+        position:relative;
+        height: 800px;
+        overflow-y: scroll;
+        
+    }
+
+    .profil {
+        display: flex;
+        align-items: center; // 수직 정렬
+        padding: 20px;
+        margin: 50px auto;
+    
+        .imghuman {
+            width: 160px; 
+            height: 160px;
+            margin-right: 100px; 
+            margin-left: 110px;
+        }
+    
+        #info {
+            width: 430px;
+            display: flex;
+            flex-direction: column; // 텍스트 수직 정렬
+            font-size: 30px;
+            font-weight: bold;
+            
+            .infotext {
+                display: flex;
+                justify-content: space-between;
+                align-items: center; // 텍스트 수직 정렬
+                margin: 10px 10px;
+                border-bottom: solid 0.8px;
+    
+                .text1 {
+                    font-weight: bold; 
+                    margin-right: 10px;
+                }
+    
+                .text2 {
+                    text-align: right;
+                }
+            }
+        }
+    }
+    
+
+/*
+    .profil{
+        margin:100px auto;
+        width: 800px;
+        height: 250px;
+        background-color:rgba(76, 76, 76, 0.7);;
+        
+        #info{
+            width: 430px;
+            font-size: 30px;
+            vertical-align: middle;
+            margin-left: 300px;
+            font-weight: bold;
+            position: absolute;
+            top: 28%;
+            transform: translateY(-50%);
+
+            .infotext{
+                display: flex;
+                margin: 15px 10px;
+                border-bottom: solid 0.8px;
+                
+                .text1{
+                    text-align: left;
+                }
+                .text2{
+                    flex: 1;
+                    text-align: right;
+                }
+            }
+        }
+        .imghuman{
+            width:180px;
+            height: 180px;
+        }
+    }*/
+    
+
+    
+    .imgprofil{
+        width: 800px;
+        margin: auto;
+        position: absolute; 
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: -1; //맨 아래 배치
+    }
+    
+    
+}

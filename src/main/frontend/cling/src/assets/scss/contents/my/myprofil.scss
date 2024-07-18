@@ -1,0 +1,117 @@
+.myprofil{
+    position: relative; 
+    left: 0;
+	right: 0;
+    margin: 150px auto;
+    width: 800px;
+    height: 300px;
+    .profilcard{
+        position: relative;
+        margin:0px auto;
+    }
+
+    #name{
+        margin-left:15px;
+        position: relative; 
+        font-weight: bold;
+        
+        #username{
+            margin: auto 25px;
+            font-size: 45px;
+            padding:10px;
+        }
+        #badgenamediv{
+            display: inline-block;
+            background-color: white;
+            border-radius: 25px;
+            padding:10px;
+            vertical-align: bottom;
+        }
+        #badgename{
+            font-size: 22px;
+            background: linear-gradient(90deg, #7939FF, #1E5BFF);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+    }
+    #info{
+        width: 430px;
+        font-size: 30px;
+        margin-top: 50px;
+        margin-left: 300px;
+        font-weight: bold;
+
+        .infotext{
+            display: flex;
+            margin: 15px 10px;
+            border-bottom: solid 0.8px;
+            
+            .text1{
+                text-align: left;
+            }
+            .text2{
+                flex: 1;
+                text-align: right;
+            }
+        }
+
+    }
+    
+    #log{
+        display: flex;
+        padding-right: 50px;
+        font-size: 25px;
+        margin-top: 60px;
+        font-weight: bold;
+                
+        #edit{
+            flex: 1;
+            text-align: right;
+            margin-right: 10px;
+            text-decoration: underline 1px;
+            text-underline-position: under;
+        }
+        #logout{
+            margin-left: 10px;
+            text-decoration: underline 1px;
+            text-underline-position: under;
+        }
+    }
+    #imgprofil{
+        width: 800px;
+        margin: auto;
+        position: absolute; 
+        left: 0;
+    	right: 0;
+    	margin-left: auto;
+    	margin-right: auto;
+        z-index: -1; //맨 아래 배치
+    }
+
+    //OnOff설정부분
+.setdiv{
+    margin: 60px auto;
+    .onoff{
+        display: flex;
+        justify-content: center;
+        margin:20px auto;
+        align-items: center;
+        font-size: 30px;
+        font-weight: bold;
+        
+        .onofftext{
+            width:300px;
+            text-align: center;
+        }
+        #imgon{
+            width: 200px;
+            height: 30px;
+            margin-right: auto;
+        }
+    }
+    
+    
+}
+
+}
+

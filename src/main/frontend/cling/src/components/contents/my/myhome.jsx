@@ -23,16 +23,16 @@ const Myhome = () => {
         <div className="myhome">
             <Header></Header>
             <div>
-                <text> <Myprofil /></text>
+                <span> <Myprofil /></span>
             </div>
             <div>
-                <text> <LinkedCrystal /></text>
+                <span> <LinkedCrystal /></span>
             </div>
             <div>
-                <text> <WantConnect /></text>
+                <span> <WantConnect /></span>
             </div>
             <div id = "badge">
-                <text onClick={showModal}>관리자에게 문의하기</text>
+                <span onClick={showModal}>관리자에게 문의하기</span>
                 <BadgeModal isOpen={modalOpen} onRequestClose={closeModal} />
             </div>
         </div>
