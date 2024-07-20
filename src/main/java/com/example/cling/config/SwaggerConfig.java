@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example.cling.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
