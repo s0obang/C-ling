@@ -15,9 +15,6 @@ const check_samemajor = () => {
             </div>
             <div className="img">
                     <img src={Ex} alt="프로필사진" />
-                    <button className='addimg'>
-                        <img src={AddBtn} alt="이미지추가" />
-                    </button>
             </div>
 
         </div>

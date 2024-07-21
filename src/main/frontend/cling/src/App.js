@@ -11,6 +11,8 @@ import NoMatching from './components/contents/matching/no_matches';
 import MatchingInfo from './components/contents/matching/match_info';
 import Samemajor from './components/contents/matching/check_samemajor';
 import Othermajor from './components/contents/matching/check_othermajor';
+import Matchlist from './components/contents/matching/match_list';
+import Chat from './components/contents/chat/chat';
 
 import './assets/scss/section/base.scss'
 
@@ -28,6 +30,8 @@ function App() {
                 <Route path='/nomatches/info' element={<MatchingInfo />} />
                 <Route path='/nomatches/info/samemajor' element={<Samemajor />} />
                 <Route path='/nomatches/othermajor' element={<Othermajor />} />
+                <Route path='/matchlist' element={<Matchlist />} />
+                <Route path="/chat/:userId" element={<Chat />} />
                 
             </Routes>
         </BrowserRouter>
