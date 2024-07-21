@@ -9,9 +9,9 @@ import Main from './components/Main';
 import Create from './components/contents/signup/create';
 import NoMatching from './components/contents/matching/no_matches';
 import MatchingInfo from './components/contents/matching/match_info';
-import Samemajor from './components/contents/matching/check_samemajor';
-import Othermajor from './components/contents/matching/check_othermajor';
-import Matchlist from './components/contents/matching/match_list';
+import Samemajor from './components/contents/matching/samemajor';
+import Othermajor from './components/contents/matching/othermajor';
+import Match from './components/contents/matching/match';
 import Chat from './components/contents/chat/chat';
 
 import './assets/scss/section/base.scss'
@@ -28,9 +28,9 @@ function App() {
                 <Route path='/create/info' element={<Create />} />
                 <Route path='/nomatches' element={<NoMatching />} />
                 <Route path='/nomatches/info' element={<MatchingInfo />} />
-                <Route path='/nomatches/info/samemajor' element={<Samemajor />} />
-                <Route path='/nomatches/othermajor' element={<Othermajor />} />
-                <Route path='/matchlist' element={<Matchlist />} />
+                <Route path='/samemajor' element={<Samemajor />} />
+                <Route path='/othermajor' element={<Othermajor />} />
+                <Route path='/match' element={<Match />} />
                 <Route path="/chat/:userId" element={<Chat />} />
                 
             </Routes>

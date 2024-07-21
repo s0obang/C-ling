@@ -12,9 +12,9 @@ const users = [
     { id: 4, name: 'User4' },
 ];
 
-const MatchList = () => {
+const match = () => {
     return (
-        <div className='match_list'>
+        <div className='match'>
             <Header />
 
             <div>
@@ -37,4 +37,4 @@ const MatchList = () => {
     );
 }
 
-export default MatchList;
+export default match;
