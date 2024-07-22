@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice Test</title>
+</head>
+<body>
+<h1>Notice Test Page</h1>
+<p><a href="noticeWriteTest.html">게시글 작성</a></p>
+<div id="notice-list"></div>
+
+<script>
+    // API 호출하여 데이터를 가져옵니다.
+    fetch('http://localhost:8080/notice')
+        .then(response => response.json())
+        .then(data => {
+            const noticeList = document.getElementById('notice-list');
+            data.forEach(notice => {
+                const noticeDiv = document.createElement('div');
+                noticeDiv.className = 'notice';
+
+                const noticeTitle = document.createElement('h2');
+                const noticeLink = document.createElement('a');
+                noticeLink.href = `noticeDetail.html?id=${notice.id}`;
+                noticeLink.textContent = notice.title;
+                noticeTitle.appendChild(noticeLink);
+
+                noticeDiv.appendChild(noticeTitle);
+
+                noticeList.appendChild(noticeDiv);
+            });
+        })
+        .catch(error => console.error('Error fetching notices:', error));
+</script>
+</body>
+</html>
