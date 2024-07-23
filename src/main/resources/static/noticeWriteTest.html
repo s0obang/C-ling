@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 작성</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+<div class="container">
+    <p><a href="noticeTest.html">목록 바로가기</a></p>
+
+    <h1>게시글 작성</h1>
+    <form id="noticeForm">
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="content">내용</label>
+            <textarea id="content" name="content" required></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit">제출</button>
+        </div>
+    </form>
+</div>
+<script>
+        document.getElementById('noticeForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 폼 기본 동작 방지
+
+            // 폼 데이터 추출
+            const formData = new FormData(this);
+
+            // JSON 데이터 생성
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            // AJAX 요청으로 JSON 데이터 전송
+            fetch('/notice/write', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData),
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                // 서버 응답 처리
+                console.log('Success:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
