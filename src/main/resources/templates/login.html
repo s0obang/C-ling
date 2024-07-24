@@ -1,22 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
 <body>
-<h1>Login</h1>
-<form th:action="@{/perform_login}" method="post">
-    <div>
-        <label for="studentId">Student ID:</label>
-        <input type="text" id="studentId" name="studentId" required>
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    <div>
-        <button type="submit">Login</button>
-    </div>
+<h2>로그인</h2>
+<form action="/api/auth/login" method="post">
+    <label for="studentId">학번:</label>
+    <input type="text" id="studentId" name="studentId" required>
+    <br>
+    <label for="password">비밀번호:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+    <button type="submit">로그인</button>
 </form>
 </body>
 </html>

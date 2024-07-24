@@ -1,14 +1,15 @@
 package com.example.cling.config;
 
 import com.example.cling.service.CustomUserDetailService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -23,23 +24,43 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/login", "/login_success", "/api/auth/signup").permitAll()//님들아 여기다 추가해야 로그인 안해도 접근 가능함 안그럼 캐지랄남
+                        .requestMatchers("/", "/login", "/api/auth/signup").permitAll() // 홈 페이지 및 로그인 페이지 허용
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/perform_login")
+                        .loginProcessingUrl("/api/auth/login")
                         .usernameParameter("studentId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/login_success")
+                        .successHandler((request, response, authentication) -> {
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.getWriter().write("{\"message\": \"로그인 성공\"}");
+                        })
+                        .failureHandler((request, response, exception) -> {
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.getWriter().write("{\"message\": \"로그인 실패: " + exception.getMessage() + "\"}");
+                        })
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutUrl("/api/auth/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.getWriter().write("{\"message\": \"로그아웃 성공\"}");
+                        })
                         .permitAll()
                 )
-                .userDetailsService(customUserDetailService);
+                .userDetailsService(customUserDetailService)
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendRedirect("/login");
+                        })
+                );
 
         return http.build();
     }

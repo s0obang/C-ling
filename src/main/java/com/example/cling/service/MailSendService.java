@@ -17,9 +17,6 @@ public class MailSendService {
     private  RedisUtil redisUtil;
     private int authNumber;
 
-
-
-    //추가 되었다.
     public boolean CheckAuthNum(String email,String authNum){
         if(redisUtil.getData(authNum)==null){
             return false;
@@ -33,7 +30,7 @@ public class MailSendService {
     }
 
 
-    //임의의 6자리 양수를 반환합니다.
+    //임의의 6자리 양수를 반환
     public void makeRandomNumber() {
         Random r = new Random();
         String randomNumber = "";
@@ -59,7 +56,7 @@ public class MailSendService {
         return Integer.toString(authNumber);
     }
 
-    //이메일을 전송합니다.
+    //이메일을 전송
     public void mailSend(String setFrom, String toMail, String title, String content) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
