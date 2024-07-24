@@ -23,7 +23,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/login", "/login_success", "/api/auth/signup").permitAll()//님들아 여기다 추가해야 로그인 안해도 접근 가능함 안그럼 캐지랄남
+                        .requestMatchers("/", "/login", "/login_success", "/api/auth/signup", "/swagger-ui/**", "/v3/api-docs/**").permitAll()//님들아 여기다 추가해야 로그인 안해도 접근 가능함 안그럼 캐지랄남
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

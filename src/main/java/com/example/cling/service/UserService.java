@@ -4,6 +4,7 @@ import com.example.cling.dto.SignUpRequestDto;
 import com.example.cling.entity.UserEntity;
 import com.example.cling.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +23,9 @@ public class UserService {
                 .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
                 .build();
         return userRepository.save(user);
+    }
+
+    public UserEntity getUserByStudentId(String studentId) {
+        return userRepository.findByStudentId(studentId).orElseThrow(() -> new UsernameNotFoundException("User not found with studentId: " + studentId));
     }
 }
