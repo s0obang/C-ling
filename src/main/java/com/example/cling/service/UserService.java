@@ -7,6 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,27 @@ public class UserService {
                 .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
                 .build();
         return userRepository.save(user);
+    }
+
+    public boolean loginUser(String studentId, String enteredPassword) {
+        UserEntity userEntity = userRepository.findByStudentId(studentId)
+                .orElse(null);
+
+        if (userEntity == null) {
+            return false;
+        }
+
+        boolean passwordMatches = passwordEncoder.matches(enteredPassword, userEntity.getPassword());
+
+        if (passwordMatches) {
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            HttpSession session = attr.getRequest().getSession();
+            session.setAttribute("userId", studentId);
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public UserEntity getUserByStudentId(String studentId) {
