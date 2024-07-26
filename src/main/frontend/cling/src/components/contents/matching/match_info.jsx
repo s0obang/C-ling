@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 const MatchInfo = () => {
     return (
-        <div className='MatchInfo'>
+        <div className='matchinfo'>
             <Header></Header>
             <div>
                 <h1 className="text">같은 학번 수정이와 크링해보세요!</h1>
