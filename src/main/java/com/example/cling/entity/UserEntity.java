@@ -12,9 +12,6 @@ import lombok.*;
 @Table(name = "user")
 public class UserEntity {
 
-    @Column(name = "profile_image", length = 255)
-    private String profileImage;
-
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
@@ -27,4 +24,14 @@ public class UserEntity {
 
     @Column(name = "password", length = 255, nullable = false)
     private String password;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private ProfileImage profileImage;
+
+    public void setProfileImage(ProfileImage profileImage) {
+        this.profileImage = profileImage;
+        if (profileImage != null) {
+            profileImage.setUser(this); // 양방향 설정
+        }
+    }
 }
