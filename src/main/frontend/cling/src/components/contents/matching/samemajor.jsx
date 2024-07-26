@@ -6,7 +6,9 @@ import Bubble2 from '../../../assets/img/speech-bubble2.png';
 import Ex from '../../../assets/img/eximg.png';
 import Header from '../../Header';
 
-const Samemajor = ({ text }) => {
+
+
+const Samemajor = (props, { text }) => {
     return (
         <div className='samemajor'>
             <Header />
@@ -14,7 +16,7 @@ const Samemajor = ({ text }) => {
                 <h1 className="text">크링된 수정이를 확인해보세요</h1>
             </div>
             <div className="profileimg profileimg1">
-                <Link to="/match_profile/1">
+                <Link to="/match_profile/${props.id}">
                     <img src={Ex} alt="프로필사진" />
                     <div className="bubbleimg">
                         <img src={Bubble1} alt="말풍선" />

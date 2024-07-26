@@ -15,7 +15,6 @@ const no_matches = () => {
                 <h1 className="text">나와 연결된 수정이가 없습니다.</h1>
             </div>
             <div>
-
                 <Link to= '/nomatches/info'><input className="btn" type="button" value="Clink 하기" /></Link>
             </div>
         </div>

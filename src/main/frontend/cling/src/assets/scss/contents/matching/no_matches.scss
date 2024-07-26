@@ -24,7 +24,7 @@
     }
 }
 
-.MatchInfo {
+.matchinfo {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -76,7 +76,7 @@
 
     }
 
-    .matchingbtn:hover {
+    .matchingbtn :hover {
         background: linear-gradient(90deg, #3851FF, #8037FF);
         border: none;
     }
@@ -234,3 +234,91 @@
         margin-left: 160px;
     }
 }
+
+
+
+.matchprofile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+
+    .profileimg {
+        display: flex;
+        width: 291px;
+        height: 326px;
+        border-radius: 30px;
+        background-color: white;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-top: 100px;
+        
+        img {
+            width: 221px;
+            height: 251px;
+        }
+
+        .bubbleimg {
+            position: absolute;
+            top: 40px;
+            left: -230px;
+            width: 300px;
+            height: auto;
+            text-align: center;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+
+            .bubble-text {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                color: black;
+                font-size: 12px;
+                line-height: 1.2;
+                word-wrap: break-word;
+            }
+        }
+    }
+
+    .btn {
+        padding: 10px;
+        margin: 50px;
+        width: 150px;
+        background-color: black;
+        border: white 1px solid;
+        border-radius: 20px;
+        color: white;
+        justify-content: center;
+    }
+
+    .btn:hover {
+        background: linear-gradient(90deg, #3851FF, #8037FF);
+        border: none;
+    }
+
+    .custom-toast {
+        width: 500px;
+        height: 100px;
+        right: 30%;
+        margin-top: 80px;
+        border: 1px solid white;
+        background-color: rgba(255, 255, 255, 0.4);
+        border-radius: 20px;
+        padding: 16px;
+        font-size: 16px;
+        text-align: center;
+    }
+}
+
+
+
+
+
+
+  
+  
