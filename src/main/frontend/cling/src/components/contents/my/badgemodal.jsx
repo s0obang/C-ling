@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import '../../../assets/scss/contents/my/badgemodal.scss'
-import BTNMO from '../../../assets/img/btn_modal.png'
 import POPUPCOM from '../../../assets/img/popup_complete.png'
 import { IoIosCloseCircleOutline } from "react-icons/io"
 
@@ -26,11 +25,9 @@ const BadgeModal = ({ isOpen, onRequestClose })=>{
                     <div className='formcolumn'><span className ="formtext">직책</span><input className="mark" type="text" /></div>
                 </form>
                 <span id ="imgselect">인증 이미지 선택</span>
-                <div className="btn_modal">
-                    <img src={BTNMO} alt="btn_modal"  />
-                    
+                <div className="submitBox">
+                    <button className="btnSubmit">수락</button>
                 </div>
-                    
             </div>
         </Modal>
     );

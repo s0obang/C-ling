@@ -1,20 +1,17 @@
 .myprofil{
     position: relative; 
-    left: 0;
-	right: 0;
-    margin: 150px auto;
-    width: 800px;
+    margin-top: 150px;
+    margin-bottom: 250px;
+    width: 1000px;
     height: 300px;
-    .profilcard{
-        position: relative;
-        margin:0px auto;
-    }
-
+    color: white;
+    
+    
     #name{
-        margin-left:15px;
         position: relative; 
         font-weight: bold;
-        
+        width: 100%;
+        margin:30px 80px;
         #username{
             margin: auto 25px;
             font-size: 45px;
@@ -24,7 +21,7 @@
             display: inline-block;
             background-color: white;
             border-radius: 25px;
-            padding:10px;
+            padding:10px 20px;
             vertical-align: bottom;
         }
         #badgename{
@@ -33,85 +30,142 @@
             -webkit-background-clip: text;
             color: transparent;
         }
+        #badge{
+            display: inline-block;
+            font-size: 22px;
+            margin-left:30px;
+            padding-bottom: 5px;
+            border-bottom: solid 1px;
+            color:white;
+            text-align: center;
+        }
+        #badge:hover{
+            cursor: pointer;
+        }
     }
-    #info{
-        width: 430px;
-        font-size: 30px;
-        margin-top: 50px;
-        margin-left: 300px;
-        font-weight: bold;
 
-        .infotext{
+    #profilBox{
+        position: relative;
+        width: 100%;
+        color: white;
+        align-items: center; 
+        
+        .profil {
             display: flex;
-            margin: 15px 10px;
-            border-bottom: solid 0.8px;
-            
-            .text1{
-                text-align: left;
+            align-items: center; // 수직 정렬
+            padding: 20px;
+        
+            .imghuman {
+                width: 160px; 
+                height: 160px;
+                margin-right: 100px; 
+                margin-left: 110px;
             }
-            .text2{
-                flex: 1;
-                text-align: right;
+            .imgprofil{
+                width: 800px;
+                margin: auto;
+                position: absolute; 
+                left: 0;
+                right: 0;
+                margin-left: auto;
+                margin-right: auto;
+                z-index: -1; //맨 아래 배치
+            }
+            #info {
+                width: 430px;
+                display: flex;
+                flex-direction: column; // 텍스트 수직 정렬
+                font-size: 30px;
+                font-weight: bold;
+                
+                .infotext {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center; // 텍스트 수직 정렬
+                    margin: 10px 10px;
+                    border-bottom: solid 0.8px;
+        
+                    .text1 {
+                        font-weight: bold; 
+                        margin-right: 10px;
+                    }
+        
+                    .text2 {
+                        text-align: right;
+                    }
+                    input {
+                        width:300px;
+                        font-size: 25px;
+                        font-weight:bold;
+                        color:rgb(112, 112, 112);
+                        border-radius: 5px;
+                    }
+                    .custom-select__control {  //현재 선택되어있는거
+                      width: 307px;
+                      height: 20px;
+                      font-size: 22px;
+                      font-weight: bold;
+                      margin-top: -10px;
+                      color:rgb(112, 112, 112);
+                    }
+                    .custom-select__menu {  //리스트 속성
+                        font-size: 22px;
+                        color:rgb(112, 112, 112);
+                    }
+                    
+                }
             }
         }
-
     }
-    
+
     #log{
         display: flex;
         padding-right: 50px;
+        margin: 30px 80px;
         font-size: 25px;
-        margin-top: 60px;
         font-weight: bold;
-                
+        
+        #edit, #logout{
+            text-decoration: underline 1px;
+            text-underline-position: under;
+            cursor: pointer;
+        }
+        #edit:hover, #logout:hover{
+            color:#8953ff;
+        }
+
         #edit{
             flex: 1;
             text-align: right;
-            margin-right: 10px;
-            text-decoration: underline 1px;
-            text-underline-position: under;
+            margin-right: 15px;
         }
         #logout{
-            margin-left: 10px;
-            text-decoration: underline 1px;
-            text-underline-position: under;
+            margin-left: 15px;
         }
     }
-    #imgprofil{
-        width: 800px;
-        margin: auto;
-        position: absolute; 
-        left: 0;
-    	right: 0;
-    	margin-left: auto;
-    	margin-right: auto;
-        z-index: -1; //맨 아래 배치
-    }
+    
 
     //OnOff설정부분
-.setdiv{
-    margin: 60px auto;
-    .onoff{
-        display: flex;
-        justify-content: center;
-        margin:20px auto;
-        align-items: center;
-        font-size: 30px;
-        font-weight: bold;
-        
-        .onofftext{
-            width:300px;
-            text-align: center;
-        }
-        #imgon{
-            width: 200px;
-            height: 30px;
-            margin-right: auto;
+    .setdiv{
+        margin: 100px auto;
+        .onoff{
+            display: flex;
+            justify-content: center;
+            margin:20px auto;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+
+            .onofftext{
+                width:300px;
+                text-align: center;
+            }
+            .onOffBtn{
+                width: 200px;
+                height: 30px;
+                margin-right: auto;
+            }
         }
     }
-    
-    
-}
-
 }
 

@@ -2,9 +2,10 @@
     position: relative; 
     left: 0;
 	right: 0;
-    margin: 150px auto;
+    margin: 200px auto;
     width: 1000px;
-    
+    color: white;
+
     #title{
         margin-left:15px;
         margin-bottom:50px;
@@ -20,7 +21,7 @@
     //스크롤뷰
     #profillist{
         position:relative;
-        height: 800px;
+        height: 500px;
         overflow-y: scroll;
         
     }
@@ -64,46 +65,6 @@
         }
     }
     
-
-/*
-    .profil{
-        margin:100px auto;
-        width: 800px;
-        height: 250px;
-        background-color:rgba(76, 76, 76, 0.7);;
-        
-        #info{
-            width: 430px;
-            font-size: 30px;
-            vertical-align: middle;
-            margin-left: 300px;
-            font-weight: bold;
-            position: absolute;
-            top: 28%;
-            transform: translateY(-50%);
-
-            .infotext{
-                display: flex;
-                margin: 15px 10px;
-                border-bottom: solid 0.8px;
-                
-                .text1{
-                    text-align: left;
-                }
-                .text2{
-                    flex: 1;
-                    text-align: right;
-                }
-            }
-        }
-        .imghuman{
-            width:180px;
-            height: 180px;
-        }
-    }*/
-    
-
-    
     .imgprofil{
         width: 800px;
         margin: auto;
@@ -116,4 +77,16 @@
     }
     
     
+    ::-webkit-scrollbar {
+        width: 10px;  
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: white; // 스크롤바 색상
+        border-radius: 10px; 
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(220, 20, 60, .1);  //스크롤바 뒷 배경 색
+    }
 }

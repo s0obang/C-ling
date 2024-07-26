@@ -1,4 +1,3 @@
-
 .modal{    
     width: 600px;
     height: 520px;
@@ -9,66 +8,73 @@
     color: white; 
     margin:10% auto;
     align-items: center;
-}
+    color: white;
 
-
-#modalClose{ 
-    display: flex;
-    margin-left: auto;
-    border: none;
-    font-size: 50px;
-    cursor: pointer;
-}
-
-#modaldiv {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: -20px;
-}
-
-form {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 10px;
-
-    .formcolumn{
-        margin:auto;
+    #modalClose{ 
+        display: flex;
+        margin-left: auto;
+        border: none;
+        font-size: 50px;
+        cursor: pointer;
     }
 
-    .formtext{
-        font-size: 25px;
-        font-weight: bold;
-        margin-right: 10px;
-    }
-    input {
-        width: 320px;
-        height: 40px;
-        border-radius: 35px;
-        padding: 10px 30px;
-        margin: 10px 0;
-        font-size: 25px;
-    }
-}
+    #modaldiv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: -20px;
 
-#imgselect{
-    font-size: 25px;
-    text-decoration: underline;
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        .form {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 10px;
 
-.btn_modal {
-    img {
-        width: 180px;
-        margin:20px auto;
-        display:block;
+            .formcolumn{
+                margin:auto;
+            }
+            .formtext{
+                font-size: 25px;
+                font-weight: bold;
+                margin-right: 10px;
+            }
+            input {
+                width: 320px;
+                height: 40px;
+                border-radius: 35px;
+                padding: 10px 30px;
+                margin: 10px 0;
+                font-size: 25px;
+            }
+        }
+
+        #imgselect{
+            font-size: 25px;
+            text-decoration: underline;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .submitBox {
+            .btnSubmit {
+                width: 180px;
+                height: 60px;
+                margin:20px auto;
+                display:block;
+                background: linear-gradient(0deg, #AE7EFF, #8137FF,#6F3EFF);
+                border-style: solid ;
+                border-color: white;
+                border-radius: 100px;
+                color: white;
+                font-size: 32px;
+                font-weight: bold;
+            }
+
+            margin-bottom: 70px;
+        }
     }
-
-    margin-bottom: 70px;
 }
 
 #imgPopup {
