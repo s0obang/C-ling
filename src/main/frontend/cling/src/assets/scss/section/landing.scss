@@ -1,0 +1,72 @@
+.landing .header .nodisplay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.landing .header a{
+    text-decoration: none;
+}
+
+.landing .Matching,
+.landing .Community,
+.landing .My {
+    display: none;
+}
+.landing{
+    .wrap{
+        width: 1080px;
+        margin: 0 auto;
+    }
+    .top{
+        margin-top: 10rem;
+        display: flex;
+        justify-content: center;
+        position: relative;
+
+        .ringImg{
+            height: 284px;
+            width: 333px;
+            position: absolute;
+            left: 140px;
+            top: 120px;
+            transform: rotate(-11deg);
+        }
+
+        .top-text{
+            width: 975px;
+            height: 332px;
+        }
+        
+    }
+    .mid{
+        display: flex;
+        flex-direction: column;
+        margin-top: 200px;
+        .bubble1, .bubble2, .bubble3{
+            width: 575px;
+            height: 240px;
+        }
+        .bubble2{
+            justify-self: right;
+            margin-left: 525px;
+            margin-top: -60px;
+        }
+        .bubble3{
+            margin-top: -60px;
+        }
+        h1{
+            font-size: 48px;
+        }
+        .mid-text1{
+            text-align: right;
+        }
+        .mid-text2{
+            display: flex;
+           margin: 0;
+           padding: 10px;
+           margin: 0 auto;
+        }
+    }
+
+}

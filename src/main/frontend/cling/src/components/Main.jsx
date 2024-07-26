@@ -5,8 +5,9 @@ const Main = () => {
   
   return (
     
-    <div className='randing'>
+    <div className='main-home'>
       <Header></Header>
+      
       
      </div>
   )

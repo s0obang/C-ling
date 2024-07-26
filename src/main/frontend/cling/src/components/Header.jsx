@@ -12,7 +12,7 @@ const Header = () => {
       </div>
       <div className="nav">
         <button className='Home'>HOME</button>
-        <Link to= '/login'><button className='Login nodisplay'>LOGIN</button></Link>
+        <Link to= '/login'><button className='login nodisplay'>LOGIN</button></Link>
         <button className='Matching'>MATCHING</button>
         <button className='Community'>COMMUNITY</button>
         <button className='My'>MY</button>

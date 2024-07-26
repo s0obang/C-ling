@@ -4,16 +4,12 @@ import '../../../assets/scss/contents/matching/no_matches.scss'
 import { Link } from 'react-router-dom'
 
 
-const input_info = () => {
+const MatchInfo = () => {
     return (
-     
-        <div className='input_info'>
-            
+        <div className='matchinfo'>
             <Header></Header>
-
             <div>
-
-                <h1 className="text1">같은 학번 수정이와 크링해보세요!</h1>
+                <h1 className="text">같은 학번 수정이와 크링해보세요!</h1>
             </div>
 
             <form method="post" className='matching-form'>
@@ -21,10 +17,10 @@ const input_info = () => {
                 <input className="major" type="text" placeholder='Major' />
 
                 <div className="button-group">
-                    <Link to='/nomatches/info/samemajor'>
+                    <Link to='/samemajor'>
                         <input className="matchingbtn" type="button" value="Clink" />
                     </Link>
-                    <Link to='/nomatches/othermajor'>
+                    <Link to='/othermajor'>
                         <input className="matchingbtn" type="button" value="타 과 Clink" />
                     </Link>
                 </div>
@@ -33,4 +29,4 @@ const input_info = () => {
     )
 }
 
-export default input_info
+export default MatchInfo
