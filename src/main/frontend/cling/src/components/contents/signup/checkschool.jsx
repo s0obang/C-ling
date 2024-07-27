@@ -1,6 +1,6 @@
 import React from 'react'
 import LOGO from '../../../assets/img/logo.png'
-import '../../../assets/scss/contents/checkschool.scss'
+import '../../../assets/scss/contents/user/checkschool.scss'
 import { Link } from 'react-router-dom'
 
 const checkschool = () => {
