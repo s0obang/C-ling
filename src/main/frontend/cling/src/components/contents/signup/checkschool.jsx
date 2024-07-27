@@ -1,13 +1,13 @@
 import React from 'react'
 import LOGO from '../../../assets/img/logo.png'
-import '../../../assets/scss/contents/create.scss'
+import '../../../assets/scss/contents/checkschool.scss'
 import { Link } from 'react-router-dom'
 
 const checkschool = () => {
     return (
         <div className='checkschool'>
 
-            <div className="logo">
+            <div className="c-logo">
                 <img src={LOGO} alt="logo" />
             </div>
             <form method="post" className='check-form'>

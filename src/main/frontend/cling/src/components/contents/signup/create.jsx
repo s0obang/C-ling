@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 const create = () => {
     return (
         <div className='create'>
-            <div className="logo">
+            <div className="c-logo">
                 <img src={LOGO} alt="logo" />
             </div>
             <div className="info">
