@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom'
 
 const loading = () => {
     return (
-
-        
         <div className='loading'>
             
             <Header></Header>
