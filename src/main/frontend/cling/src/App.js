@@ -39,7 +39,7 @@ function App() {
                 <Route path='/othermajor' element={<Othermajor />} />
                 <Route path='/match' element={<Match />} />
                 <Route path="/matchprofile/" element={<Matchprofile />} />
-                <Route path="/chat/:userId" element={<Chat />} />
+                <Route path="/chat/:currentUserId/:otherUserId" element={<Chat />} />
                
                 
             </Routes>

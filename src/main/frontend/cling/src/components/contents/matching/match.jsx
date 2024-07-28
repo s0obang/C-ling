@@ -5,8 +5,8 @@ import '../../../assets/scss/contents/matching/match.scss';
 import Ex from '../../../assets/img/eximg.png';
 import { Link } from 'react-router-dom';
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; // slick 스타일 파일
-import "slick-carousel/slick/slick-theme.css"; // slick 테마 파일
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const users = [
     { id: 1, name: 'User1' },
@@ -26,7 +26,7 @@ const users = [
 const Match = () => {
     // Slider의 설정 옵션
     const settings = {
-        dots: false, // 슬라이드 하단에 점(dot) 표시
+        dots: false,
         arrows: false,
         infinite: true, // 무한 슬라이드 여부
         speed: 500, // 슬라이드 속도
@@ -54,6 +54,8 @@ const Match = () => {
         ]
     };
 
+    const currentUserId = 'currentUserId'; // 이 부분을 로그인된 사용자 ID로 대체
+
     return (
         <div className='match'>
             <Header />
@@ -62,10 +64,9 @@ const Match = () => {
                     <div key={user.id} className="slide">
                         <div className="profileimg">
                             <img src={Ex} alt="프로필사진" />
-
                         </div>
                         <div className="slide-content">
-                            <Link to={`/chat/${user.id}`}>
+                            <Link to={`/chat/${currentUserId}/${user.id}`}>
                                 <input className="btn" type="button" value={`${user.name}와 채팅하기`} />
                             </Link>
                             <div className="text">
