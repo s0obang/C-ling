@@ -1,17 +1,88 @@
-<!-- src/main/resources/static/login.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .login-container h2 {
+            margin: 0 0 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+        .login-container .error {
+            color: red;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 <body>
-<h1>Login Page</h1>
-<form action="/api/auth/login" method="post">
-    <label for="studentId">Student ID:</label>
-    <input type="text" id="studentId" name="studentId" required><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br>
-    <input type="submit" value="Login">
-</form>
+<div class="login-container">
+    <h2>로그인</h2>
+    <form id="loginForm" action="/api/auth/login" method="post">
+        <input type="text" name="studentId" placeholder="학번" required>
+        <input type="password" name="password" placeholder="비밀번호" required>
+        <button type="submit">로그인</button>
+        <div class="error" id="errorMessage"></div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const response = await fetch(this.action, {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+        const errorMessage = document.getElementById('errorMessage');
+
+        if (response.ok) {
+            window.location.href = '/'; // 로그인 성공 시 리다이렉트할 URL
+        } else {
+            errorMessage.textContent = result.message || '로그인 실패. 다시 시도해 주세요.';
+        }
+    });
+</script>
 </body>
 </html>
