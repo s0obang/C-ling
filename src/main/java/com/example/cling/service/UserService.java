@@ -13,8 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -32,6 +30,7 @@ public class UserService {
         user.setStudentId(signUpRequestDto.getStudentId());
         user.setEmail(signUpRequestDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpRequestDto.getPassword()));
+        user.setMajor(signUpRequestDto.getMajor()); // major 설정
 
         // 기본 프로필 이미지 설정
         ProfileImage profileImage = new ProfileImage();
@@ -59,6 +58,13 @@ public class UserService {
         // 프로필 이미지 URL 가져오기
         String profileImageUrl = user.getProfileImage() != null ? user.getProfileImage().getUrl() : defaultImageUrl;
 
-        return new MyPageResponseDto(user.getName(), user.getStudentId(), profileImageUrl);
+        return new MyPageResponseDto(user.getName(), user.getStudentId(), profileImageUrl, user.getMajor());
+    }
+
+    public void updatePassword(String email, String newPassword) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }

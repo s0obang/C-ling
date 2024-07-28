@@ -35,6 +35,6 @@ public class UserEntity {
         }
     }
 
-    @Column(name = "major", length = 50)
+    @Column(name = "major", length = 50, nullable = false)
     private String major;
 }

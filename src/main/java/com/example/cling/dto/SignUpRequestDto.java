@@ -12,5 +12,7 @@ public class SignUpRequestDto {
     private String studentId;
     private String email;
     private String password;
+    private String major;
     private MultipartFile profileImage;
 }
+
