@@ -34,4 +34,7 @@ public class UserEntity {
             profileImage.setUser(this); // 양방향 설정
         }
     }
+
+    @Column(name = "major", length = 50)
+    private String major;
 }

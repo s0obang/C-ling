@@ -1,5 +1,6 @@
 package com.example.cling.service;
 
+import com.example.cling.dto.MyPageResponseDto;
 import com.example.cling.dto.SignUpRequestDto;
 import com.example.cling.entity.ProfileImage;
 import com.example.cling.entity.UserEntity;
@@ -11,13 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -54,5 +50,15 @@ public class UserService {
         UserEntity user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    public MyPageResponseDto getUserInfo(String studentId) {
+        UserEntity user = userRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        // 프로필 이미지 URL 가져오기
+        String profileImageUrl = user.getProfileImage() != null ? user.getProfileImage().getUrl() : defaultImageUrl;
+
+        return new MyPageResponseDto(user.getName(), user.getStudentId(), profileImageUrl);
     }
 }

@@ -19,6 +19,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ProfileImageServiceImpl implements ProfileImageService {
+
     private final UserRepository userRepository;
     private final ProfileImageRepository profileImageRepository;
 
@@ -31,18 +32,18 @@ public class ProfileImageServiceImpl implements ProfileImageService {
     @Override
     public void upload(MultipartFile file, String studentId) {
         try {
-            // 1. 사용자 찾기
+            // 사용자 찾기
             UserEntity user = userRepository.findByStudentId(studentId)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            // 2. 파일 이름 생성 및 저장 경로 설정
+            // 파일 이름 생성 및 저장 경로 설정
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             File destinationFile = new File(uploadFolder + fileName);
 
-            // 3. 파일을 저장
+            // 파일을 저장
             file.transferTo(destinationFile);
 
-            // 4. 프로필 이미지 정보를 업데이트
+            // 프로필 이미지 정보 업데이트
             ProfileImage profileImage = profileImageRepository.findByUser(user)
                     .orElse(ProfileImage.builder().user(user).build());
 
