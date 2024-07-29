@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -19,9 +20,29 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserEntity> registerUser(@RequestBody SignUpRequestDto signUpRequestDto) {
-        UserEntity user = userService.registerUser(signUpRequestDto);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<String> registerUser(@ModelAttribute SignUpRequestDto signUpRequestDto) {
+        try {
+            UserEntity user = userService.registerUser(signUpRequestDto);
+
+            // 프로필 이미지가 있는 경우->프로필 이미지 업로드
+            if (signUpRequestDto.getProfileImage() != null && !signUpRequestDto.getProfileImage().isEmpty()) {
+                userService.updateProfileImage(user.getStudentId(), signUpRequestDto.getProfileImage());
+            }
+
+            return ResponseEntity.ok("{\"message\": \"회원가입 성공\", \"status\": 200}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"회원가입 실패\", \"status\": 400}");
+        }
+    }
+    @PostMapping("/uploadProfileImage")
+    public ResponseEntity<String> uploadProfileImage(@RequestParam("file") MultipartFile file,
+                                                     @RequestParam("studentId") String studentId) {
+        try {
+            userService.updateProfileImage(studentId, file);
+            return ResponseEntity.ok("{\"message\": \"이미지 업로드 성공\", \"status\": 200}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"이미지 업로드 실패\", \"status\": 400}");
+        }
     }
 
     @PostMapping("/login")

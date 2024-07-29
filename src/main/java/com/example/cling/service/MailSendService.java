@@ -73,4 +73,10 @@ public class MailSendService {
 
     }
 
+    // 인증 번호 체크
+    public boolean checkAuthNum(String email, String authNum) {
+        String storedEmail = redisUtil.getData(authNum);
+        return storedEmail != null && storedEmail.equals(email);
+    }
+
 }
