@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-import '../../../assets/scss/contents/my/badgemodal.scss'
-import POPUPCOM from '../../../assets/img/popup_complete.png'
+import '../../../assets/scss/contents/my/badgeRequest.scss'
 import { IoIosCloseCircleOutline } from "react-icons/io"
 
 Modal.setAppElement('#root'); // 접근성 설정
 
 
-const BadgeModal = ({ isOpen, onRequestClose })=>{
-   
+const BadgeRequest = ({ isOpen, onRequestClose })=>{
 
     return (
         <Modal 
             isOpen={isOpen}
             onRequestClose={onRequestClose}
-            className="modal"
+            className="modalRequest"
         >
             <IoIosCloseCircleOutline id="modalClose" onClick={onRequestClose} />
             <div id="modaldiv">
@@ -33,4 +31,4 @@ const BadgeModal = ({ isOpen, onRequestClose })=>{
     );
 }
 
-export default BadgeModal
+export default BadgeRequest

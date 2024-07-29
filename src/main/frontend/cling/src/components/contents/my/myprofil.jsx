@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import BadgeModal from './badgemodal';
-import '../../../assets/scss/contents/my/myprofil.scss'
-import BGPROFIL from '../../../assets/img/profil_background.png'
-import IMG_PROFIL from '../../../assets/img/testimg.png'
-import OFF from '../../../assets/img/btnoff.png'
-import ON from '../../../assets/img/btnon.png'
-import Select from "react-select"; //라이브러리 import
+import BadgeRequest from './badgeRequest';
+import BadgeManage from './badgeManage';
+import '../../../assets/scss/contents/my/myprofil.scss';
+import BGPROFIL from '../../../assets/img/profil_background.png';
+import IMG_PROFIL from '../../../assets/img/testimg.png';
+import OFF from '../../../assets/img/btnoff.png';
+import ON from '../../../assets/img/btnon.png';
+import Select from "react-select"; 
 
 const Myprofil = () => {
     const [mailAlarm, setMailAlarm] = useState(true);
@@ -13,6 +14,7 @@ const Myprofil = () => {
     const [myinfo, setMyinfo] = useState(['김준희', '20231133', '컴퓨터공학과', '컴퓨터공학과 아무개']);
     const [isEditing, setIsEditing] = useState(false);
     const [newInfo, setNewInfo] = useState([...myinfo]);
+
     const majorLists = [
         { value: '국어국문학과', label: '국어국문학과' },
         { value: '영어영문학과', label: '영어영문학과' },
@@ -63,9 +65,14 @@ const Myprofil = () => {
     const connectionOnOff = () => {
         setConnectionAlarm(prevState => !prevState);
     }
-    
+
     const editProfil = () => {
         if (isEditing) {
+            // 프로필 정보가 모두 입력되었는지 확인
+            if (newInfo.some(info => !info)) {
+                alert('프로필 정보를 모두 입력해주세요.');
+                return;
+            }
             setMyinfo(newInfo);
         }
         setIsEditing(!isEditing);
@@ -76,99 +83,111 @@ const Myprofil = () => {
         updatedInfo[index] = value;
         setNewInfo(updatedInfo);
     }
+
     const logOut = () => {
-        //로그아웃 로직
+        // 로그아웃 로직
     }
-    
-    // 모달
-    const [modalOpen, setModalOpen] = useState(false);
-    const showModal = () => {
-        setModalOpen(true);
+
+    // 뱃지 신청 모달
+    const [requestOpen, setrequestOpen] = useState(false);
+    const showRequestModal = () => {
+        setrequestOpen(true);
     };
-    const closeModal = () => {
-        setModalOpen(false);
+    const closeRequestModal = () => {
+        setrequestOpen(false);
+    };
+
+    // 뱃지 관리 모달
+    const [manageOpen, setremanageOpen] = useState(false);
+    const showManageModal = () => {
+        setremanageOpen(true);
+    };
+    const closeManageModal = () => {
+        setremanageOpen(false);
     };
 
     return (
-    <div className="myprofil">
-        <div id="name">
-            <span id="username">{myinfo[0]} 님</span>
-            <div id="badgenamediv">
-                <span id="badgename">{myinfo[3]}</span>
+        <div className="myprofil">
+            <div id="name">
+                <span id="username">{myinfo[0]} 님</span>
+                <div id="badgenamediv">
+                    <span id="badgename">{myinfo[3]}</span>
+                </div>
+                <div id="badge">
+                    <span onClick={showRequestModal} id="badge1">역할 뱃지 등록하기</span>
+                    <BadgeRequest isOpen={requestOpen} onRequestClose={closeRequestModal} />
+                    <span> / </span>
+                    <span onClick={showManageModal} id="badge2">삭제하기</span>
+                    <BadgeManage isOpen={manageOpen} onRequestClose={closeManageModal} />
+                </div>
             </div>
-            <div id = "badge">
-                <span onClick={showModal}>역할 뱃지 등록하기</span>
-                <BadgeModal isOpen={modalOpen} onRequestClose={closeModal} />
-            </div>
-        </div>
-        <div id="profilBox">
-            <div className="profil">
-            <img src={IMG_PROFIL} alt="imghuman" className="imghuman" />
-            <img src={BGPROFIL} alt="imgprofil" className="imgprofil" />
-                <div id="info">
-                    <div className="infotext">
-                        <span className="text1">이름</span>
-                        {isEditing ? (
-                                <input 
-                                    className="text2" 
-                                    value={newInfo[0]} 
-                                    onChange={(e) => myinfoChange(0, e.target.value)} 
+            <div id="profilBox">
+                <div className="profil">
+                    <img src={IMG_PROFIL} alt="imghuman" className="imghuman" />
+                    <img src={BGPROFIL} alt="imgprofil" className="imgprofil" />
+                    <div id="info">
+                        <div className="infotext">
+                            <span className="text1">이름</span>
+                            {isEditing ? (
+                                <input
+                                    className="text2"
+                                    value={newInfo[0]}
+                                    onChange={(e) => myinfoChange(0, e.target.value)}
                                 />
                             ) : (
                                 <span className="text2">{myinfo[0]}</span>
                             )}
-                    </div>
-                    <div className="infotext">
-                        <span className="text1">학번</span>
-                        {isEditing ? (
-                                <input 
-                                    className="text2" 
-                                    value={newInfo[1]} 
-                                    onChange={(e) => myinfoChange(1, e.target.value)} 
+                        </div>
+                        <div className="infotext">
+                            <span className="text1">학번</span>
+                            {isEditing ? (
+                                <input
+                                    className="text2"
+                                    value={newInfo[1]}
+                                    onChange={(e) => myinfoChange(1, e.target.value)}
                                 />
                             ) : (
                                 <span className="text2">{myinfo[1]}</span>
                             )}
-                    </div>
-                    <div className="infotext">
-                        <span className="text1">학과</span>
-                        {isEditing ? (
+                        </div>
+                        <div className="infotext">
+                            <span className="text1">학과</span>
+                            {isEditing ? (
                                 <Select
-                                className="majorSelectOption"
-                                classNamePrefix="custom-select"
-                                value={majorLists.find(dept => dept.value === newInfo[2])}
-                                onChange={(selectedOption) => myinfoChange(2, selectedOption.value)}
-                                options={majorLists}
-                            />
+                                    className="majorSelectOption"
+                                    classNamePrefix="custom-select"
+                                    value={majorLists.find(dept => dept.value === newInfo[2])}
+                                    onChange={(selectedOption) => myinfoChange(2, selectedOption.value)}
+                                    options={majorLists}
+                                />
                             ) : (
                                 <span className="text2">{myinfo[2]}</span>
                             )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="log">
+                <span id="edit" onClick={editProfil}>{isEditing ? "저장하기" : "수정하기"}</span>
+                <span> / </span>
+                <span id="logout" onClick={logOut}>로그아웃</span>
+            </div>
+            <div className="setdiv">
+                <div className="onoff">
+                    <span className="onofftext">메일 알람</span>
+                    <div>
+                        <img src={mailAlarm ? ON : OFF} alt="imgon" className="onOffBtn" onClick={mailOnOff} />
+                    </div>
+                </div>
+                <div className="onoff">
+                    <span className="onofftext">수정이들과의 연결</span>
+                    <div>
+                        <img src={connectionAlarm ? ON : OFF} alt="imgon" className="onOffBtn" onClick={connectionOnOff} />
                     </div>
                 </div>
             </div>
         </div>
-        <div id="log">
-                <span id="edit" onClick={editProfil}>{isEditing ? "저장하기" : "수정하기"}</span>
-                <span> / </span>
-                <span id="logout" onClick={logOut}>로그아웃</span>
-        </div>
-        
-        <div className="setdiv">
-            <div className="onoff">
-                <span className="onofftext">메일 알람</span>
-                <div>
-                <img src={mailAlarm ? ON : OFF} alt="imgon" className="onOffBtn" onClick={mailOnOff} />
-                </div>
-            </div>
-            <div className="onoff">
-                <span className="onofftext">수정이들과의 연결</span>
-                <div>
-                <img src={connectionAlarm ? ON : OFF} alt="imgon" className="onOffBtn" onClick={connectionOnOff} />
-                </div>
-            </div>
-        </div>
-    </div>
-    )
+    );
 }
 
 export default Myprofil;

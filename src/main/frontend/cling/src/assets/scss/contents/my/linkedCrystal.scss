@@ -25,18 +25,24 @@
         overflow-y: scroll;
         
     }
-
+    
+    .linkedZero{
+        font-size: 20px;
+        line-height: 500px;
+        display: flex; 
+        justify-content:center; 
+    }
     .profil {
         display: flex;
-        align-items: center; // 수직 정렬
+        align-items: center; 
         padding: 20px;
         margin: 50px auto;
-    
+        
         .imghuman {
             width: 160px; 
             height: 160px;
             margin-right: 100px; 
-            margin-left: 110px;
+            margin-left: 120px;
         }
     
         #info {
@@ -78,7 +84,7 @@
     
     
     ::-webkit-scrollbar {
-        width: 10px;  
+        width: 8px;  
     }
     
     ::-webkit-scrollbar-thumb {

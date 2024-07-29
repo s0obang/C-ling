@@ -3,6 +3,8 @@
     position: relative;
     margin: 0;
     padding: 0;
+    color:white;
+
     .swiper {
       width: 100%;
       padding-top: 50px;
@@ -33,5 +35,5 @@
     .swiper-pagination-bullet-active {
         background: white !important;
     }
-      
+    
 }
