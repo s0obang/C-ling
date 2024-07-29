@@ -2,12 +2,13 @@ import React from 'react'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
 import Checkschool from "./components/contents/signup/checkschool";
 import Landing from './components/landing';
-import Commuhome from './components/contents/community/commuhome';
 import NoticeWrite from './components/contents/community/noticeWrite';
 import Myhome from "./components/contents/my/myhome";
-import Badgemodal from "./components/contents/my/badgemodal";
+import BadgeRequest from "./components/contents/my/badgeRequest";
+import BadgeManage from "./components/contents/my/badgeManage";
 import Main from './components/Main';
 import Mainhome from './components/contents/homes/mainhome';
+import NoticePage from './components/contents/homes/noticePage';
 import Create from './components/contents/signup/create';
 import NoMatching from './components/contents/matching/no_matches';
 import MatchingInfo from './components/contents/matching/match_info';
@@ -16,7 +17,6 @@ import Othermajor from './components/contents/matching/othermajor';
 import Match from './components/contents/matching/match';
 import Matchprofile from './components/contents/matching/match_profile';
 import Chat from './components/contents/chat/chat';
-import Test from './components/contents/matching/test';
 
 import './assets/scss/section/base.scss'
 
@@ -24,16 +24,15 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-<<<<<<< HEAD
                 <Route path='/' element={<Main />} />
                 <Route path='/mainhome' element={<Mainhome />} />
-=======
+                <Route path='/notice' element={<NoticePage />} />
+                <Route path='/' element={<Main />} />
                 <Route path='/' element={<Landing />} />
->>>>>>> 55a3244d7211ddbf127734c6e5219b8778d6a73f
                 <Route path='/create' element={<Checkschool />} />
-                <Route path='/commuhome' element={<Commuhome />} />
                 <Route path='/noticeWrite' element={<NoticeWrite />} />
-                <Route path='/badgemodal' element={<Badgemodal />} />
+                <Route path='/badgeRequest' element={<BadgeRequest />} />
+                <Route path='/badgeManage' element={<BadgeManage />} />
                 <Route path='/myhome' element={<Myhome />} />
                 <Route path='/create/info' element={<Create />} />
                 <Route path='/nomatches' element={<NoMatching />} />
@@ -43,7 +42,6 @@ function App() {
                 <Route path='/match' element={<Match />} />
                 <Route path="/matchprofile/" element={<Matchprofile />} />
                 <Route path="/chat/:userId" element={<Chat />} />
-                <Route path="/test" element={<Test />} />
                 
             </Routes>
         </BrowserRouter>

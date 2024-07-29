@@ -1,4 +1,4 @@
-#wantPage{
+#wantPage {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -6,91 +6,90 @@
     color: white;
     padding-bottom: 400px;
 
-    #title{
+    #title {
         font-size: 45px;
-        padding:10px;
+        padding: 10px;
         font-weight: bold;
         padding-bottom: 100px;
+        margin-bottom: 50px;
     }
-    #introduce{
-        position:absolute;
+    #introduce {
+        position: absolute;
         display: flex;
         flex-direction: column;
         align-items: left;
         margin-top: -100px;
-        width:850px;
+        width: 850px;
         font-weight: bold;
-        
-        #img{
-            position: absolute;
-            width: 280px;
-            height: 280px;
-            left: 0;
-            right: 0;
-            margin-left: auto;
-            margin-right: auto;
-            z-index: -1;
-        }
-        #chatBg1{
+
+        #chatBg1 {
             width: 300px;
             height: 60px;
+            z-index: 2;
         }
-        #chatBg2{
+        #chatBg2 {
             width: 200px;
             height: 45px;
             margin-left: 100px;
+            z-index: 2;
         }
-        #intro1{
-            position:absolute;
+        #intro1 {
+            position: absolute;
             font-size: 20px;
             margin-left: 15px;
             margin-top: 10px;
+            z-index: 3;
         }
-        #intro2{
-            position:absolute;
+        #intro2 {
+            position: absolute;
             font-size: 16px;
             margin-left: 115px;
             margin-top: 68px;
+            z-index: 3;
         }
     }
-    #boxs{
+    #box1 {
         display: flex;
-        justify-content: center;
         align-items: center;
-        font-size: 30px;
-        font-weight: bold;
-        
 
-        #wantprofil{
-            background-color: white;
-            width: 350px;
-            height: 350px;
-            border-radius: 30px;
-            z-index: -1;
+        #box2 {
+            width: 500px; 
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
         }
-        .btn_RL{
-            font-size: 40px;
-            margin: auto 40px;
+        #nextButton, #prevButton {
+            font-size: 50px;
+            margin: auto 100px;
         }
-        #circle{ 
+        #nextButton:hover, #prevButton:hover {
+            cursor: pointer;
+        }
+
+
+        #circle {
             position: absolute;
             width: 70px;
             height: 70px;
             border-radius: 100px;
             background-color: #8137FF;
-            margin-top: -350px;
+            margin-top: -370px;
             margin-right: -330px;
             display: flex;
-            align-items: center; /* 수직 가운데 정렬 */
-            justify-content: center; /* 수평 가운데 정렬 */
+            align-items: center; 
+            justify-content: center; 
+            z-index: 3;
         }
     }
     
-    #yesOrNo{
+    #yesOrNo {
         display: flex;
         gap: 25px;
 
-        .button{
+        .button {
             padding: 8px;
             margin-top: 30px;
             background-color: black;
@@ -101,6 +100,41 @@
             width: 130px;
             font-size: 20px;
         }
+        .button:hover {
+            background: linear-gradient(90deg, #3851FF, #8037FF);
+            border: none;
+        }
+    }
+    
+    .swiper {
+        width: 100%;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        display: flex;
+        justify-content: center;
     }
 
+    .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .swiper-slide img {
+        width: 350px;
+        height: 350px;
+        border: 45px solid white; // 원하는 색상으로 변경할 수 있습니다
+        border-radius: 50px;
+        box-sizing: border-box; /* 테두리가 포함되도록 설정 */
+    }
+    .swiper-pagination-bullet {
+        border: solid white !important;
+    }
+    .swiper-pagination-bullet-active {
+        background: white !important;
+    }
+    img {
+        display: block;
+        border-color: solid white 30px;
+    }
 }

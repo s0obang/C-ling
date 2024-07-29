@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
+import { useNavigate } from 'react-router-dom';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -12,8 +13,6 @@ import image3 from '../../../assets/img/image3.png'
 import image4 from '../../../assets/img/image4.png'
 import image5 from '../../../assets/img/image5.png'
 
-
-
 const images = [
     image1,
     image2,
@@ -22,37 +21,33 @@ const images = [
     image5
   ];
 
-  
-  
 const Mainhome = ({ src, className })=>{
-      
+  const navigate = useNavigate();
+
+  const GonoticePage = (index) => {
+      navigate('/notice', { state: { selectedIndex: index } });
+  }
+
   return (
     <div id="mainhome">
-    <Swiper
+      <Swiper
         className="mainBanner"
-        grabCursor={true}
+        grabCursor={true} //잡기 커서 활성화
         slidesPerView={'auto'}   
-        spaceBetween={30} // 슬라이드 간 간격 설정
+        spaceBetween={30} // 슬라이드 간 간격 
         pagination={{clickable: true}}  //하단 동그라미
-        centeredSlides={true}
-        autoplay= {{delay:1000}}
-        mousewheel={true} // 마우스 휠
+        centeredSlides={true} //센터모드
+        autoplay= {{delay:1000}}  
         modules={[Pagination, Autoplay]}
-        coverflowEffect={{
-            rotate : 20, // 슬라이더 회전 각 : 클수록 슬라이딩시 회전이 커짐
-            stretch : -100, // 슬라이더간 거리. 클수록 많이 겹침
-            depth : 100, // 깊이 효과값 : 클수록 멀리있는 느낌이 강해짐
-            
-          }}
       >
         {images.map((src, index) => (
-                <SwiperSlide key={index} className="Slide">
-                    {<img src={src} alt={`slide-${index}`} className="imghuman" />}
-                </SwiperSlide>
-            ))}
+          <SwiperSlide key={index} className="Slide" onClick={() => GonoticePage(index)}>
+            <img src={src} alt={`slide-${index}`} className="imghuman" />
+          </SwiperSlide>
+        ))}
       </Swiper>
-      </div>
+    </div>
   );
 }
 
-export default Mainhome
+export default Mainhome;

@@ -1,4 +1,4 @@
-.modal{    
+.modalRequest{    
     width: 600px;
     height: 520px;
     background-color: #756492;
@@ -50,17 +50,21 @@
 
         #imgselect{
             font-size: 25px;
-            text-decoration: underline;
+            text-decoration: underline 1.5px;
+            text-underline-position: under;
             margin-top: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+        #imgselect:hover{
+            cursor: pointer;
+        }
 
         .submitBox {
             .btnSubmit {
                 width: 180px;
-                height: 60px;
+                height: 50px;
                 margin:20px auto;
                 display:block;
                 background: linear-gradient(0deg, #AE7EFF, #8137FF,#6F3EFF);
@@ -68,7 +72,7 @@
                 border-color: white;
                 border-radius: 100px;
                 color: white;
-                font-size: 32px;
+                font-size: 26px;
                 font-weight: bold;
             }
 
