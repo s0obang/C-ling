@@ -17,6 +17,8 @@ import Othermajor from './components/contents/matching/othermajor';
 import Match from './components/contents/matching/match';
 import Matchprofile from './components/contents/matching/match_profile';
 import Chat from './components/contents/chat/chat';
+import Login from './components/contents/login/Login';
+
 
 import './assets/scss/section/base.scss'
 
@@ -30,6 +32,7 @@ function App() {
                 <Route path='/' element={<Main />} />
                 <Route path='/' element={<Landing />} />
                 <Route path='/create' element={<Checkschool />} />
+                <Route path='/login' element={<Login />} />
                 <Route path='/noticeWrite' element={<NoticeWrite />} />
                 <Route path='/badgeRequest' element={<BadgeRequest />} />
                 <Route path='/badgeManage' element={<BadgeManage />} />
@@ -42,7 +45,7 @@ function App() {
                 <Route path='/match' element={<Match />} />
                 <Route path="/matchprofile/" element={<Matchprofile />} />
                 <Route path="/chat/:userId" element={<Chat />} />
-                
+                <Route path="/chat/:currentUserId/:otherUserId" element={<Chat />} />
             </Routes>
         </BrowserRouter>
 

@@ -17,7 +17,7 @@
 }
 }
 
-.create .logo {
+ .c-logo {
     display: flex;
     justify-content: center;
     margin-top: 100px;
@@ -75,17 +75,33 @@
     .number::placeholder {
         color: white;
     }
+    .signbtn{
+        font-size:20px ;
+        padding: 10px;
+        height: 60px;
+        margin: 20px auto;
+        width: 180px;
+        background-color: black;
+        border: white 1px solid;
+        color: white;
+        justify-content: center;
+        border-radius: 35px;
+    }
+    .signbtn:hover {
+        background: linear-gradient(90deg, #3851FF, #8037FF);
+        border: none;
+    }
 }
 
 .info{
     display: flex;
     align-items: center;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     .create-form{
         width: 300px;
         display: flex;
-        margin-right: 25%;
+        margin-left: 100px;
         flex-direction: column;
 
     }
@@ -138,24 +154,11 @@
             height: 30px;
             width: 30px;
         }
+
     }
+    
 }
-.signbtn{
-    font-size:20px ;
-    padding: 10px;
-    height: 60px;
-    margin: 20px auto;
-    width: 180px;
-    background-color: black;
-    border: white 1px solid;
-    color: white;
-    justify-content: center;
-    border-radius: 35px;
-}
-.signbtn:hover {
-    background: linear-gradient(90deg, #3851FF, #8037FF);
-    border: none;
-}
+
 button:hover{
     cursor: pointer;
 }

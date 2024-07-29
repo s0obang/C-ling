@@ -1,74 +1,122 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import socketIo from "socket.io-client";
+import React, { useState, useEffect, useRef } from 'react';
+import '../../../assets/scss/contents/chat/chat.scss';
+import Ib from '../../../assets/img/imagebutton.png';
+import Sb from '../../../assets/img/sendbutton.png';
+import Header from '../../Header'
+
+// Mock messages
+const mockMessages = [
+  { id: 1, sender: 'User1', message: '안녕하세요!', type: 'text' },
+  { id: 2, sender: 'Me', message: '안녕하세요, 만나서 반가워요!', type: 'text' },
+];
+
+// 상대방의 정보를 담은 객체
+const userInfo = {
+  id: 2,
+  name: 'User2',
+  studentNumber: '20231138',
+  department: '제과제빵학과',
+  profileImage: 'https://example.com/profile.jpg', // 프로필 사진의 URL
+};
 
 const Chat = () => {
-  const { userId } = useParams();
+  const [messages, setMessages] = useState(mockMessages);
+  const [inputMessage, setInputMessage] = useState('');
+  const messagesEndRef = useRef(null);
 
+  // 메시지가 추가될 때마다 스크롤을 맨 아래로 이동시키는 useEffect
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-
-
-
-  const handleSendMessage = () => {
-    if (newMessage.trim() !== '') {
+  const sendMessage = () => {
+    if (inputMessage.trim()) {
+      const newMessage = {
+        id: messages.length + 1,
+        sender: 'Me',
+        message: inputMessage,
+        type: 'text',
+      };
       setMessages([...messages, newMessage]);
-      setNewMessage('');
-    }
-    if (selectedImage) {
-      setMessages([...messages, { image: selectedImage }]);
-      setSelectedImage(null);
-      setImagePreview(null);
+      setInputMessage('');
     }
   };
 
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+  const sendImage = (event) => {
+    const file = event.target.files[0];
     if (file) {
-      setSelectedImage(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
-  };
-
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      handleSendMessage();
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const newMessage = {
+          id: messages.length + 1,
+          sender: 'Me',
+          message: reader.result,
+          type: 'image',
+        };
+        setMessages([...messages, newMessage]);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   return (
-    <div>
-      <h2>이름의 채팅방</h2>
+    <div className="chat-container">
+      <Header />
+      {/* 상대방의 정보를 상단에 표시 */}
+      <div className="chat-header">
+        <div className="profile-img">
+          <img
+            src={userInfo.profileImage}
+            alt={`${userInfo.name}의 프로필`}
+          />
+        </div>
+
+        <div className="user-info">
+          <div className='text'>{userInfo.name}</div>
+          <div className='text'>{userInfo.studentNumber}</div>
+          <div className='text'>{userInfo.department}</div>
+        </div>
+      </div>
       <div className="chat-messages">
-        {messages.map((message, index) => (
-          <div key={index} className="chat-message">
-            {typeof message === 'string' ? (
-              <p>{message}</p>
+        {messages.map((msg) => (
+          <div
+            key={msg.id}
+            className={`chat-message ${msg.sender === 'Me' ? 'me' : 'other'}`}
+          >
+            <strong>{msg.sender}: </strong>
+            {msg.type === 'text' ? (
+              <span>{msg.message}</span>
             ) : (
-              <img src={URL.createObjectURL(message.image)} alt="Sent" className="chat-image" />
+              <img src={msg.message} alt="sent image" className="sent-image" />
             )}
           </div>
         ))}
+        {/* 스크롤 위치를 조정하기 위한 요소 */}
+        <div ref={messagesEndRef} />
       </div>
-      {imagePreview && (
-        <div className="image-preview">
-          <img src={imagePreview} alt="Preview" className="preview-image" />
-        </div>
-      )}
       <div className="chat-input">
+        
         <input
           type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
           placeholder="메시지를 입력하세요..."
         />
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        <button onClick={handleSendMessage}>전송</button>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={sendImage}
+          style={{ display: 'none' }}
+          id="image-upload"
+        />
+        <label htmlFor="image-upload" className="image-upload-label">
+          <img src={Ib} alt="이미지 전송" />
+        </label>
+
+        <button onClick={sendMessage} className="send-button">
+          <img src={Sb} alt="전송" />
+        </button>
+
       </div>
     </div>
   );
