@@ -31,12 +31,16 @@ public class Image {
     @Column(nullable = false)
     private String imagePath;
 
+    @Column(nullable = false)
+    private String imageUrl;
+
 
     @Builder
-    public Image (String originImageName, String imageName, String imagePath, Notice notice) {
+    public Image (String originImageName, String imageName, String imagePath, String imageUrl, Notice notice) {
         this.originImageName = originImageName;
         this.imageName = imageName;
         this.imagePath = imagePath;
+        this.imageUrl = imageUrl;
         this.setNotice(notice);
     }
 

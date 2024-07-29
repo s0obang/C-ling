@@ -1,5 +1,6 @@
 package com.example.cling.entity;
 
+import com.example.cling.dto.ImageDto;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;

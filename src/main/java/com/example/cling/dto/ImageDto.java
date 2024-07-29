@@ -11,23 +11,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImageDto {
-    private int id;
-    @NotBlank
-    private Notice notice;
     @NotBlank
     private String originImageName;
     @NotBlank
     private String imageName;
     @NotBlank
-    private String imagePath;
+    private String imageUrl;
 
     public static ImageDto toDto(Image image) {
         return new ImageDto(
-                image.getId(),
-                image.getNotice(),
                 image.getOriginImageName(),
                 image.getImageName(),
-                image.getImagePath()
+                image.getImageUrl()
         );
     }
 }
