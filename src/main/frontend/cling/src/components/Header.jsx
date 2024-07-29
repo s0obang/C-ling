@@ -7,15 +7,15 @@ import { Link } from 'react-router-dom'
 const Header = () => {
   return (
     <div className='header'>
-      <div className="logo">
-        <img src={LOGO} alt="logo"  />
-      </div>
+      <Link to='/' className="logo">
+                <img src={LOGO} alt="logo" />
+            </Link>
       <div className="nav">
-        <button className='Home'>HOME</button>
+        <Link to = '/mainhome'> <button className='Home'>HOME</button></Link>
         <Link to= '/login'><button className='login nodisplay'>LOGIN</button></Link>
-        <button className='Matching'>MATCHING</button>
-        <button className='Community'>COMMUNITY</button>
-        <button className='My'>MY</button>
+        <Link to= '/match' ><button className='Matching'>MATCHING</button></Link>
+        <Link to = '/' ><button className='Crew'>CREW</button></Link>
+        <Link  to = '/myhome'><button  className='My'>MY</button></Link>
       </div>
     </div>
   )

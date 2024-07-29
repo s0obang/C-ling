@@ -8,9 +8,9 @@ import { Link } from 'react-router-dom'
 const create = () => {
     return (
         <div className='create'>
-            <div className="c-logo">
+             <Link to = '/' className="c-logo">
                 <img src={LOGO} alt="logo" />
-            </div>
+            </Link>
             <div className="info">
                 <div className="img">
                     <img src={Ex} alt="프로필사진" />
