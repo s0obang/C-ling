@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RequestService {
@@ -135,6 +136,68 @@ public class RequestService {
         } else {
             throw new IllegalArgumentException("Request not found with id " + request_id);
         }
+    }
+
+    @Transactional
+    public List<UserResponseDto> clinkSame(String userId) {
+
+        Optional<UserEntity> user = userRepository.findById(userId);
+        UserEntity student;
+        if (user.isPresent()) {
+            student = user.get();
+        } else {
+            throw new IllegalArgumentException("다시 로그인 하세요");
+        }
+
+        String major = student.getMajor();
+        List<UserEntity> sameMajorUsers = userRepository.findSameMajorUsers(major, userId);
+
+        // 매칭된 사용자 찾아서
+        List<String> matchedUser = matchingService.getAllMatchings(userId)
+                .stream()
+                .map(UserResponseDto::getStudentId)
+                .collect(Collectors.toList());
+
+        // 매칭된 사용자 제외 (쿼리로 제외했지만 서비스 레이어에서 한 번 더 필터링 해주도록 로직 구성)
+        List<UserEntity> filteredUsers = sameMajorUsers.stream()
+                .filter(userEntity -> !matchedUser.contains(userEntity.getStudentId()))
+                .collect(Collectors.toList());
+
+        return filteredUsers.stream()
+                .map(UserResponseDto::toDto)
+                .collect(Collectors.toList());
+
+    }
+
+    @Transactional
+    public List<UserResponseDto> clinkOther(String userId) {
+
+        Optional<UserEntity> user = userRepository.findById(userId);
+        UserEntity student;
+        if (user.isPresent()) {
+            student = user.get();
+        } else {
+            throw new IllegalArgumentException("다시 로그인 하세요");
+        }
+
+        String major = student.getMajor();
+        List<UserEntity> otherMajorUsers = userRepository.findOtherMajorUsers(major, userId);
+
+        // 매칭된 사용자 찾아서
+        List<String> matchedUser = matchingService.getAllMatchings(userId)
+                .stream()
+                .map(UserResponseDto::getStudentId)
+                .collect(Collectors.toList());
+
+        // 매칭된 사용자 제외 (쿼리로 제외했지만 서비스 레이어에서 한 번 더 필터링 해주도록 로직 구성)
+        List<UserEntity> filteredUsers = otherMajorUsers.stream()
+                .filter(userEntity -> !matchedUser.contains(userEntity.getStudentId()))
+                .collect(Collectors.toList());
+
+        return filteredUsers.stream()
+                .map(UserResponseDto::toDto)
+                .collect(Collectors.toList());
+
     }
 
 }

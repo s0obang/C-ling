@@ -63,4 +63,16 @@ public class RequestController {
         requestService.accept(requester_id, requestee_id);
     }
 
+    @GetMapping("/clink-same")
+    public List<UserResponseDto> clinkSame(@AuthenticationPrincipal UserDetails userDetails) {
+        String userId = userDetails.getUsername();
+        return requestService.clinkSame(userId);
+    }
+
+    @GetMapping("/clink-other")
+    public List<UserResponseDto> clinkOther(@AuthenticationPrincipal UserDetails userDetails) {
+        String userId = userDetails.getUsername();
+        return requestService.clinkOther(userId);
+    }
+
 }
