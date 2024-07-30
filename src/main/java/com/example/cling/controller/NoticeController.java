@@ -2,7 +2,6 @@ package com.example.cling.controller;
 
 import com.example.cling.dto.NoticeCreateDto;
 import com.example.cling.dto.NoticeDto;
-import com.example.cling.dto.NoticeFileVO;
 import com.example.cling.entity.Notice;
 import com.example.cling.service.ImageService;
 import com.example.cling.service.NoticeService;

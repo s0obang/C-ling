@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -22,17 +23,26 @@ public class NoticeDto {
     @NotBlank(message = "Content cannot be blank")
     private String content;
     @NotBlank(message = "Images cannot be blank")
-    private List<Image> images; //dto 대신 엔티티 씀
+    private List<ImageDto> images; //dto 대신 엔티티 씀
     @NotBlank(message = "Date cannot be blank")
     private LocalDateTime createdDate;
 
     public static NoticeDto toDto(Notice notice) {
+        List<ImageDto> imageDtoList = notice.getImages().stream()
+                .map(image -> new ImageDto(
+                        image.getOriginImageName(),
+                        image.getImageName(),
+                        image.getImageUrl()
+                ))
+                .collect(Collectors.toList());
+
         return new NoticeDto(
                 notice.getId(),
                 notice.getUserId(),
                 notice.getTitle(),
                 notice.getContent(),
-                notice.getImages(),
-                notice.getCreatedDate());
+                imageDtoList,
+                notice.getCreatedDate()
+        );
     }
 }

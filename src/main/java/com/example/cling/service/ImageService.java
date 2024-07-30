@@ -64,7 +64,7 @@ public class ImageService {
 
             String imageName =  UUID.randomUUID().toString() + "_" + originImageName;
             String imagePath = postDirName + File.separator + imageName;
-
+            String imageUrl = "/images/" + notice.getId() + "/" + imageName;
             // 이미지 저장
             File dest = new File(imagePath);
             try {
@@ -80,6 +80,7 @@ public class ImageService {
                     .originImageName(originImageName)
                     .imageName(imageName)
                     .imagePath(imagePath)
+                    .imageUrl(imageUrl)
                     .notice(notice)
                     .build();
             imageRepository.save(image);
