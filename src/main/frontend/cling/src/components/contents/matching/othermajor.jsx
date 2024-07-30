@@ -2,8 +2,8 @@ import React from 'react'
 import Header from '../../Header'
 import '../../../assets/scss/contents/matching/no_matches.scss'
 import { Link } from 'react-router-dom'
-import Bubble1 from '../../../assets/img/speech-bubble1.png';
-import Bubble2 from '../../../assets/img/speech-bubble2.png';
+import Bubble1 from '../../../assets/img/matching/speech-bubble1.png';
+import Bubble2 from '../../../assets/img/matching/speech-bubble2.png';
 import Ex from '../../../assets/img/eximg.png'
 
 const othermajor = ({ text }) => {

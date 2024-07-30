@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import default CSS for react-toastify
 import '../../../assets/scss/contents/matching/no_matches.scss';
 import { Link } from 'react-router-dom';
-import Bubble2 from '../../../assets/img/speech-bubble2.png';
+import Bubble2 from '../../../assets/img/matching/speech-bubble2.png';
 import Ex from '../../../assets/img/eximg.png';
 import Header from '../../Header';
 

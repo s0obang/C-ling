@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../../../assets/scss/contents/chat/chat.scss';
-import Ib from '../../../assets/img/imagebutton.png';
-import Sb from '../../../assets/img/sendbutton.png';
+import Ib from '../../../assets/img/chat/imagebutton.png';
+import Sb from '../../../assets/img/chat/sendbutton.png';
 import Header from '../../Header'
 
 // Mock messages
