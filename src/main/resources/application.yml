@@ -3,12 +3,18 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #    각자 PC에 만들어놓은 Database이름을 써야 합니다.
-    url: jdbc:mysql://localhost:3306/Cling?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://51.21.67.44:3306/clink?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     #    mysql에 생성한 사용자 계정 정보를 써야 합니다.
-    username: root
-    password: s0obang1121
+    username: clink
+    password: clink1234
   thymeleaf:
     cache: false
+  servlet:
+    multipart:
+      location: C:/C-ling/uploads/Images #공지사항 이미지 업로드 경로
+      maxFileSize: 10MB
+      maxRequestSize: 100MB
+
 
   # spring data jpa 설정
   jpa:
