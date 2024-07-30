@@ -6,15 +6,15 @@ import { Link } from 'react-router-dom'
 const Login = () => {
     return (
         <div className='login'>
-            <div className="c-logo">
+            <Link to = '/' className="c-logo">
                 <img src={LOGO} alt="logo" />
-            </div>
+            </Link>
             <div className="wrap">
-                <Link to = "" className='findpw'>비밀번호 찾기</Link>
+                <Link to = "/login/findpw" className='findpw'>비밀번호 찾기</Link>
                 
                 <form method="post" className='login-form'>
-                    <input className="email" type="email" placeholder='학교 E-mail' />
-                    <input className="number" type="text" placeholder='인증번호' />
+                    <input className="number" type="number" placeholder='학번' />
+                    <input className="check" type="text" placeholder='Password' />
                     <div className="btn"><button className='signbtn' type="submit" >Sign In</button>
                         <Link to='/create' ><button className='signup'  >Sign Up</button></Link></div>
                 </form>
