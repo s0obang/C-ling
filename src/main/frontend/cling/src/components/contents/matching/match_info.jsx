@@ -29,4 +29,4 @@ const MatchInfo = () => {
     )
 }
 
-export default MatchInfo
+export default MatchInfo;
