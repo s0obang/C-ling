@@ -1,6 +1,6 @@
 import React from "react";
 import Header from '../../Header'
-import '../../../assets/scss/contents/community/noticeWrite.scss'
+import '../../../assets/scss/contents/crew/noticeWrite.scss'
 
 const noticeWrite = () => {
     return (

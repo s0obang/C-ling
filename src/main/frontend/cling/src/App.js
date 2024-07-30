@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
 import Checkschool from "./components/contents/user/checkschool";
 import Landing from './components/landing';
-import NoticeWrite from './components/contents/community/noticeWrite';
+import NoticeWrite from './components/contents/crew/noticeWrite';
 import Myhome from "./components/contents/my/myhome";
 import BadgeRequest from "./components/contents/my/badgeRequest";
 import BadgeManage from "./components/contents/my/badgeManage";
@@ -20,6 +20,7 @@ import Chat from './components/contents/chat/chat';
 import Login from './components/contents/user/Login';
 import Findpw from './components/contents/user/Findpw';
 import Newpw from './components/contents/user/Newpw';
+import Crew from './components/contents/crew/Crew';
 
 
 import './assets/scss/section/base.scss'
@@ -33,6 +34,9 @@ function App() {
                 <Route path='/notice' element={<NoticePage />} />
                 <Route path='/login/findpw' element = {<Findpw />} />
                 <Route path='/login/newpw' element = {<Newpw />} />
+                <Route path='/crew' element = {<Crew />} />
+
+
                 <Route path='/create' element={<Checkschool />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/noticeWrite' element={<NoticeWrite />} />
