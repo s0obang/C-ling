@@ -3,7 +3,7 @@ package com.example.cling.controller;
 import com.example.cling.dto.NoticeCreateDto;
 import com.example.cling.dto.NoticeDto;
 import com.example.cling.entity.Notice;
-import com.example.cling.service.ImageService;
+import com.example.cling.service.AttachmentService;
 import com.example.cling.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,12 +19,12 @@ import java.util.Optional;
 @RestController
 public class NoticeController {
     private final NoticeService noticeService;
-    private final ImageService imageService;
+    private final AttachmentService attachmentService;
 
     @Autowired
-    public NoticeController(NoticeService noticeService, ImageService imageService) {
+    public NoticeController(NoticeService noticeService, AttachmentService attachmentService) {
         this.noticeService = noticeService;
-        this.imageService = imageService;
+        this.attachmentService = attachmentService;
     }
 
 
@@ -36,19 +36,21 @@ public class NoticeController {
 
     @PostMapping("/notice/write")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> writeNotice( //vo로 받을지 파라미터로 받을지
-                                               @AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<String> writeNotice(
+                                               //@AuthenticationPrincipal UserDetails userDetails,
                                                @RequestParam("title") String title,
                                                @RequestParam("content") String content,
-                                               @RequestParam("images") List<MultipartFile> files
+                                               @RequestParam("images") List<MultipartFile> images
     ) throws Exception {
 
         //이미지가 없는 경우 저장 x
-        if (files == null || files.isEmpty()) {
+        if (images == null || images.isEmpty()) {
             return ResponseEntity.badRequest().body("이미지를 하나 이상 선택해야 합니다.");
         }
 
-        String authenticatedUserId = userDetails.getUsername();
+
+        //String authenticatedUserId = userDetails.getUsername();
+        String authenticatedUserId = "20231159";
 
         NoticeCreateDto noticeCreateDto =
                 NoticeCreateDto.builder()
@@ -56,8 +58,11 @@ public class NoticeController {
                         .title(title)
                         .content(content)
                         .build();
+
+        //게시글 저장
         NoticeDto noticeDto = noticeService.write(noticeCreateDto);
-        imageService.upload(files, noticeDto);
+        //이미지 저장
+        attachmentService.uploadToNotice(images, noticeDto);
 
         return ResponseEntity.ok("게시글이 성공적으로 작성되었습니다.");
     }

@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NoticeCreateDto {
-    @NotBlank(message = "User cannot be blank")
-    private String userId;
+public class RecruitmentCreateDto {
+    @NotBlank(message = "RecruitingDepartment cannot be blank")
+    private String RecruitingDepartment;
     @NotBlank(message = "Title cannot be blank")
     private String title;
     @NotBlank(message = "Content cannot be blank")
