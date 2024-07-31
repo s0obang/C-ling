@@ -62,8 +62,5 @@ public class UserController {
         return ResponseEntity.ok("{\"message\": \"로그아웃 성공\", \"status\": 200}");
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<String> getLoginPageUrl() {
-        return ResponseEntity.ok("{\"loginUrl\": \"/login.html\"}");
-    }
+
 }
