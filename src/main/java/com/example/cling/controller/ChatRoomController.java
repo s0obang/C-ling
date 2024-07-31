@@ -38,26 +38,19 @@ public class ChatRoomController {
                 .build();
     }
     @GetMapping("/roomMapping")
-    public ResponseEntity<Void> roomMapper(@AuthenticationPrincipal UserEntity userEntity, @RequestParam String id2) {
-        Long roomId = chatService.findRoomByRoomName(chatService.roomNameMaker(userEntity.getStudentId(), id2)).getRoomId();
-        String url = "http://localhost:1234/" + roomId;  // URL은 실제 서버 주소에 맞게 조정해야 합니다
-
-        WebClient webClient = webClientBuilder.build();
-
-        webClient.get()
-                .uri(url)
-                .retrieve()
-                .bodyToMono(ChatRoomResponseDto.class)
-                .subscribe();
-
-        return ResponseEntity.noContent().build();
+    public Long roomMapper(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String id2) {
+        return chatService.findRoomByRoomName(chatService.roomNameMaker(userDetails.getUsername(), id2)).getRoomId();
+          // URL은 실제 서버 주소에 맞게 조정해야 합니다
     }
 
 //채팅방 등록(생성하는거)
     @PostMapping("/room")
-    public RoomEntity createRoom(@AuthenticationPrincipal UserEntity userEntity, @RequestParam String id2) {
+    public RoomEntity createRoom(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String id2) {
 
-        return chatService.createRoom(userService.getUserByStudentId(userEntity.getStudentId()).getStudentId(), id2);
+        if (userDetails == null) {
+            throw new IllegalArgumentException("User is not authenticated");
+        }
+        return chatService.createRoom(userDetails.getUsername(), id2);
 
     }
 }
