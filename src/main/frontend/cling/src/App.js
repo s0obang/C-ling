@@ -35,7 +35,7 @@ function App() {
                 <Route path='/login/findpw' element = {<Findpw />} />
                 <Route path='/login/newpw' element = {<Newpw />} />
                 <Route path='/crew' element = {<Crew />} />
-
+                <Route path='/mycrew' element = {<Mycrew />} />
 
                 <Route path='/create' element={<Checkschool />} />
                 <Route path='/login' element={<Login />} />
