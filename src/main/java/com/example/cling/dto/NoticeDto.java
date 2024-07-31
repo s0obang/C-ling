@@ -1,6 +1,5 @@
 package com.example.cling.dto;
 
-import com.example.cling.entity.Image;
 import com.example.cling.entity.Notice;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -23,16 +22,17 @@ public class NoticeDto {
     @NotBlank(message = "Content cannot be blank")
     private String content;
     @NotBlank(message = "Images cannot be blank")
-    private List<ImageDto> images; //dto 대신 엔티티 씀
+    private List<AttachmentDto> images;
     @NotBlank(message = "Date cannot be blank")
     private LocalDateTime createdDate;
 
     public static NoticeDto toDto(Notice notice) {
-        List<ImageDto> imageDtoList = notice.getImages().stream()
-                .map(image -> new ImageDto(
-                        image.getOriginImageName(),
-                        image.getImageName(),
-                        image.getImageUrl()
+        List<AttachmentDto> imageDtoList = notice.getImages().stream()
+                .map(image -> new AttachmentDto(
+                        image.getOriginAttachmentName(),
+                        image.getAttachmentName(),
+                        image.getAttachmentUrl(),
+                        image.getFileType()
                 ))
                 .collect(Collectors.toList());
 
