@@ -14,7 +14,7 @@ const Header = () => {
         <Link to = '/mainhome'> <button className='Home'>HOME</button></Link>
         <Link to= '/login'><button className='login nodisplay'>LOGIN</button></Link>
         <Link to= '/match' ><button className='Matching'>MATCHING</button></Link>
-        <Link to = '/' ><button className='Crew'>CREW</button></Link>
+        <Link to = '/crew' ><button className='Crew'>CREW</button></Link>
         <Link  to = '/myhome'><button  className='My'>MY</button></Link>
       </div>
     </div>
