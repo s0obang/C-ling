@@ -11,7 +11,7 @@ spring:
     cache: false
   servlet:
     multipart:
-      location: C:/C-ling/uploads/Images #공지사항 이미지 업로드 경로
+      location: /home/ubuntu/uploads/Attachments #공지사항 이미지 업로드 경로
       maxFileSize: 10MB
       maxRequestSize: 100MB
 
