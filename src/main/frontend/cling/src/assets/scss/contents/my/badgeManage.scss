@@ -1,0 +1,72 @@
+.modalManage{
+    width: 600px;
+    background-color: #BACCFF;
+    border-radius: 30px; 
+    padding: 20px; 
+    color: white; 
+    margin:10% auto;
+    color: white;
+    
+    #modalClose{ 
+        display: flex;
+        margin-left: auto;
+        border: none;
+        font-size: 50px;
+        cursor: pointer;
+    }
+    #badgeBox{
+        flex-direction: column;
+        margin:30px 0 50px 0 ;
+        
+        .badgelist{
+            margin: 20px auto;
+            .badgenamediv{
+                display: inline-block;
+                background-color: white;
+                border-radius: 25px;
+                padding:10px 20px;
+                vertical-align: bottom;
+                margin: auto 50px;
+                box-shadow : 5px 5px 10px 0 grey inset;
+
+                .badgename{
+                    font-size: 22px;
+                    font-weight: bold;
+                    background: linear-gradient(90deg, #7939FF, #1E5BFF);
+                    -webkit-background-clip: text;
+                    color: transparent;
+                }
+            }
+        }
+        .del{
+            vertical-align: top;
+            margin-top: 7px;
+            font-size: 22px;
+            color:white;
+            font-weight: bold;
+            background-color: #BACCFF;
+            border:none;
+            border-bottom: solid white;
+            
+        }
+        .del:hover{
+            color:#8953ff;
+            border-bottom: solid #8953ff;
+        }
+    }
+    .submitBox {
+        .btnSubmit {
+            width: 180px;
+            height: 50px;
+            margin:20px auto;
+            display:block;
+            background: linear-gradient(0deg, #AE7EFF, #8137FF,#6F3EFF);
+            border-style: solid ;
+            border-color: white;
+            border-radius: 100px;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+        }
+    }
+}

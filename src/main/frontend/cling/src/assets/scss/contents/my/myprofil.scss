@@ -1,0 +1,178 @@
+.myprofil{
+    position: relative; 
+    margin-top: 150px;
+    margin-bottom: 250px;
+    width: 1000px;
+    height: 300px;
+    color: white;
+    
+    
+    #name{
+        position: relative; 
+        font-weight: bold;
+        width: 100%;
+        margin:30px 80px;
+        #username{
+            margin: auto 25px;
+            font-size: 45px;
+            padding:10px;
+        }
+        #badgenamediv{
+            display: inline-block;
+            background-color: white;
+            border-radius: 25px;
+            padding:10px 20px;
+            vertical-align: bottom;
+            box-shadow : 5px 5px 10px 0 grey inset;
+        }
+        #badgename{
+            font-size: 22px;
+            background: linear-gradient(90deg, #7939FF, #1E5BFF);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        #badge{
+            display: inline-block;
+            font-size: 22px;
+            margin-left:30px;
+            color:white;
+            text-align: center;
+        }
+        #badge1{
+            margin-right:15px;
+        }
+        #badge2{
+            margin-left:15px;
+        }
+        #badge1, #badge2{
+            border-bottom: solid 1px;
+            padding-bottom: 3px;
+        }
+        #badge1:hover, #badge2:hover{
+            cursor: pointer;
+            color:#8953ff;
+        }
+    }
+
+    #profilBox{
+        position: relative;
+        width: 100%;
+        color: white;
+        align-items: center; 
+        
+        .profil {
+            display: flex;
+            align-items: center; // 수직 정렬
+            padding: 20px;
+        
+            .imghuman {
+                width: 160px; 
+                height: 160px;
+                margin-right: 100px; 
+                margin-left: 120px;
+            }
+            .imgprofil{
+                width: 800px;
+                margin: auto;
+                position: absolute; 
+                left: 0;
+                right: 0;
+                margin-left: auto;
+                margin-right: auto;
+                z-index: -1; //맨 아래 배치
+            }
+            #info {
+                width: 430px;
+                display: flex;
+                flex-direction: column; // 텍스트 수직 정렬
+                font-size: 30px;
+                font-weight: bold;
+                
+                .infotext {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center; // 텍스트 수직 정렬
+                    margin: 10px 10px;
+                    border-bottom: solid 0.8px;
+        
+                    .text1 {
+                        font-weight: bold; 
+                        margin-right: 10px;
+                    }
+        
+                    .text2 {
+                        text-align: right;
+                    }
+                    input {
+                        width:300px;
+                        font-size: 25px;
+                        font-weight:bold;
+                        color:rgb(112, 112, 112);
+                        border-radius: 5px;
+                    }
+                    .custom-select__control {  //현재 선택되어있는거
+                      width: 307px;
+                      height: 20px;
+                      font-size: 22px;
+                      font-weight: bold;
+                      margin-top: -10px;
+                      color:rgb(112, 112, 112);
+                    }
+                    .custom-select__menu {  //리스트 속성
+                        font-size: 22px;
+                        color:rgb(112, 112, 112);
+                    }
+                    
+                }
+            }
+        }
+    }
+
+    #log{
+        text-align: right;
+        margin: 30px 120px;
+        font-size: 22px;
+        font-weight: bold;
+        
+        #edit, #logout{
+            text-decoration: underline 1px;
+            text-underline-position: under;
+            cursor: pointer;
+        }
+        #edit:hover, #logout:hover{
+            color:#8953ff;
+        }
+
+        #edit{
+            margin-right: 15px;
+        }
+        #logout{
+            margin-left: 15px;
+        }
+    }
+    
+
+    //OnOff설정부분
+    .setdiv{
+        margin: 100px auto;
+        .onoff{
+            display: flex;
+            justify-content: center;
+            margin:20px auto;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+
+            .onofftext{
+                width:300px;
+                text-align: center;
+            }
+            .onOffBtn{
+                width: 200px;
+                height: 30px;
+                margin-right: auto;
+            }
+        }
+    }
+}
+

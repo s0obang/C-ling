@@ -1,0 +1,88 @@
+.modalRequest{    
+    width: 600px;
+    height: 520px;
+    background-color: #756492;
+    overflow: hidden;
+    border-radius: 10px; 
+    padding: 20px; 
+    color: white; 
+    margin:10% auto;
+    align-items: center;
+    color: white;
+
+    #modalClose{ 
+        display: flex;
+        margin-left: auto;
+        border: none;
+        font-size: 50px;
+        cursor: pointer;
+    }
+
+    #modaldiv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: -20px;
+
+        .form {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 10px;
+
+            .formcolumn{
+                margin:auto;
+            }
+            .formtext{
+                font-size: 25px;
+                font-weight: bold;
+                margin-right: 10px;
+            }
+            input {
+                width: 320px;
+                height: 40px;
+                border-radius: 35px;
+                padding: 10px 30px;
+                margin: 10px 0;
+                font-size: 25px;
+            }
+        }
+
+        #imgselect{
+            font-size: 25px;
+            text-decoration: underline 1.5px;
+            text-underline-position: under;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #imgselect:hover{
+            cursor: pointer;
+        }
+
+        .submitBox {
+            .btnSubmit {
+                width: 180px;
+                height: 50px;
+                margin:20px auto;
+                display:block;
+                background: linear-gradient(0deg, #AE7EFF, #8137FF,#6F3EFF);
+                border-style: solid ;
+                border-color: white;
+                border-radius: 100px;
+                color: white;
+                font-size: 26px;
+                font-weight: bold;
+            }
+
+            margin-bottom: 70px;
+        }
+    }
+}
+
+#imgPopup {
+    width: 300px;
+    height: auto;
+    border: 2px solid white;
+}
