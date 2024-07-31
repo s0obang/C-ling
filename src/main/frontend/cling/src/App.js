@@ -21,6 +21,7 @@ import Login from './components/contents/user/Login';
 import Findpw from './components/contents/user/Findpw';
 import Newpw from './components/contents/user/Newpw';
 import Crew from './components/contents/crew/Crew';
+import Mycrew from './components/contents/crew/Mycrew';
 
 
 import './assets/scss/section/base.scss'
