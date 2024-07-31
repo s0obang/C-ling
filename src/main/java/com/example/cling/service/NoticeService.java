@@ -2,9 +2,9 @@ package com.example.cling.service;
 
 import com.example.cling.dto.NoticeCreateDto;
 import com.example.cling.dto.NoticeDto;
-import com.example.cling.entity.Image;
+import com.example.cling.entity.Attachment;
 import com.example.cling.entity.Notice;
-import com.example.cling.repository.ImageRepository;
+import com.example.cling.repository.AttachmentRepository;
 import com.example.cling.repository.NoticeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,12 @@ import java.util.Optional;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
-    private final ImageRepository imageRepository;
+    private final AttachmentRepository attachmentRepository;
 
     @Autowired
-    public NoticeService(NoticeRepository noticeRepository, ImageRepository imageRepository) {
+    public NoticeService(NoticeRepository noticeRepository, AttachmentRepository attachmentRepository) {
         this.noticeRepository = noticeRepository;
-        this.imageRepository = imageRepository;
+        this.attachmentRepository = attachmentRepository;
     }
 
     @Value("${spring.servlet.multipart.location}")
@@ -71,8 +71,8 @@ public class NoticeService {
             return new IllegalArgumentException("삭제할 게시물이 없습니다.");
         });
 
-        for (Image image : notice.getImages()) {
-            File file = new File(image.getImagePath());
+        for (Attachment image : notice.getImages()) {
+            File file = new File(image.getAttachmentPath());
             if (file.exists()) {
                 if (file.delete()) {
                     System.out.println("File deleted: " + file.getPath());
@@ -82,8 +82,9 @@ public class NoticeService {
             }
         }
 
-        imageRepository.deleteAll(notice.getImages());
+        attachmentRepository.deleteAll(notice.getImages());
 
+        baseDir += File.separator + "notice";
         // 게시물 아이디에 해당하는 폴더 삭제
         String postDirName = baseDir + File.separator + id;
         File postDir = new File(postDirName);

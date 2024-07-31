@@ -1,6 +1,5 @@
 package com.example.cling.dto;
 
-import com.example.cling.entity.Notice;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
