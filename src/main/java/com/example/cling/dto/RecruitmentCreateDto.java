@@ -17,5 +17,9 @@ public class RecruitmentCreateDto {
     private String title;
     @NotBlank(message = "Content cannot be blank")
     private String content;
+    @NotBlank(message = "Step cannot be blank")
+    private String step;
+    @NotBlank(message = "DueDate cannot be blank")
+    private String dueDate;
 
 }

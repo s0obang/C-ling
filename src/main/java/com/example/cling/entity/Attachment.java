@@ -47,33 +47,15 @@ public class Attachment {
     private Application application;
 
     @Builder
-    public Attachment(String originAttachmentName, String attachmentName, String attachmentPath, String attachmentUrl, String fileType, Notice notice) {
+    public Attachment(String originAttachmentName, String attachmentName, String attachmentPath, String attachmentUrl, String fileType, Notice notice, Recruitment recruitment, Application application) {
         this.originAttachmentName = originAttachmentName;
         this.attachmentName = attachmentName;
-        this.attachmentPath= attachmentPath;
+        this.attachmentPath = attachmentPath;
         this.attachmentUrl = attachmentUrl;
         this.fileType = fileType;
-        this.setNotice(notice);
-    }
-
-    @Builder
-    public Attachment(String originAttachmentName, String attachmentName, String attachmentPath, String attachmentUrl, String fileType, Recruitment recruitment) {
-        this.originAttachmentName = originAttachmentName;
-        this.attachmentName = attachmentName;
-        this.attachmentPath= attachmentPath;
-        this.attachmentUrl = attachmentUrl;
-        this.fileType = fileType;
-        this.setRecruitment(recruitment);
-    }
-
-    @Builder
-    public Attachment(String originAttachmentName, String attachmentName, String attachmentPath, String attachmentUrl, String fileType, Application application) {
-        this.originAttachmentName = originAttachmentName;
-        this.attachmentName = attachmentName;
-        this.attachmentPath= attachmentPath;
-        this.attachmentUrl = attachmentUrl;
-        this.fileType = fileType;
-        this.setApplication(application);
+        this.notice = notice;
+        this.recruitment = recruitment;
+        this.application = application;
     }
 
     // 리크루팅 공고 정보 저장 (동기화)

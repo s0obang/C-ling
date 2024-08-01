@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,12 +35,19 @@ public class Application {
             fetch = FetchType.EAGER
     )
     @JsonManagedReference
-    private Attachment application;
+    private List<Attachment> application;
 
-    @Column(nullable = false)
+    @Column
     private boolean firstResult;
 
-    @Column(nullable = false)
+    @Column
     private boolean secondResult;
 
+    public void addImage(Attachment file) {
+        this.application.add(file);
+
+        // 만약 게시글이 다를 경우? 게시글 정보 업데이트? (동기화)
+        if (file.getApplication()!= this)
+            file.setApplication(this);
+    }
 }
