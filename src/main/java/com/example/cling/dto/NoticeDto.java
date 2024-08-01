@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public class NoticeDto {
     @NotBlank(message = "Images cannot be blank")
     private List<AttachmentDto> images;
     @NotBlank(message = "Date cannot be blank")
-    private LocalDateTime createdDate;
+    private String createdDate;
 
     public static NoticeDto toDto(Notice notice) {
         List<AttachmentDto> imageDtoList = notice.getImages().stream()
@@ -36,13 +37,16 @@ public class NoticeDto {
                 ))
                 .collect(Collectors.toList());
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String createdDate = notice.getCreatedDate().format(formatter);
+
         return new NoticeDto(
                 notice.getId(),
                 notice.getUserId(),
                 notice.getTitle(),
                 notice.getContent(),
                 imageDtoList,
-                notice.getCreatedDate()
+                createdDate
         );
     }
 }

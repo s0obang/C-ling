@@ -28,6 +28,12 @@ public class Recruitment extends BaseTimeEntity {
     private String content;
 
     @Column(nullable = false)
+    private String step;
+
+    @Column(nullable = false)
+    private String dueDate;
+
+    @Column(nullable = false)
     private boolean isCompleted;
 
     @OneToMany(

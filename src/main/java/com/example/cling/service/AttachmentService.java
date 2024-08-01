@@ -1,10 +1,13 @@
 package com.example.cling.service;
 
+import com.example.cling.dto.ApplicationDto;
 import com.example.cling.dto.NoticeDto;
 import com.example.cling.dto.RecruitmentDto;
+import com.example.cling.entity.Application;
 import com.example.cling.entity.Attachment;
 import com.example.cling.entity.Notice;
 import com.example.cling.entity.Recruitment;
+import com.example.cling.repository.ApplicationRepository;
 import com.example.cling.repository.AttachmentRepository;
 import com.example.cling.repository.NoticeRepository;
 import com.example.cling.repository.RecruitmentRepository;
@@ -25,12 +28,14 @@ public class AttachmentService {
     private final AttachmentRepository attachmentRepository;
     private final NoticeRepository noticeRepository;
     private final RecruitmentRepository recruitmentRepository;
+    private final ApplicationRepository applicationRepository;
 
     @Autowired
-    public AttachmentService(AttachmentRepository attachmentRepository, NoticeRepository noticeRepository, RecruitmentRepository recruitmentRepository) {
+    public AttachmentService(AttachmentRepository attachmentRepository, NoticeRepository noticeRepository, RecruitmentRepository recruitmentRepository, ApplicationRepository applicationRepository) {
         this.attachmentRepository = attachmentRepository;
         this.noticeRepository = noticeRepository;
         this.recruitmentRepository = recruitmentRepository;
+        this.applicationRepository = applicationRepository;
     }
 
     // yml 이미지 저장 경로 불러오기
@@ -70,7 +75,7 @@ public class AttachmentService {
 
             String imageName =  UUID.randomUUID().toString() + "_" + originImageName;
             String imagePath = postDirName + File.separator + imageName;
-            String imageUrl = "/attachments/notice/" + notice.getId() + "/" + imageName;
+            String imageUrl = "/Attachments/notice/" + notice.getId() + "/" + imageName;
             // 이미지 저장
             File dest = new File(imagePath);
             try {
@@ -134,7 +139,7 @@ public class AttachmentService {
 
             String imageName =  UUID.randomUUID().toString() + "_" + originImageName;
             String imagePath = postDirName + File.separator + imageName;
-            String imageUrl = "/attachments/recruitment/" + recruitment.getId() + "/" + imageName;
+            String imageUrl = "/Attachments/recruitment/" + recruitment.getId() + "/" + imageName;
             // 이미지 저장
             File dest = new File(imagePath);
             try {
@@ -146,7 +151,14 @@ public class AttachmentService {
             }
 
             // DB에 정보 저장 및 recruitment와 연동
-            Attachment savingImage = new Attachment(originImageName, imageName, imagePath, imageUrl, "recruitment_image", recruitment);
+            Attachment savingImage = Attachment.builder()
+                    .originAttachmentName(originImageName)
+                    .attachmentName(imageName)
+                    .attachmentPath(imagePath)
+                    .attachmentUrl(imageUrl)
+                    .fileType("recruitment_image")
+                    .recruitment(recruitment)
+                    .build();
             attachmentRepository.save(savingImage);
 
             // 이미지 리스트에 이미지 추가
@@ -163,7 +175,7 @@ public class AttachmentService {
 
             String fileName =  UUID.randomUUID().toString() + "_" + originFileName;
             String filePath = postDirName + File.separator + fileName;
-            String fileUrl = "/attachments/recruitment/" + recruitment.getId() + "/" + fileName;
+            String fileUrl = "/Attachments/recruitment/" + recruitment.getId() + "/" + fileName;
             // 첨부파일 저장
             File dest = new File(filePath);
             try {
@@ -175,7 +187,14 @@ public class AttachmentService {
             }
 
             // DB에 정보 저장 및 recruitment와 연동
-            Attachment savingFile = new Attachment(originFileName, fileName, filePath, fileUrl, "recruitment_file", recruitment);
+            Attachment savingFile = Attachment.builder()
+                    .originAttachmentName(originFileName)
+                    .attachmentName(fileName)
+                    .attachmentPath(filePath)
+                    .attachmentUrl(fileUrl)
+                    .fileType("recruitment_file")
+                    .recruitment(recruitment)
+                    .build();
             attachmentRepository.save(savingFile);
 
             // 이미지 리스트에 이미지 추가
@@ -186,5 +205,68 @@ public class AttachmentService {
 
         // recruitment 객체의 상태를 데이터베이스에 반영
         recruitmentRepository.save(recruitment);
+    }
+
+    public void uploadToApplication(List<MultipartFile> file, ApplicationDto applicationDto) {
+
+        baseDir += File.separator + "application";
+        //이미지가 없는 경우 저장 x
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("지원서가 없습니다.");
+        }
+
+        // 부서에 따라 디렉토리 생성
+        String postDirName = baseDir + File.separator + applicationDto.getRecruitingDepartment();
+        File postDir = new File(postDirName);
+        if (!postDir.exists()) {
+            if (postDir.mkdirs()) {
+                System.out.println("Directory created: " + postDirName);
+            } else {
+                System.err.println("Failed to create directory: " + postDirName);
+            }
+        }
+
+        Application application = applicationRepository.findById(applicationDto.getId())
+                .orElseThrow(() -> new RuntimeException("Application not found"));
+
+        // 지원서 저장
+        for (MultipartFile attachment : file) {
+
+            String originFileName = attachment.getOriginalFilename();
+            if (originFileName == null) {
+                continue; // 저장 안하고 넘김
+            }
+
+            String fileName =  UUID.randomUUID().toString() + "_" + originFileName;
+            String filePath = postDirName + File.separator + fileName;
+            String fileUrl = "/Attachments/application/" + application.getId() + "/" + fileName;
+            // 지원서 저장
+            File dest = new File(filePath);
+            try {
+                attachment.transferTo(dest);
+                System.out.println("File saved: " + filePath);
+            } catch (IOException e) {
+                System.err.println("Error saving file: " + filePath);
+                e.printStackTrace();
+            }
+
+            // DB에 정보 저장 및 application과 연동
+            Attachment syncAttachment = Attachment.builder()
+                    .originAttachmentName(originFileName)
+                    .attachmentName(fileName)
+                    .attachmentPath(filePath)
+                    .attachmentUrl(fileUrl)
+                    .fileType("application_file")
+                    .application(application)
+                    .build();
+            attachmentRepository.save(syncAttachment);
+
+            // appliction에 추가
+            application.addImage(syncAttachment);
+        }
+
+        // Notice 객체의 상태를 데이터베이스에 반영
+        applicationRepository.save(application);
+
     }
 }

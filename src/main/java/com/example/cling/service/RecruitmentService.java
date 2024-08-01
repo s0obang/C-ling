@@ -34,8 +34,8 @@ public class RecruitmentService {
 
     // 전체 게시물 조회
     @Transactional
-    public List<RecruitmentDto> getAllRecruitments() {
-        List<Recruitment> recruitments = recruitmentRepository.findAll();
+    public List<RecruitmentDto> getAllRecruitments(String recruitingDepartment) {
+        List<Recruitment> recruitments = recruitmentRepository.findByRecruitingDepartment(recruitingDepartment);
         List<RecruitmentDto> recruitmentDtos = new ArrayList<>();
         recruitments.forEach(s -> recruitmentDtos.add(RecruitmentDto.toDto(s)));
         return recruitmentDtos;
@@ -48,18 +48,20 @@ public class RecruitmentService {
         recruitment.setRecruitingDepartment(recruitmentCreateDto.getRecruitingDepartment());
         recruitment.setTitle(recruitmentCreateDto.getTitle());
         recruitment.setContent(recruitmentCreateDto.getContent());
+        recruitment.setStep(recruitmentCreateDto.getStep());
+        recruitment.setDueDate(recruitment.getDueDate());
         Recruitment savedRecruitment = recruitmentRepository.save(recruitment);
         return RecruitmentDto.toDto(savedRecruitment);
     }
 
     // 게시물 조회
-    public Optional<RecruitmentDto> getNotice(int id) {
+    public Optional<RecruitmentDto> getRecruitment(int id) {
         return recruitmentRepository.findById(id)
                 .map(RecruitmentDto::toDto);
     }
 
     public Recruitment getRecruitmentById(int id) {
-        return recruitmentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Notice not found"));
+        return recruitmentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Recruitment not found"));
     }
 
     //게시물 삭제
@@ -71,6 +73,7 @@ public class RecruitmentService {
             return new IllegalArgumentException("삭제할 게시물이 없습니다.");
         });
 
+        //관련 파일 지우기
         for (Attachment image : recruitment.getImages()) {
             File file = new File(image.getAttachmentPath());
             if (file.exists()) {
