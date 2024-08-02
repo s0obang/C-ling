@@ -1,11 +1,11 @@
 package com.example.cling.exception;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class ErrorResult {
-    private String code;
-    private String message;
+    private String errorCode;
+    private String errorMessage;
 }
