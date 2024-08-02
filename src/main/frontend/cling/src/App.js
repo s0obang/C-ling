@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
-import Checkschool from "./components/contents/user/checkschool";
+import Checkschool from "./components/contents/user/CheckSchool";
 import Landing from './components/landing';
 import NoticeWrite from './components/contents/crew/noticeWrite';
 import Myhome from "./components/contents/my/myhome";
@@ -21,7 +21,9 @@ import Login from './components/contents/user/Login';
 import Findpw from './components/contents/user/Findpw';
 import Newpw from './components/contents/user/Newpw';
 import Crew from './components/contents/crew/Crew';
-import Mycrew from './components/contents/crew/Mycrew';
+import Mycrew from './components/contents/crew/Mycrew';   
+import NoticeDetail from './components/contents/crew/NoticeDetail';  
+
 
 
 import './assets/scss/section/base.scss'
@@ -53,6 +55,11 @@ function App() {
                 <Route path="/matchprofile/" element={<Matchprofile />} />
                 <Route path="/chat/:userId" element={<Chat />} />
                 <Route path="/chat/:currentUserId/:otherUserId" element={<Chat />} />
+
+                <Route path='/mycrew/:crewId' element={<Mycrew />} />  
+                <Route path='/notice/:noticeId' element={<NoticeDetail />} />   
+                
+                
             </Routes>
         </BrowserRouter>
 
