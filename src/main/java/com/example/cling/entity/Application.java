@@ -50,4 +50,13 @@ public class Application {
         if (file.getApplication()!= this)
             file.setApplication(this);
     }
+    public void updateResult(int step, boolean result) {
+        if (step == 1) {
+            this.firstResult = result;
+        } else if (step == 2) {
+            this.secondResult = result;
+        } else {
+            throw new IllegalArgumentException("Invalid step value: " + step);
+        }
+    }
 }
