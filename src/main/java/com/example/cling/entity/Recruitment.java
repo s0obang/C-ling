@@ -27,6 +27,15 @@ public class Recruitment extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @Column(nullable = false)
+    private String step;
+
+    @Column(nullable = false)
+    private String dueDate;
+
+    @Column(nullable = false)
+    private boolean isCompleted;
+
     @OneToMany(
             mappedBy = "recruitment",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},

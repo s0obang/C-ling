@@ -41,24 +41,21 @@ public class Attachment {
     @JsonBackReference
     private Recruitment recruitment;
 
-    @Builder
-    public Attachment(String originAttachmentName, String attachmentName, String attachmentPath, String attachmentUrl, String fileType, Notice notice) {
-        this.originAttachmentName = originAttachmentName;
-        this.attachmentName = attachmentName;
-        this.attachmentPath= attachmentPath;
-        this.attachmentUrl = attachmentUrl;
-        this.fileType = fileType;
-        this.setNotice(notice);
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "application_id")
+    @JsonBackReference
+    private Application application;
 
     @Builder
-    public Attachment(String originAttachmentName, String attachmentName, String attachmentPath, String attachmentUrl, String fileType, Recruitment recruitment) {
+    public Attachment(String originAttachmentName, String attachmentName, String attachmentPath, String attachmentUrl, String fileType, Notice notice, Recruitment recruitment, Application application) {
         this.originAttachmentName = originAttachmentName;
         this.attachmentName = attachmentName;
-        this.attachmentPath= attachmentPath;
+        this.attachmentPath = attachmentPath;
         this.attachmentUrl = attachmentUrl;
         this.fileType = fileType;
-        this.setRecruitment(recruitment);
+        this.notice = notice;
+        this.recruitment = recruitment;
+        this.application = application;
     }
 
     // 리크루팅 공고 정보 저장 (동기화)
@@ -75,6 +72,11 @@ public class Attachment {
 
         if (!notice.getImages().contains(this))
             notice.getImages().add(this);
+    }
+
+    // 게시글 정보 저장 (동기화)
+    public void setApplication(Application application) {
+        this.application = application;
     }
 
 }
