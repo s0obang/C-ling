@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/login", "/api/auth/signup", "/login.html", "/ws-stomp/**").permitAll()
                         .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/mailSend", "/mailauthCheck", "/api/auth/change-password").permitAll() // 이메일 및 비밀번호 변경 요청 허용
+                        .requestMatchers("/mailSend", "/mailauthCheck", "/api/auth/change-password", "/api/auth/logout").permitAll() // 이메일 및 비밀번호 변경 요청 허용
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
