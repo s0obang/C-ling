@@ -86,7 +86,7 @@ public class RecruitmentController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/recruitment/apply/{recruitingDepartment")
+    @PostMapping("/recruitment/apply/{recruitingDepartment}")
     public ResponseEntity<String> sendApplication (
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam("application") List<MultipartFile> file,
