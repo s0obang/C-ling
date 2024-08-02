@@ -28,6 +28,7 @@ public class RecruitmentDto {
 
     public static RecruitmentDto toDto(Recruitment recruitment) {
         List<AttachmentDto> imageDtoList = recruitment.getImages() != null ? recruitment.getImages().stream()
+                .filter(image -> image.getFileType().equals("recruitment_image"))
                 .map(image -> new AttachmentDto(
                         image.getOriginAttachmentName(),
                         image.getAttachmentName(),
@@ -37,6 +38,7 @@ public class RecruitmentDto {
                 .collect(Collectors.toList()) : Collections.emptyList();
 
         List<AttachmentDto> fileDtoList = recruitment.getFiles() != null ? recruitment.getFiles().stream()
+                .filter(file -> file.getFileType().equals("recruitment_file"))
                 .map(file -> new AttachmentDto(
                         file.getOriginAttachmentName(),
                         file.getAttachmentName(),
@@ -54,5 +56,4 @@ public class RecruitmentDto {
                 fileDtoList
         );
     }
-
 }

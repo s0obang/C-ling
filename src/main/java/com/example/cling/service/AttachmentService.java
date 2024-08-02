@@ -162,7 +162,7 @@ public class AttachmentService {
             attachmentRepository.save(savingImage);
 
             // 이미지 리스트에 이미지 추가
-            recruitment.addImage(savingImage);
+            recruitment.addAttachment(savingImage);
         }
 
         // 첨부파일 저장
@@ -198,7 +198,7 @@ public class AttachmentService {
             attachmentRepository.save(savingFile);
 
             // 이미지 리스트에 이미지 추가
-            recruitment.addFile(savingFile);
+            recruitment.addAttachment(savingFile);
         }
 
 

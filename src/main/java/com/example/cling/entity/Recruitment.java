@@ -35,7 +35,7 @@ public class Recruitment extends BaseTimeEntity {
     private String dueDate;
 
     @Column(nullable = false)
-    private String onStep;
+    private String onStep = "1";
 
     @OneToMany(
             mappedBy = "recruitment",
@@ -55,20 +55,16 @@ public class Recruitment extends BaseTimeEntity {
     @JsonManagedReference
     private List<Attachment> files = new ArrayList<>();
 
-    public void addImage(Attachment image) {
-        this.images.add(image);
+    public void addAttachment(Attachment attachment) {
+        if (attachment.getFileType().equals("recruitment_image")) {
+            this.images.add(attachment);
+        } else if (attachment.getFileType().equals("recruitment_file")) {
+            this.files.add(attachment);
+        }
 
-        // 만약 게시글이 다를 경우? 게시글 정보 업데이트? (동기화)
-        if (image.getRecruitment() != this)
-            image.setRecruitment(this);
-    }
-
-    public void addFile(Attachment file) {
-        this.files.add(file);
-
-        // 만약 게시글이 다를 경우? 게시글 정보 업데이트? (동기화)
-        if (file.getRecruitment() != this)
-            file.setRecruitment(this);
+        if (attachment.getRecruitment() != this) {
+            attachment.setRecruitment(this);
+        }
     }
 
 }

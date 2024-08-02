@@ -34,7 +34,7 @@ public class RecruitmentController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/recruitment/{recruitingDepartment}")
+    @GetMapping("/recruitment/all/{recruitingDepartment}")
     @ResponseStatus(HttpStatus.OK)
     public List<RecruitmentDto> getAllRecruitments(
             @PathVariable("recruitingDepartment") String recruitingDepartment

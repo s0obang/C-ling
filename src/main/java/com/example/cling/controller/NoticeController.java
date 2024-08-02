@@ -37,7 +37,7 @@ public class NoticeController {
     @PostMapping("/notice/write")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> writeNotice(
-                                               //@AuthenticationPrincipal UserDetails userDetails,
+                                               @AuthenticationPrincipal UserDetails userDetails,
                                                @RequestParam("title") String title,
                                                @RequestParam("content") String content,
                                                @RequestParam("images") List<MultipartFile> images
@@ -49,8 +49,7 @@ public class NoticeController {
         }
 
 
-        //String authenticatedUserId = userDetails.getUsername();
-        String authenticatedUserId = "20231159";
+        String authenticatedUserId = userDetails.getUsername();
 
         NoticeCreateDto noticeCreateDto =
                 NoticeCreateDto.builder()
