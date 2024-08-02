@@ -12,26 +12,23 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append('studentId', studentId);
-        formData.append('password', password);
+        const params = new URLSearchParams();
+        params.append('studentId', studentId);
+        params.append('password', password);
 
-        axios.post('http://13.48.207.238:1234/api/auth/login', formData, {
+        axios.post('http://13.48.207.238:1234/api/auth/login', params, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
             .then(res => {
                 if (res.status === 200) {
-                    console.log('Login successful', res.data);
-                    localStorage.setItem('accessToken', res.data.accessToken);
-                    navigate('/dashboard'); // 로그인 후 이동할 페이지로 변경하세요
-                } else {
-                    console.error('Unexpected response status:', res.status);
+                    console.log(res);
+                    navigate('/mainhome'); 
                 }
             })
             .catch(err => {
-                console.error('Error during login:', err);
+                console.error(err);
             });
     };
 

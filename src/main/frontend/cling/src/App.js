@@ -23,6 +23,7 @@ import Newpw from './components/contents/user/Newpw';
 import Crew from './components/contents/crew/Crew';
 import Mycrew from './components/contents/crew/Mycrew';   
 import NoticeDetail from './components/contents/crew/NoticeDetail';  
+import PassList from './components/contents/crew/PassList';
 
 
 
@@ -39,6 +40,9 @@ function App() {
                 <Route path='/login/newpw' element = {<Newpw />} />
                 <Route path='/crew' element = {<Crew />} />
                 <Route path='/mycrew' element = {<Mycrew />} />
+                <Route path='/mycrew/PassList' element = {<PassList />} />
+                <Route path='/mycrew/:crewId' element={<Mycrew />} />  
+                <Route path='/notice/:noticeId' element={<NoticeDetail />} />   
 
                 <Route path='/create' element={<Checkschool />} />
                 <Route path='/login' element={<Login />} />
@@ -56,8 +60,7 @@ function App() {
                 <Route path="/chat/:userId" element={<Chat />} />
                 <Route path="/chat/:currentUserId/:otherUserId" element={<Chat />} />
 
-                <Route path='/mycrew/:crewId' element={<Mycrew />} />  
-                <Route path='/notice/:noticeId' element={<NoticeDetail />} />   
+               
                 
                 
             </Routes>
