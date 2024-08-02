@@ -73,7 +73,7 @@ const WantConnect = () => {
                                 className="mainBanner"
                                 slidesPerView={1}
                                 centeredSlides={true}
-                                pagination={true}
+                                pagination={false}  //밑에 동그라미 끔
                                 modules={[Navigation, EffectCreative, Pagination]}
                                 navigation={{
                                     nextEl: '#nextButton',
@@ -84,7 +84,7 @@ const WantConnect = () => {
                                 creativeEffect={{
                                     prev: {
                                         shadow: true,
-                                        translate: ['22%', '-20%', -300],   //x축, y축, z축
+                                        translate: ['22%', '-20%', -300],
                                     },
                                     next: {
                                         shadow: true,
@@ -96,7 +96,7 @@ const WantConnect = () => {
                                 {wantlist.map((item, index) => (
                                     <SwiperSlide key={index} className="Slide">
                                         <div className="image-container">
-                                            <img src={item.image} alt={`slide-${index}`} />
+                                            <img src={item.image} alt={`slide-${index}`} className="imgList" />
                                         </div>
                                     </SwiperSlide>
                                 ))}
@@ -111,10 +111,14 @@ const WantConnect = () => {
                         <button className="button">거절</button>
                     </div>
                     <div id="introduce">
-                        <img src={BGCHAT} alt="img" id="chatBg1" />
-                        <img src={BGCHAT} alt="img" id="chatBg2" />
-                        <span id="intro1">{`${wantlist[currentIndex].userkey} ${wantlist[currentIndex].username} 입니다`}</span>
-                        <span id="intro2">{wantlist[currentIndex].usermajor}</span>
+                        <div className="balloonBox">
+                        <div className="balloon1">
+                            {`${wantlist[currentIndex].userkey} ${wantlist[currentIndex].username} 입니다`}
+                        </div>
+                        </div>
+                        <div className="balloon2">
+                        {wantlist[currentIndex].usermajor}
+                        </div>
                     </div>
                 </>
             )}

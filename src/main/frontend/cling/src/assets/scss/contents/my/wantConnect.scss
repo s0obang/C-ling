@@ -5,8 +5,9 @@
     align-items: center;
     color: white;
     padding-bottom: 400px;
-
+    
     #title {
+        font-family: 'PyeongChangPeace-Bold';
         font-size: 45px;
         padding: 10px;
         font-weight: bold;
@@ -17,44 +18,69 @@
         position: absolute;
         display: flex;
         flex-direction: column;
-        align-items: left;
-        margin-top: -100px;
-        width: 850px;
+        align-items: flex-end; 
+        width: 500px; 
+        margin-top: 65px;
+        margin-left: -770px;
         font-weight: bold;
-
-        #chatBg1 {
-            width: 300px;
-            height: 60px;
-            z-index: 2;
-        }
-        #chatBg2 {
-            width: 200px;
-            height: 45px;
-            margin-left: 100px;
-            z-index: 2;
-        }
-        #intro1 {
-            position: absolute;
-            font-size: 20px;
-            margin-left: 15px;
-            margin-top: 10px;
-            z-index: 3;
-        }
-        #intro2 {
-            position: absolute;
-            font-size: 16px;
-            margin-left: 115px;
-            margin-top: 68px;
-            z-index: 3;
-        }
+        font-size: 20px;
+    
+    .balloon1{
+        padding: 20px 30px;
+        width: auto;
+        height: 25px;
+        background: #5A45FF;
+        border-radius: 20px;
+        position: relative; 
+        z-index: 5;
+        margin-right: -40px;
     }
+    .balloon2 {
+        padding: 10px 20px;
+        width: auto;
+        height: 25px;
+        margin-top: 20px;
+        background: #5A45FF;
+        border-radius: 30px;
+        position: relative; 
+        margin-right: 20px;
+        z-index: 5;
+        margin-right: -10px;
+    }
+      
+    .balloon1::after, .balloon2::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-bottom: 0;
+        border-right: 0; 
+        margin-bottom: 0; 
+     }
+     .balloon1::after {
+        z-index: -1;
+        bottom: -10px; 
+        right: 2px; 
+        transform: rotate(90deg); 
+        border: 25px solid transparent;
+        border-top-color: #5A45FF;
+    }
+    .balloon2::after{
+        z-index: -1;
+        bottom: -5px; 
+        right: 2px; 
+        transform: rotate(90deg); 
+        border: 12px solid transparent;
+        border-top-color: #5A45FF;
+    }
+    }
+
     #box1 {
         display: flex;
         align-items: center;
 
         #box2 {
             width: 500px; 
-            height: 500px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -91,7 +117,6 @@
 
         .button {
             padding: 8px;
-            margin-top: 30px;
             background-color: black;
             border-style: solid;
             border-color: white;
@@ -132,9 +157,5 @@
     }
     .swiper-pagination-bullet-active {
         background: white !important;
-    }
-    img {
-        display: block;
-        border-color: solid white 30px;
     }
 }

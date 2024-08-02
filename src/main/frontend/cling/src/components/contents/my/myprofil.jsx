@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BadgeRequest from './badgeRequest';
 import BadgeManage from './badgeManage';
 import '../../../assets/scss/contents/my/myprofil.scss';
@@ -11,7 +11,8 @@ import Select from "react-select";
 const Myprofil = () => {
     const [mailAlarm, setMailAlarm] = useState(true);
     const [connectionAlarm, setConnectionAlarm] = useState(true);
-    const [myinfo, setMyinfo] = useState(['김준희', '20231133', '컴퓨터공학과', '컴퓨터공학과 아무개']);
+    const [myinfo, setMyinfo] = useState(['김준희', '20231133', '컴퓨터공학과']);
+    const myBadge = ['컴퓨터공학과 아무개'];
     const [isEditing, setIsEditing] = useState(false);
     const [newInfo, setNewInfo] = useState([...myinfo]);
 
@@ -92,26 +93,34 @@ const Myprofil = () => {
     const [requestOpen, setrequestOpen] = useState(false);
     const showRequestModal = () => {
         setrequestOpen(true);
+        document.body.style.overflow = 'hidden';
     };
     const closeRequestModal = () => {
         setrequestOpen(false);
+        document.body.style.removeProperty('overflow');
     };
 
     // 뱃지 관리 모달
     const [manageOpen, setremanageOpen] = useState(false);
     const showManageModal = () => {
         setremanageOpen(true);
+        document.body.style.overflow = 'hidden';
     };
     const closeManageModal = () => {
         setremanageOpen(false);
+        document.body.style.removeProperty('overflow');
     };
 
     return (
         <div className="myprofil">
             <div id="name">
                 <span id="username">{myinfo[0]} 님</span>
-                <div id="badgenamediv">
-                    <span id="badgename">{myinfo[3]}</span>
+                <div className="badgeBox">
+                    {myBadge.length > 0 && myBadge.map((badge, index) => (
+                        <div key={index} id="badgenamediv">
+                            <span id="badgename">{badge}</span>
+                        </div>
+                    ))}
                 </div>
                 <div id="badge">
                     <span onClick={showRequestModal} id="badge1">역할 뱃지 등록하기</span>
