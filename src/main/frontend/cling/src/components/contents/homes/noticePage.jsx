@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import Header from '../../Header';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
+import { IoChevronBackCircleOutline } from "react-icons/io5";
+import axios from 'axios';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -22,7 +25,7 @@ const images = [
 ];
 
 const notices = [
-    ['제목1', '내용1'],
+    ['제목 엄~~~~~~~~~~~~~~~~~~~~~~~~~~~청 길다', '내용1'],
     ['제목2', '내용2'],
     ['제목3', '내용3'],
     ['제목4', '내용4'],
@@ -32,37 +35,29 @@ const notices = [
 const NoticePage = ({ src, className }) => {
   const location = useLocation();
   const { selectedIndex } = location.state || { selectedIndex: 0 };
-  
   const [currentIndex, setCurrentIndex] = useState(selectedIndex);
-  const [isEditing, setIsEditing] = useState(false);
-  const [newNotice, setnewNotice] = useState([...notices[currentIndex]]);
+  const navigate = useNavigate();
 
-  const editNotice = () => {
-    if (isEditing) {
-      const updatedNotices = [...notices];
-      updatedNotices[currentIndex] = newNotice;
-      // 새로운 공지사항 저장 로직 
-    }
-    setIsEditing(!isEditing);
-  }
+{/*const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    axios({
+      method:'GET',
+      url:''
+    }).then(response => setPosts(response.data))
+  })*/}
   
-  const myNoticeChange = (index, value) => {
-    const updatedNotice = [...newNotice];
-    updatedNotice[index] = value;
-    setnewNotice(updatedNotice);
-  }
-
   const deleteNotice = () => {
-    // 삭제 기능 구현
+    // 삭제 기능 구현. 내가 쓴 글이면 보이게
   }
 
   const handleSlideChange = (swiper) => {
     setCurrentIndex(swiper.activeIndex);
-    setnewNotice([...notices[swiper.activeIndex]]);
   }
+  
 
   return (
     <div id="noticepage">
+      <Header />
       <div id="imgbox">
         <Swiper
           className="mainBanner"
@@ -82,37 +77,22 @@ const NoticePage = ({ src, className }) => {
             </SwiperSlide>
           ))}
         </Swiper>
+        
       </div>
       <div id="contentBox">
-        {isEditing ? (
-          <form>
-          <input 
-            className="text1" 
-            value={newNotice[0]} 
-            onChange={(e) => myNoticeChange(0, e.target.value)} 
-          />
-          </form>
-        ) : (
+        <div className="backBox">
+          
+        </div>
+          <div id = "title">
+          <IoChevronBackCircleOutline className="back" onClick={()=>{navigate(-1)}} />
           <span className="text1">{notices[currentIndex][0]}</span>
-        )}
-
+          </div>
         <div id="editBox">
-          <span id="edit" onClick={editNotice}>{isEditing ? "저장하기" : "수정하기"}</span>
-          <span> / </span>
           <span id="delete" onClick={deleteNotice}>삭제하기</span>
         </div>
-
-        {isEditing ? (
-          <form>
-          <textarea 
-            className="text2" 
-            value={newNotice[1]} 
-            onChange={(e) => myNoticeChange(1, e.target.value)} 
-          />
-          </form>
-        ) : (
+          <div id = "contents">
           <span className="text2">{notices[currentIndex][1]}</span>
-        )}
+          </div>
       </div>
       <div>
         <button id="btnWrite">글 작성하기</button>

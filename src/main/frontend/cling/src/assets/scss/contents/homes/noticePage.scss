@@ -1,32 +1,40 @@
-#noticepage{
+#noticepage {
     display: flex;
     flex-direction: column;
     justify-content: center;
     color: white;
 
-    
+    .Home {
+        background: linear-gradient(90deg, #3851FF, #8037FF);
+        border: none !important;
+    }
+
     .swiper {
         width: 100%;
         padding-bottom: 50px;
     }
+
     .swiper-slide {
-      background-position: center;
-      background-size: cover;
-      width: 800px;
-      height: 400px;
+        background-position: center;
+        background-size: cover;
+        width: 800px;
+        height: 400px;
     }
+
     .swiper-slide img {
-      display: block;
-      width: 100%;
+        display: block;
+        width: 100%;
     }
+
     .swiper-pagination-bullet {
         border: solid white !important;
     }
+
     .swiper-pagination-bullet-active {
         background: white !important;
     }
 
-    #contentBox{
+    #contentBox {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -35,64 +43,94 @@
         margin: 80px;
         min-width: 600px;
 
-        #editBox{
+        .backBox {
+            width: 100%;
+
+        }
+
+        #editBox {
             margin-top: 10px;
             margin-bottom: 50px;
             font-size: 14px;
         }
-        #edit, #delete{
+
+        #delete {
             cursor: pointer;
             text-decoration: underline 1px;
             text-underline-position: under;
         }
-        #edit:hover, #delete:hover{
-            color:#8953ff;
+
+        #delete:hover {
+            color: #8953ff;
         }
-        .text1{
-            font-weight: bold;
+
+        #title {
+            display: flex;
             font-size: 35px;
+            max-width: 500px;
+            word-break: break-all;
             text-align: center;
-            width: 500px;
-            padding: 15px;
-        }.text2{
-            font-size: 16px;
-            margin: 0px 100px;
-            min-width: 600px;
-            padding: 15px;
-            min-height: 300px;
-            max-height: 500px;
-            overflow-y: scroll;
+            .back {
+                position: absolute;
+                font-size: 40px;
+                margin-left: -70px;
+                margin-top: 20px;
+    
+            }
+            .back:hover{
+                cursor: pointer;
+            }
+            .text1 {
+                font-weight: bold;
+                font-size: 35px;
+                text-align: center;
+                width: 500px;
+                padding: 15px;
+                width: 500px;
+            }
         }
-        input, textarea {
-            background-color: #1a1a1a;
-            border: solid  white 0.5px ;
-            color:white;
+
+
+        #contents {
+            display: flex;
+
+            .text2 {
+                font-size: 16px;
+                margin: 0px 100px;
+                min-width: 600px;
+                padding: 15px;
+                min-height: 300px;
+                max-height: 500px;
+                overflow-y: scroll;
+            }
         }
     }
-    #btnWrite{
+
+    #btnWrite {
         position: relative;
         width: 160px;
         height: 40px;
-        margin:0px auto;
+        margin: 0px auto;
         margin-bottom: 50px;
-        display:block;
+        display: block;
         background: #7939FF;
-        box-shadow : 5px 5px 10px 0 #4c1bb6 inset;
+        box-shadow: 5px 5px 10px 0 #4c1bb6 inset;
         border-radius: 100px;
         color: white;
         font-size: 20px;
         font-weight: bold;
     }
+
     ::-webkit-scrollbar {
-        width: 5px;  
+        width: 5px;
     }
-    
+
     ::-webkit-scrollbar-thumb {
         background: white; // 스크롤바 색상
-        border-radius: 10px; 
+        border-radius: 10px;
     }
-    
+
     ::-webkit-scrollbar-track {
-        background: rgba(220, 20, 60, .1);  //스크롤바 뒷 배경 색
+        background: rgba(220, 20, 60, .1); //스크롤바 뒷 배경 색
     }
 }

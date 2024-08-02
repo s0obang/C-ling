@@ -6,16 +6,21 @@
     height: 300px;
     color: white;
     
-    
     #name{
         position: relative; 
         font-weight: bold;
         width: 100%;
         margin:30px 80px;
         #username{
+            font-family: 'PyeongChangPeace-Bold';
             margin: auto 25px;
             font-size: 45px;
             padding:10px;
+        }
+        .badgeBox{
+            display: inline-flex;
+            flex-direction: column; 
+
         }
         #badgenamediv{
             display: inline-block;
@@ -24,6 +29,7 @@
             padding:10px 20px;
             vertical-align: bottom;
             box-shadow : 5px 5px 10px 0 grey inset;
+            margin-bottom: 10px;
         }
         #badgename{
             font-size: 22px;

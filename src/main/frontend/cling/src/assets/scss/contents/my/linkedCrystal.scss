@@ -13,6 +13,7 @@
         font-weight: bold;
         
         #username{
+            font-family: 'PyeongChangPeace-Bold';
             font-size: 45px;
             padding:10px;
         }
@@ -21,7 +22,7 @@
     //스크롤뷰
     #profillist{
         position:relative;
-        height: 500px;
+        height: 520px;
         overflow-y: scroll;
         
     }

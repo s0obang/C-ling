@@ -7,6 +7,7 @@ import { IoIosCloseCircleOutline } from "react-icons/io"
 Modal.setAppElement('#root'); // 접근성 설정
 
 const BadgeManage = ({ isOpen, onRequestClose })=>{
+    const myBadge = ['컴퓨터공학과 아무개','컴퓨터공학과 아무개','컴퓨터공학과 아무개'];
 
     return (
         <Modal 
@@ -16,22 +17,14 @@ const BadgeManage = ({ isOpen, onRequestClose })=>{
         >
             <IoIosCloseCircleOutline id="modalClose" onClick={onRequestClose} />
             <div id="modaldiv">
-                <div id="badgeBox">
+                {myBadge.length > 0 && myBadge.map((badge, index) => (
                     <div className="badgelist">
-                        <div className="badgenamediv">
-                            <span className="badgename">컴퓨터공학과 아무개</span>
+                        <div key={index} id="badgenamediv">
+                            <span className="badgename">{badge}</span>
                         </div>
                         <button className="del">삭제하기</button>
-                    </div>
-                    <div className="badgelist">
-                        <div className="badgenamediv">
-                            <span className="badgename">컴퓨터공학과 아무개</span>
                         </div>
-                        <button className="del">삭제하기</button>
-                    </div>
-                   
-                </div>
-                
+                ))}
                 <div className="submitBox">
                     <button className="btnSubmit">저장</button>
                 </div>

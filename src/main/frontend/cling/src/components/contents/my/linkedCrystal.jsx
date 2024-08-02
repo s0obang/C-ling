@@ -1,6 +1,4 @@
 import React from "react";
-//npm i @lasbe/react-scroll-animation
-import { ScrollAnimation } from "@lasbe/react-scroll-animation";
 import '../../../assets/scss/contents/my/linkedCrystal.scss'
 import BGPROFIL from '../../../assets/img/profil_background.png'
 import IMG_PROFIL from '../../../assets/img/testimg.png'
@@ -35,11 +33,6 @@ const LinkedCrystal = () => {
                         <span className="linkedZero">나와 연결된 수정이가 없습니다 !</span>
                     ) : (
                         users.map((user, index) => (
-                            <ScrollAnimation
-                            startingPoint="left"  //애니메이션 시작지점
-                            duration={1}    //지속시간
-                            amount="md" //움직임 양
-                            >
                             <div className="profil" key={index}>
                                 <img src={IMG_PROFIL} alt="imghuman" className="imghuman" />
                                 <img src={BGPROFIL} alt="imgprofil" className="imgprofil" />
@@ -58,7 +51,6 @@ const LinkedCrystal = () => {
                                     </div>
                                 </div>
                             </div>
-                            </ScrollAnimation>
                         ))
                     )}
                 </div>

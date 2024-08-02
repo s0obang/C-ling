@@ -1,7 +1,8 @@
 .modalRequest{    
-    width: 600px;
-    height: 520px;
-    background-color: #756492;
+    position: relative;
+    width: 520px;
+    height: 460px;
+    background-color: #9D84C9;
     overflow: hidden;
     border-radius: 10px; 
     padding: 20px; 
@@ -14,7 +15,7 @@
         display: flex;
         margin-left: auto;
         border: none;
-        font-size: 50px;
+        font-size: 45px;
         cursor: pointer;
     }
 
@@ -34,55 +35,57 @@
                 margin:auto;
             }
             .formtext{
-                font-size: 25px;
+                font-size: 24px;
                 font-weight: bold;
-                margin-right: 10px;
+                margin-right: 20px;
             }
-            input {
-                width: 320px;
-                height: 40px;
-                border-radius: 35px;
+            .input {
+                width: 280px;
+                height: 32px;
+                border-radius: 20px;
                 padding: 10px 30px;
                 margin: 10px 0;
-                font-size: 25px;
+                font-size: 24px;
+                background-color: #BAA9D9;
+                border:none;
             }
         }
 
-        #imgselect{
-            font-size: 25px;
-            text-decoration: underline 1.5px;
-            text-underline-position: under;
+        .btnUpload{
+            font-size: 22px;
+            border-bottom: solid white 2px;
+            font-weight: bold;
             margin-top: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        #imgselect:hover{
+        .btnUpload:hover{
             cursor: pointer;
+        }
+        .fileName{
+            text-align: center;
         }
 
         .submitBox {
             .btnSubmit {
-                width: 180px;
-                height: 50px;
+                width: 120px;
+                height: 40px;
                 margin:20px auto;
                 display:block;
-                background: linear-gradient(0deg, #AE7EFF, #8137FF,#6F3EFF);
+                background: linear-gradient(0deg, #6F3EFF, #8137FF, #AE7EFF );
                 border-style: solid ;
                 border-color: white;
                 border-radius: 100px;
                 color: white;
-                font-size: 26px;
+                font-size: 20px;
                 font-weight: bold;
             }
-
-            margin-bottom: 70px;
+            position:absolute;
+            display: flex;
+            justify-content: center;
+            margin-top: 350px;
         }
     }
 }
 
-#imgPopup {
-    width: 300px;
-    height: auto;
-    border: 2px solid white;
-}
