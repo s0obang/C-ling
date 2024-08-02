@@ -2,6 +2,7 @@ import React from 'react'
 import '../../../assets/scss/contents/crew/crew.scss';
 import Header from '../../Header'
 import left from '../../../assets/img/crew/left.png';
+import PassList from './PassList';
 import { useNavigate } from 'react-router-dom';
 
 const Mycrew = () => {
@@ -38,10 +39,13 @@ const Mycrew = () => {
                         <h3>현재 리크루팅 진행중인 공고 : <span>컴퓨터공학과 제 13대 학생회 부원 모집</span></h3>
                         <h3>모집 일정 : <span>2030/04/05 ~ 2030/05/05 </span></h3>
                         <h3>선발 계획 : <span>2차</span></h3>
-                        <select className="plan">
-                            <option value="1">1차</option>
-                        </select>
+
                     </div>
+                    <select className="plan">
+                        <option value="1">1차</option>
+                        <option value="2">2차</option>
+                    </select>
+                    <PassList />
                 </div>
             </div>
 
