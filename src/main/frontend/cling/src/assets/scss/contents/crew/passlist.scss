@@ -1,0 +1,32 @@
+.passlist {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: bold;
+
+    .table-title,
+    .row {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+
+    }
+
+    .row {
+        >.passlist-item {
+            border: 1px solid #ddd;
+            padding: 20px;
+         
+        }
+    }
+    .table-title {
+     
+        >.passlist-item {
+            border: 1px solid #ddd;
+            padding: 20px;
+            text-align: center;
+            
+        }
+    }
+}
