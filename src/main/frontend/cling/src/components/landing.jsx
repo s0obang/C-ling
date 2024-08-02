@@ -39,7 +39,7 @@ const Landing = () => {
         visible: (i) => ({
             y:  0,
             opacity: 1,
-            transition: { duration: 0.6, delay: (6 - i) * 0.3 } // Adjust delay to start from b7 to b1
+            transition: { duration: 0.6, delay: (6 - i) * 0.3 } 
         })
     };
 

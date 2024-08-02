@@ -32,10 +32,16 @@ const Mycrew = () => {
                     </div>
                 </div>
                 <div className="recrew">
+
                     <h2 className='sub-title'>리크루팅 현황</h2>
-                    <h3>현재 리크루팅 진행중인 공고 : <span>컴퓨터공학과 제 13대 학생회 부원 모집</span></h3>
-                    <h3>모집 일정 : <span>2030/04/05 ~ 2030/05/05 </span></h3>
-                    <h3>선발 계획 : <span>2차</span></h3>
+                    <div className="recrew-wrap">
+                        <h3>현재 리크루팅 진행중인 공고 : <span>컴퓨터공학과 제 13대 학생회 부원 모집</span></h3>
+                        <h3>모집 일정 : <span>2030/04/05 ~ 2030/05/05 </span></h3>
+                        <h3>선발 계획 : <span>2차</span></h3>
+                        <select className="plan">
+                            <option value="1">1차</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 

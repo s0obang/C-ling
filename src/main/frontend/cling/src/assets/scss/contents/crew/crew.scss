@@ -1,9 +1,10 @@
 .crew-page {
-    .Crew{
-        background: linear-gradient(90deg,#3851FF,  #8037FF);
+    .Crew {
+        background: linear-gradient(90deg, #3851FF, #8037FF);
         border: none !important;
     }
-   > .wrap {
+
+    >.wrap {
         width: 80%;
         margin: 80px auto;
         justify-content: center;
@@ -57,13 +58,16 @@
                     font-weight: 500;
                     margin-right: 10px;
                 }
-                .first{
+
+                .first {
                     background-color: #1e5bff;
                 }
-                .second{
+
+                .second {
                     background-color: #7939FF;
                 }
-                .last{
+
+                .last {
                     background: linear-gradient(90deg, #3851FF, #8037FF);
                 }
 
@@ -71,6 +75,20 @@
                     position: absolute;
                     right: 0;
                     font-size: 20px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    img{
+                        width: 30px;
+                        height: 30px;
+                        margin-left: 20px;
+                        cursor: pointer;
+                    }
+                    img:hover{
+                        width: 40px;
+                        height: 40px;
+                        margin-left: 10px;
+                    }
 
                     a {
                         color: white;
@@ -95,26 +113,35 @@
                 margin-left: 30px;
 
                 .notice {
-                    .wrap{
+                    .wrap {
                         display: flex;
                         flex-direction: row;
                         margin: 0;
                         padding: 0;
                     }
+
                     .name {
                         font-size: 20px;
                         font-weight: bold;
                         margin-right: 30px;
                     }
-                    .notice-title{
-                        font-weight: normal;
+                    a{
+                        text-decoration: none;
+                    }
+                    .notice-title {
+                        h3 {
+                            font-weight: normal;
+                            color: #fff;
+                            text-decoration: none;
+                        }
+
                     }
 
                     .line {
                         height: 1px;
                         width: 100%;
                         background-color: #fff;
-                        
+
                         bottom: 5px;
                         z-index: 100;
                     }
@@ -154,6 +181,15 @@
                 display: flex;
                 align-items: center;
                 margin-left: 30px;
+                .crewdel{
+                    position: absolute;
+                    right: 0;
+                    color: #d65555;
+                    font-size: 20px;
+                    background: rgba($color: #000000, $alpha: 0);
+                    text-decoration: underline;
+                    border: none;
+                }
 
                 .badge {
                     background-color: #fff;
@@ -178,31 +214,35 @@
 
                 }
 
-                .link {
+                .link{
                     position: absolute;
-                    right: 0;
+                    right: 90px;
                     color: #fff;
                     font-size: 20px;
 
                 }
 
-                .link:hover {
+                .link:hover  {
                     color: #7939FF;
                 }
             }
-            .hide{
+
+            .hide {
                 display: none;
             }
+
             .addcrew {
                 margin-left: 30px;
                 margin-top: 10px;
                 display: flex;
                 align-items: center;
+
                 img {
                     height: 30px;
                     margin: 10px;
                 }
-                .select-wrap{
+
+                .select-wrap {
                     width: auto;
                     height: 30px;
                     padding: 10px 15px;
@@ -212,6 +252,7 @@
                     display: flex;
                     background-color: #fff;
                     box-shadow: inset -5px 5px 10px 2px rgba(0, 0, 0, 0.2);
+
                     select {
                         outline: none;
                         border: none;
@@ -223,36 +264,42 @@
                         font-weight: bolder;
                         height: 50px;
                         width: auto;
-                        option{
+
+                        option {
                             background: #fff;
                             color: #000;
 
                         }
-                        option:hover{
-                           background: #7939FF;;
+
+                        option:hover {
+                            background: #7939FF;
+                            ;
                         }
                     }
                 }
-                input{
+
+                input {
                     margin-left: 10px;
                     flex: 1;
                     height: 30px;
                     background-color: rgba($color: #000000, $alpha: 0);
                     padding: 0 10px;
-                    
+
                     border: none;
                     color: #fff;
                     outline: none;
                     font-size: 30px;
                     font-weight: normal;
                 }
-                input::placeholder{
+
+                input::placeholder {
                     font-size: 30px;
                     font-weight: normal;
                     align-content: center;
-                
+
                 }
-                button{
+
+                button {
                     color: #fff;
                     text-decoration: underline;
                     background-color: rgba($color: #000000, $alpha: 0);
@@ -260,14 +307,16 @@
                     font-size: 20px;
                 }
             }
-            .nullcrew{
+
+            .nullcrew {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 color: #C0C0C0;
             }
-            .null-popup{
+
+            .null-popup {
                 width: 600px;
                 height: 140px;
                 border-radius: 30px;
@@ -281,4 +330,73 @@
             }
         }
     }
+}
+.mycrew-page{
+    .wrap{
+        width: 1040px;
+        margin: 0 auto;
+        color: #fff;
+        padding: 100px 0;
+        .title{
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            img{
+                width: 50px;
+                height: 50px;
+                margin-right: 10px;
+            }
+        }
+        .recrew-notice, .recrew{
+            margin-left: 50px;
+            .sub-title{
+                color:#7E8BFF ;
+                font-size: 30px;
+
+            }
+            .notice{
+                width: 100%;
+                margin-left: 40px;
+                .inner{
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                   
+                    margin-bottom: 10px;
+                    padding-left: 10px;
+                    div{
+                        font-size: 24px;
+                        font-weight: normal;
+                        margin-right: 10px;
+                    }
+                    .del{
+                        background-color: rgba($color: #000000, $alpha: 0);
+                        color: #943131;
+                        font-size: 24px;
+                        border: none;
+                        text-decoration: underline;
+                        right: 0;
+                        position: absolute;
+                    }
+                }
+                .line{
+                    height: 1px;
+                    width: 100%;
+                    background-color: #fff;
+                    margin-bottom: 20px;
+                }
+            }
+            .recrew-wrap{
+                h3{
+                    font-size: 24px;
+                    font-weight: normal;
+                }
+                margin-left: 40px;
+                
+             }
+        }
+        
+        
+    }
+    
 }

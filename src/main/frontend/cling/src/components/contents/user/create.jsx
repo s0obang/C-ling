@@ -35,7 +35,7 @@ const create = () => {
             </div>
             <button className='signbtn' type="submit" >Sign In</button>
             <h4 className='caution'>※ 특수한 역할 (학생회, 동아리 임원 등 )이 있는 경우 관리자 문의를 통해 뱃지를 드립니다.  문의 - MY 페이지 하단 버튼 이동.
-                <br></br> ※ 학교 계정 가입  시 졸업 후 정보가 삭제되니 일반계정으로 가입해주세요.
+               
             </h4>
         </div>
     )

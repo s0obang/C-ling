@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../../assets/scss/contents/user/findpw.scss'
 import LOGO from '../../../assets/img/logo.png'
 import { Link } from 'react-router-dom'
 
 
 const Findpw = () => {
+  const [popup, setPopup] = useState(false);
   return (
     <div className='findpw'>
       <div className="popup">
