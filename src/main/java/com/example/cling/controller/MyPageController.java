@@ -19,7 +19,6 @@ public class MyPageController {
     @GetMapping("/user-info")
     public ResponseEntity<MyPageResponseDto> getUserInfo(@RequestParam("studentId") String studentId) {
         MyPageResponseDto userInfo = userService.getUserInfo(studentId);
-
         return ResponseEntity.ok(userInfo);
     }
 }
