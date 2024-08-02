@@ -6,6 +6,7 @@
     .text {
         margin: 100px auto;
         padding-top: 50px;
+        color: white;
     }
 
     .btn {
@@ -32,6 +33,7 @@
     .text {
         margin-top: 100px;
         color: white;
+        font-size: 50px;
     }
 
     
@@ -43,7 +45,7 @@
         height: 50px;
         border-radius: 30px;
         padding: 10px 30px;
-        margin: 20px 0;
+        margin: 10px 0;
         font-size: 25px;
         color: #AE88FF;
 
@@ -57,7 +59,7 @@
         height: 50px;
         border-radius: 30px;
         padding: 10px 30px;
-        margin: 20px 0;
+        margin: 5px 0;
         font-size: 25px;
         color: #AE88FF;
     }
@@ -66,19 +68,22 @@
         color: #AE88FF;
     }
 
-    .matchingbtn {
-        height: 5%;
-        width: 140px;
-        margin: 30px;
-        padding: 10px;
-        background-color: black;
-        border: white 1px solid;
-        border-radius: 30px;
-        color: white;
-        font-size: 18px;
-        
-        
+    .button-group {
+        justify-content: center;
+        display: flex;
+        align-items: center;
 
+        .matchingbtn {
+            height: 5%;
+            width: 140px;
+            margin: 20px 30px;
+            padding: 10px;
+            background-color: black;
+            border: white 1px solid;
+            border-radius: 30px;
+            color: white;
+            font-size: 18px; 
+        }
     }
 
     .matchingbtn:hover {
@@ -164,166 +169,67 @@
     }
 }
 
-.othermajor {
+
+.loading {
     display: flex;
     flex-direction: column;
-    position: relative;
-
-    .text {
-        text-align: center;
-        margin: 70px;
-        font-size: 50px;
-    }
-
-    .profileimg {
-        display: flex;
-        width: 291px;
-        height: 326px;
-        border-radius: 30px;
-        background-color: white;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        margin-left: 160px;
-        
-        img {
-            width: 221px;
-            height: 251px;
-        }
-
-        .bubbleimg {
-            position: absolute;
-            top: 40px;
-            left: 230px;
-            width: 300px;
-            height: auto;
-            text-align: center;
-
-            img {
-                width: 100%;
-                height: auto;
-            }
-
-            .bubble-text {
-                position: absolute;
-                top: 10px;
-                left: 10px;
-                right: 10px;
-                color: black;
-                font-size: 12px;
-                line-height: 1.2;
-                word-wrap: break-word;
-            }
-        }
-    }
-
-    .profileimg1 {
-        margin-top: 50px;
-        margin-left: 160px;
-    }
-
-    .profileimg2 {
-        margin-left: auto;
-        margin-right: 160px;
-        .bubbleimg {
-            position: absolute;
-            top: 40px;
-            left: -230px;
-            width: 300px;
-            height: auto;
-            text-align: center;
-        }
-    }
-
-    .profileimg3 {
-        margin-left: 160px;
-    }
-}
-
-
-
-.matchprofile {
-    display: flex;
     align-items: center;
-    flex-direction: column;
-
-
-    .profileimg {
+    justify-content: flex-start;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    .content {
         display: flex;
-        width: 291px;
-        height: 326px;
-        border-radius: 30px;
-        background-color: white;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .circles {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        display: flex;
         justify-content: center;
         align-items: center;
-        position: relative;
-        margin-top: 100px;
-        
-        img {
-            width: 221px;
-            height: 251px;
-        }
-
-        .bubbleimg {
-            position: absolute;
-            top: 40px;
-            left: -230px;
-            width: 300px;
-            height: auto;
-            text-align: center;
-
-            img {
-                width: 100%;
-                height: auto;
-            }
-
-            .bubble-text {
-                position: absolute;
-                top: 10px;
-                left: 10px;
-                right: 10px;
-                color: black;
-                font-size: 12px;
-                line-height: 1.2;
-                word-wrap: break-word;
-            }
-        }
     }
-
-    .btn {
-        padding: 10px;
-        margin: 50px;
-        width: 150px;
-        background-color: black;
-        border: white 1px solid;
-        border-radius: 20px;
-        color: white;
-        justify-content: center;
+    
+    .circle {
+        border-radius: 50%;
+        position: absolute;
     }
-
-    .btn:hover {
-        background: linear-gradient(90deg, #3851FF, #8037FF);
-        border: none;
+    
+    .circle1 {
+        width: 600px;
+        height: 550px;
+        top: 16%;
+        left: -10%;
+        background-color: rgba(185, 157, 245, 0.34);
     }
-
-    .custom-toast {
-        width: 500px;
+    
+    .circle2 {
+        width: 100px;
         height: 100px;
-        right: 30%;
-        margin-top: 80px;
-        border: 1px solid white;
-        background-color: rgba(255, 255, 255, 0.3);
-        border-radius: 20px;
-        padding: 16px;
-        font-size: 16px;
-        text-align: center;
-        color: rgba(255, 255, 255, 0.7);
+        top: 30%;
+        left: 65%;
+        background-color: rgba(124, 63, 252, 0.4)
+    }
+    
+    .circle3 {
+        width: 500px;
+        height: 450px;
+        top: 60%;
+        left: 80%;
+        background-color: rgba(220, 203, 255, 0.37)
+    }
+    
+    .text {
+        margin-top: 220px;
+        font-size: 65px;
+        color: white;
     }
 }
-
-
-
-
 
 
   

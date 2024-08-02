@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
-import Checkschool from "./components/contents/user/CheckSchool";
+import Checkschool from "./components/contents/user/checkschool";
 import Landing from './components/landing';
 import NoticeWrite from './components/contents/crew/noticeWrite';
 import Myhome from "./components/contents/my/myhome";
@@ -16,6 +16,7 @@ import Samemajor from './components/contents/matching/samemajor';
 import Othermajor from './components/contents/matching/othermajor';
 import Match from './components/contents/matching/match';
 import Matchprofile from './components/contents/matching/match_profile';
+import Loading from './components/contents/matching/loading';
 import Chat from './components/contents/chat/chat';
 import Login from './components/contents/user/Login';
 import Findpw from './components/contents/user/Findpw';
@@ -56,7 +57,8 @@ function App() {
                 <Route path='/samemajor' element={<Samemajor />} />
                 <Route path='/othermajor' element={<Othermajor />} />
                 <Route path='/match' element={<Match />} />
-                <Route path="/matchprofile/" element={<Matchprofile />} />
+                <Route path="/matchprofile" element={<Matchprofile />} />
+                <Route path="/loading" element={<Loading />} />
                 <Route path="/chat/:userId" element={<Chat />} />
                 <Route path="/chat/:currentUserId/:otherUserId" element={<Chat />} />
 

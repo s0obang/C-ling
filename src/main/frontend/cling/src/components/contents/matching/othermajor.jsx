@@ -1,9 +1,11 @@
 import React from 'react'
 import Header from '../../Header'
-import '../../../assets/scss/contents/matching/no_matches.scss'
+import '../../../assets/scss/contents/matching/other_major.scss'
 import { Link } from 'react-router-dom'
 import Bubble1 from '../../../assets/img/matching/speech-bubble1.png';
 import Bubble2 from '../../../assets/img/matching/speech-bubble2.png';
+import SmallBubble1 from '../../../assets/img/matching/small-speech-bubble1.png';
+import SmallBubble2 from '../../../assets/img/matching/small-speech-bubble2.png';
 import Ex from '../../../assets/img/eximg.png'
 
 const othermajor = ({ text }) => {
@@ -18,7 +20,13 @@ const othermajor = ({ text }) => {
                 <div className="bubbleimg">
                     <img src={Bubble1} alt="말풍선" />
                     <div className="bubble-text">
-                        {text}
+                        sdf
+                    </div>
+                </div>
+                <div className="smallbubbleimg">
+                    <img src={SmallBubble1} alt="말풍선" />
+                    <div className="bubble-text">
+                        sdaf
                     </div>
                 </div>
             </div>
@@ -28,7 +36,13 @@ const othermajor = ({ text }) => {
                 <div className="bubbleimg">
                     <img src={Bubble2} alt="말풍선" />
                     <div className="bubble-text">
-                        {text}
+                        fdagfsdgssssdgadfgadgaddffdgretvefgdgg
+                    </div>
+                </div>
+                <div className="smallbubbleimg">
+                    <img src={SmallBubble2} alt="말풍선" />
+                    <div className="bubble-text">
+                        dfsgf
                     </div>
                 </div>
             </div>
@@ -37,6 +51,12 @@ const othermajor = ({ text }) => {
                 <img src={Ex} alt="프로필사진" />
                 <div className="bubbleimg">
                     <img src={Bubble1} alt="말풍선" />
+                    <div className="bubble-text">
+                        {text}
+                    </div>
+                </div>
+                <div className="smallbubbleimg">
+                    <img src={SmallBubble1} alt="말풍선" />
                     <div className="bubble-text">
                         {text}
                     </div>

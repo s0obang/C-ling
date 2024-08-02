@@ -1,0 +1,105 @@
+.othermajor {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .text {
+        text-align: center;
+        margin: 70px;
+        font-size: 50px;
+        color: white;
+    }
+
+    .profileimg {
+        display: flex;
+        width: 291px;
+        height: 326px;
+        border-radius: 30px;
+        background-color: white;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-left: 160px;
+        
+        img {
+            width: 221px;
+            height: 251px;
+        }
+
+        .bubbleimg {
+            position: absolute;
+            top: 40px;
+            left: 230px;
+            
+            text-align: center;
+
+            img {
+                width: 300px;
+                height: auto;
+            }
+
+            .bubble-text {
+                position: absolute;
+                top: 19px;
+                left: 10px;
+                right: 20px;
+                color: black;
+                font-size: 12px;
+                //line-height: 1.2;
+                //word-wrap: break-word;
+            }
+        }
+        /* 작은 버블 말풍선 조정 부분 */
+        .smallbubbleimg {
+            position: absolute;
+            top: 100px;
+            left: 250px;
+            text-align: center;
+
+            img {
+                width: 200px;
+                height: auto;
+            }
+
+            .bubble-text {
+                position: absolute;
+                top: 12px;
+                left: 10px;
+                right: 10px;
+                color: black;
+                font-size: 12px;
+                line-height: 1.2;
+                word-wrap: break-word;
+            }
+        }
+    }
+
+    .profileimg1 {
+        margin-top: 50px;
+        margin-left: 160px;
+    }
+
+    .profileimg2 {
+        margin-left: auto;
+        margin-right: 160px;
+        .bubbleimg {
+            position: absolute;
+            top: 40px;
+            left: -230px;
+            text-align: center;
+        }
+        .smallbubbleimg {
+            position: absolute;
+            top: 100px;
+            left: -150px;
+            text-align: center;
+            .bubble-text {
+                top: 14px;
+            }
+        }
+    }
+
+    .profileimg3 {
+        margin-left: 160px;
+    }
+}

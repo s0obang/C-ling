@@ -1,37 +1,30 @@
 /* match.scss */
 .match {
-    padding: 20px;
-    .slide {
-        padding: 10px;
-        .slide-content {
-    
-            text-align: center;
-            padding: 10px;
-            margin-right: 17%;
-        }
-    }
-    
+    text-align: center;
+
+
     .profileimg {
         display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
         width: 291px;
         height: 326px;
         border-radius: 30px;
         background-color: white;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        margin-top: 50px; /* 이미지와 버튼을 아래로 내리기 위해 조정 */
-        
+        margin-top: 100px;
+
         img {
             width: 221px;
             height: 251px;
         }
     }
-    
-    
+
+
+
     
     .btn {
-        margin-top: 10px;
+        margin-top: 30px;
         margin-bottom: 10px;
         background-color: rgba(121, 57, 255, 1.0);
         border-radius: 30px;
@@ -44,7 +37,34 @@
     .text {
         margin-top: 5px;
         color: rgba(197, 164, 255, 1.0);
+
+    }
+
+    .bigtext {
+        margin-top: 400px;
+        font-size: 60px;
+        color:white;
+    }
+    .smalltext {
+        margin-top: 20px;
+        font-size: 25px;
+        color:white;
     }
     
+    .clinkbtn {
+        padding: 10px;
+        width: 150px;
+        background-color: black;
+        border: white 1px solid;
+        border-radius: 20px;
+        color: white;
+        justify-content: center;
+        margin: 50px;
+    }
+
+    .clinkbtn:hover {
+        background: linear-gradient(90deg, #3851FF, #8037FF);
+        border: none;
+    }
 }
 

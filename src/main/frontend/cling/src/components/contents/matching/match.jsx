@@ -27,9 +27,11 @@ const Match = () => {
     // Slider의 설정 옵션
     const settings = {
         dots: false,
+        
         arrows: false,
         infinite: true, // 무한 슬라이드 여부
         speed: 500, // 슬라이드 속도
+        autoplay: true,
         slidesToShow: 4, // 한 화면에 보여줄 슬라이드 수
         slidesToScroll: 3, // 한번에 스크롤할 슬라이드 수
         responsive: [
@@ -75,9 +77,22 @@ const Match = () => {
                                 <div className="text">제과제빵학과</div>
                             </div>
                         </div>
+                        
                     </div>
                 ))}
             </Slider>
+
+            <div className='bigtext'>
+                다시 C-link 하기 <br></br>
+            </div>
+
+            <div className='smalltext'>
+            나를 기다리는 다른 수정이들과 C-link해보세요! <br></br>
+            </div>
+
+            <div>
+                <Link to= '/nomatches/info'><input className="clinkbtn" type="button" value="Clink 하기" /></Link>
+            </div>
         </div>
     );
 }
