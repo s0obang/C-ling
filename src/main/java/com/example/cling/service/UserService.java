@@ -72,4 +72,12 @@ public class UserService {
     public UserEntity getUserByStudentId(String studentId) {
         return userRepository.findByStudentId(studentId).orElseThrow(() -> new UsernameNotFoundException("User not found with studentId: " + studentId));
     }
+
+    public void updatePosition(String studentId, String position) {
+        UserEntity user = userRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        user.setPosition(position);  // 직책을 저장하는 필드에 업데이트
+        userRepository.save(user);
+    }
 }

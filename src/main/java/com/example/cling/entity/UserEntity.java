@@ -25,6 +25,12 @@ public class UserEntity {
     @Column(name = "password", length = 255, nullable = false)
     private String password;
 
+    @Column(name = "major", length = 50, nullable = false)
+    private String major;
+
+    @Column(name = "position", length = 50) // 직책을 저장할 필드
+    private String position;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private ProfileImage profileImage;
 
@@ -34,7 +40,4 @@ public class UserEntity {
             profileImage.setUser(this); // 양방향 설정
         }
     }
-
-    @Column(name = "major", length = 50, nullable = false)
-    private String major;
 }
