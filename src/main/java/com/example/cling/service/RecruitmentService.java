@@ -49,7 +49,7 @@ public class RecruitmentService {
         recruitment.setTitle(recruitmentCreateDto.getTitle());
         recruitment.setContent(recruitmentCreateDto.getContent());
         recruitment.setStep(recruitmentCreateDto.getStep());
-        recruitment.setDueDate(recruitment.getDueDate());
+        recruitment.setDueDate(recruitmentCreateDto.getDueDate());
         Recruitment savedRecruitment = recruitmentRepository.save(recruitment);
         return RecruitmentDto.toDto(savedRecruitment);
     }

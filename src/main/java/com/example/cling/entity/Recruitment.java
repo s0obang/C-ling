@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -34,7 +35,7 @@ public class Recruitment extends BaseTimeEntity {
     private String dueDate;
 
     @Column(nullable = false)
-    private boolean isCompleted;
+    private String onStep;
 
     @OneToMany(
             mappedBy = "recruitment",
@@ -43,7 +44,7 @@ public class Recruitment extends BaseTimeEntity {
             fetch = FetchType.EAGER
     )
     @JsonManagedReference
-    private List<Attachment> images;
+    private List<Attachment> images = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "recruitment",
@@ -52,7 +53,7 @@ public class Recruitment extends BaseTimeEntity {
             fetch = FetchType.EAGER
     )
     @JsonManagedReference
-    private List<Attachment> files;
+    private List<Attachment> files = new ArrayList<>();
 
     public void addImage(Attachment image) {
         this.images.add(image);

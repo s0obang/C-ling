@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -35,7 +36,7 @@ public class Application {
             fetch = FetchType.EAGER
     )
     @JsonManagedReference
-    private List<Attachment> application;
+    private List<Attachment> application = new ArrayList<>();
 
     @Column
     private boolean firstResult;

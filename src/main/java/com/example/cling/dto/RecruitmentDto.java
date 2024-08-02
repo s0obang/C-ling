@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,32 +26,33 @@ public class RecruitmentDto {
     @NotBlank(message = "Files cannot be blank")
     private List<AttachmentDto> files;
 
-    public static RecruitmentDto toDto(Recruitment recruitmentDto) {
-        List<AttachmentDto> imageDtoList = recruitmentDto.getImages().stream()
+    public static RecruitmentDto toDto(Recruitment recruitment) {
+        List<AttachmentDto> imageDtoList = recruitment.getImages() != null ? recruitment.getImages().stream()
                 .map(image -> new AttachmentDto(
                         image.getOriginAttachmentName(),
                         image.getAttachmentName(),
                         image.getAttachmentUrl(),
                         image.getFileType()
                 ))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()) : Collections.emptyList();
 
-        List<AttachmentDto> fileDtoList = recruitmentDto.getFiles().stream()
+        List<AttachmentDto> fileDtoList = recruitment.getFiles() != null ? recruitment.getFiles().stream()
                 .map(file -> new AttachmentDto(
                         file.getOriginAttachmentName(),
                         file.getAttachmentName(),
                         file.getAttachmentUrl(),
                         file.getFileType()
                 ))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()) : Collections.emptyList();
 
         return new RecruitmentDto(
-                recruitmentDto.getId(),
-                recruitmentDto.getRecruitingDepartment(),
-                recruitmentDto.getTitle(),
-                recruitmentDto.getContent(),
+                recruitment.getId(),
+                recruitment.getRecruitingDepartment(),
+                recruitment.getTitle(),
+                recruitment.getContent(),
                 imageDtoList,
                 fileDtoList
         );
     }
+
 }
