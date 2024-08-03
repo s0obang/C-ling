@@ -30,10 +30,9 @@ public class NoticeDto {
     public static NoticeDto toDto(Notice notice) {
         List<AttachmentDto> imageDtoList = notice.getImages().stream()
                 .map(image -> new AttachmentDto(
+                        image.getId(),
                         image.getOriginAttachmentName(),
-                        image.getAttachmentName(),
-                        image.getAttachmentUrl(),
-                        image.getFileType()
+                        image.getAttachmentUrl()
                 ))
                 .collect(Collectors.toList());
 

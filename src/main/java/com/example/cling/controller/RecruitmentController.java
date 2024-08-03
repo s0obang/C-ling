@@ -47,6 +47,7 @@ public class RecruitmentController {
             @RequestParam("title") String title,
             @RequestParam("content") String content,
             @RequestParam("step") String step,
+            @RequestParam("startDate") String startDate,
             @RequestParam("dueDate") String dueDate,
             @RequestParam("images") List<MultipartFile> images,
             @RequestParam("file") List<MultipartFile> files
@@ -63,12 +64,19 @@ public class RecruitmentController {
                         .title(title)
                         .content(content)
                         .step(step)
+                        .startDate(startDate)
                         .dueDate(dueDate)
                         .build();
 
-        RecruitmentDto recruitmentDto = recruitmentService.write(recruitmentCreateDto);
-        attachmentService.uploadToRecruitment(images, files, recruitmentDto);
-        return ResponseEntity.ok("게시글이 성공적으로 작성되었습니다.");
+        try {
+            RecruitmentDto recruitmentDto = recruitmentService.write(recruitmentCreateDto);
+            attachmentService.uploadToRecruitment(images, files, recruitmentDto);
+            return ResponseEntity.ok("게시글이 성공적으로 작성되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("게시글 작성에 실패했습니다: " + e.getMessage());
+        }
+
     }
 
     @GetMapping("/recruitment/{recruitmentId}")
@@ -96,23 +104,37 @@ public class RecruitmentController {
             return ResponseEntity.badRequest().body("첨부파일이 없습니다.");
 
         String userId = userDetails.getUsername();
+
         Optional<UserEntity> user = userRepository.findById(userId);
-        UserEntity student;
-        if (user != null)
-            student = user.get();
-        else throw new IllegalArgumentException("다시 로그인 하세요.");
+        UserEntity student = user.orElseThrow(() -> new IllegalArgumentException("다시 로그인 하세요."));
 
         ApplicationCreateDto applicationCreateDto =
                 ApplicationCreateDto.builder()
                         .recruitingDepartment(recruitingDepartment)
-                        .studentId(userId)
+                        .studentId(student.getStudentId())
                         .studentName(student.getName())
                         .build();
 
-        ApplicationDto applicationDto = applicationService.send(applicationCreateDto);
+        try {
+            ApplicationDto applicationDto = applicationService.send(applicationCreateDto);
+            attachmentService.uploadToApplication(file, applicationDto);
+            return ResponseEntity.ok("지원서가 성공적으로 전송되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("게시글 작성에 실패했습니다: " + e.getMessage());
+        }
 
-        attachmentService.uploadToApplication(file, applicationDto);
-
-        return ResponseEntity.ok("지원서가 성공적으로 전송되었습니다.");
     }
+
+    @GetMapping("/applications/{recruitingDepartment}/info")
+    public RecruitmentInfoDto getRecruitmentInfo(
+            @PathVariable("recruitingDepartment") String recruitingDepartment
+    ) {
+        //Dto 만들어서 서비스에서 id 값이 가장 큰 게시글(최신공고) 의 정보를 가져옴
+        //Dto에는 title, 모집일정, 선발계획
+        //Recruitment 엔티티에... startDate 추가
+
+        return recruitmentService.getRecruitmentInfo(recruitingDepartment);
+    }
+
 }

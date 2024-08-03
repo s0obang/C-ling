@@ -2,6 +2,7 @@ package com.example.cling.service;
 
 import com.example.cling.dto.RecruitmentCreateDto;
 import com.example.cling.dto.RecruitmentDto;
+import com.example.cling.dto.RecruitmentInfoDto;
 import com.example.cling.entity.Attachment;
 import com.example.cling.entity.Recruitment;
 import com.example.cling.repository.AttachmentRepository;
@@ -49,6 +50,7 @@ public class RecruitmentService {
         recruitment.setTitle(recruitmentCreateDto.getTitle());
         recruitment.setContent(recruitmentCreateDto.getContent());
         recruitment.setStep(recruitmentCreateDto.getStep());
+        recruitment.setStartDate(recruitmentCreateDto.getStartDate());
         recruitment.setDueDate(recruitmentCreateDto.getDueDate());
         Recruitment savedRecruitment = recruitmentRepository.save(recruitment);
         return RecruitmentDto.toDto(savedRecruitment);
@@ -99,8 +101,8 @@ public class RecruitmentService {
         attachmentRepository.deleteAll(recruitment.getFiles());
 
         // 게시물 아이디에 해당하는 폴더 삭제
-        baseDir += File.separator + "recruitment";
-        String postDirName = baseDir + File.separator + id;
+        baseDir += "/recruitment";
+        String postDirName = baseDir + "/" + id;
         File postDir = new File(postDirName);
         if (postDir.exists() && postDir.isDirectory()) {
             try {
@@ -132,5 +134,13 @@ public class RecruitmentService {
         if (!directory.delete()) {
             throw new IOException("Failed to delete directory: " + directory.getPath());
         }
+    }
+
+    public RecruitmentInfoDto getRecruitmentInfo(String recruitingDepartment) {
+        Recruitment recruitment = recruitmentRepository.findFirstByRecruitingDepartmentOrderByIdDesc(recruitingDepartment);
+        if (recruitment == null) {
+            throw new IllegalArgumentException("No recruitment found for department: " + recruitingDepartment);
+        }
+        return RecruitmentInfoDto.toDto(recruitment);
     }
 }

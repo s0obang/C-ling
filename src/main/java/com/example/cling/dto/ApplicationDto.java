@@ -2,6 +2,7 @@ package com.example.cling.dto;
 
 import com.example.cling.entity.Application;
 import com.example.cling.entity.Attachment;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -23,17 +25,30 @@ public class ApplicationDto {
     @NotBlank(message = "studentName cannot be blank")
     private String studentName;
     @NotBlank(message = "application cannot be blank")
-    private List<Attachment> application;
+    private List<AttachmentDto> application;
+    private boolean firstResult;
+    private boolean secondResult;
+
+
 
 
     public static ApplicationDto toDto(Application savedApplication) {
+        List<AttachmentDto> attachmentDtoList = savedApplication.getApplication().stream()
+                .map(attachment -> new AttachmentDto(
+                        attachment.getId(),
+                        attachment.getOriginAttachmentName(),
+                        attachment.getAttachmentUrl()
+                ))
+                .collect(Collectors.toList());
 
         return new ApplicationDto(
                 savedApplication.getId(),
                 savedApplication.getRecruitingDepartment(),
                 savedApplication.getStudentId(),
                 savedApplication.getStudentName(),
-                savedApplication.getApplication()
+                attachmentDtoList,
+                savedApplication.getFirstResult(),
+                savedApplication.getSecondResult()
         );
     }
 }

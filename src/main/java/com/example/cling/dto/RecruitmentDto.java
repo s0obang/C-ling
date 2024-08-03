@@ -21,6 +21,12 @@ public class RecruitmentDto {
     private String title;
     @NotBlank(message = "Content cannot be blank")
     private String content;
+    @NotBlank(message = "startDate cannot be blank")
+    private String startDate;
+    @NotBlank(message = "DueDate cannot be blank")
+    private String dueDate;
+    @NotBlank(message = "Step cannot be blank")
+    private String step;
     @NotBlank(message = "Images cannot be blank")
     private List<AttachmentDto> images;
     @NotBlank(message = "Files cannot be blank")
@@ -30,20 +36,18 @@ public class RecruitmentDto {
         List<AttachmentDto> imageDtoList = recruitment.getImages() != null ? recruitment.getImages().stream()
                 .filter(image -> image.getFileType().equals("recruitment_image"))
                 .map(image -> new AttachmentDto(
+                        image.getId(),
                         image.getOriginAttachmentName(),
-                        image.getAttachmentName(),
-                        image.getAttachmentUrl(),
-                        image.getFileType()
+                        image.getAttachmentUrl()
                 ))
                 .collect(Collectors.toList()) : Collections.emptyList();
 
         List<AttachmentDto> fileDtoList = recruitment.getFiles() != null ? recruitment.getFiles().stream()
                 .filter(file -> file.getFileType().equals("recruitment_file"))
                 .map(file -> new AttachmentDto(
+                        file.getId(),
                         file.getOriginAttachmentName(),
-                        file.getAttachmentName(),
-                        file.getAttachmentUrl(),
-                        file.getFileType()
+                        file.getAttachmentUrl()
                 ))
                 .collect(Collectors.toList()) : Collections.emptyList();
 
@@ -52,6 +56,9 @@ public class RecruitmentDto {
                 recruitment.getRecruitingDepartment(),
                 recruitment.getTitle(),
                 recruitment.getContent(),
+                recruitment.getStartDate(),
+                recruitment.getDueDate(),
+                recruitment.getStep(),
                 imageDtoList,
                 fileDtoList
         );
