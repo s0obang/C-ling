@@ -84,9 +84,9 @@ public class NoticeService {
 
         attachmentRepository.deleteAll(notice.getImages());
 
-        baseDir += File.separator + "notice";
+        baseDir += "/notice";
         // 게시물 아이디에 해당하는 폴더 삭제
-        String postDirName = baseDir + File.separator + id;
+        String postDirName = baseDir + "/" + id;
         File postDir = new File(postDirName);
         if (postDir.exists() && postDir.isDirectory()) {
             try {

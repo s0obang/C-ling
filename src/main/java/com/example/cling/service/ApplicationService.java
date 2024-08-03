@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,12 +28,19 @@ public class ApplicationService {
     public ApplicationDto send(ApplicationCreateDto applicationCreateDto) {
         Application application = new Application();
         application.setRecruitingDepartment(applicationCreateDto.getRecruitingDepartment());
-        application.setStudentId(application.getStudentId());
-        application.setStudentName(application.getStudentName());
+        application.setStudentId(applicationCreateDto.getStudentId());
+        application.setStudentName(applicationCreateDto.getStudentName());
         Application savedApplication = applicationRepository.save(application);
         return ApplicationDto.toDto(savedApplication);
 
 
+    }
+
+    public List<ApplicationDto> getApplications(String recruitingDepartment) {
+        List<Application> applications = applicationRepository.findByRecruitingDepartment(recruitingDepartment);
+        List<ApplicationDto> applicationDtos = new ArrayList<>();
+        applications.forEach(s -> applicationDtos.add(ApplicationDto.toDto(s)));
+        return applicationDtos;
     }
 
 

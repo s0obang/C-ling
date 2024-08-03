@@ -1,14 +1,13 @@
 package com.example.cling.controller;
 
+import com.example.cling.dto.ApplicationDto;
 import com.example.cling.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -30,7 +29,11 @@ public class ApplicationController {
         }
     }
 
+    @GetMapping("/applications/{recruitingDepartment}")
+    public List<ApplicationDto> getApplications(@PathVariable("recruitingDepartment") String recruitingDepartment) {
 
+        return applicationService.getApplications(recruitingDepartment);
 
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.cling.controller;
 
+import com.example.cling.dto.RequestDto;
 import com.example.cling.dto.UserResponseDto;
 import com.example.cling.entity.Request;
 import com.example.cling.service.RequestService;
@@ -31,10 +32,11 @@ public class RequestController {
     @PostMapping("/request/send")
     public ResponseEntity<?> sendRequest(
             @AuthenticationPrincipal UserDetails userDetails,
-            @RequestParam("requestee_id") String requestee_id
+            @RequestBody RequestDto requestDto //신청 받는 사람의 studentId
                             ) {
         try {
             String requester_id = userDetails.getUsername();
+            String requestee_id = requestDto.getStudentId();
             Request request = requestService.send(requester_id, requestee_id);
             return ResponseEntity.status(HttpStatus.CREATED).body(request);
         } catch (IllegalArgumentException e) {
@@ -46,20 +48,22 @@ public class RequestController {
 
     @DeleteMapping("/request/decline")
     public void declineRequest(
-            @RequestParam("requester_id") String requester_id,
+            @RequestBody RequestDto requestDto, //신청 보낸 사람의 studentId
             @AuthenticationPrincipal UserDetails userDetails
                             ) {
         String requestee_id = userDetails.getUsername();
+        String requester_id = requestDto.getStudentId();
         requestService.decline(requester_id, requestee_id);
 
     }
 
     @PostMapping("/request/accept")
     public void acceptRequest(
-            @RequestParam("requester_id") String requester_id,
+            @RequestBody RequestDto requestDto, //신청 보낸 사람의 studentId
             @AuthenticationPrincipal UserDetails userDetails
                             ) {
         String requestee_id = userDetails.getUsername();
+        String requester_id = requestDto.getStudentId();
         requestService.accept(requester_id, requestee_id);
     }
 
