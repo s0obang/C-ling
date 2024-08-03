@@ -6,6 +6,7 @@ import com.example.cling.entity.UserEntity;
 import com.example.cling.repository.ProfileImageRepository;
 import com.example.cling.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProfileImageServiceImpl implements ProfileImageService {
 
     private final UserRepository userRepository;
@@ -34,7 +36,7 @@ public class ProfileImageServiceImpl implements ProfileImageService {
         try {
             // 사용자 찾기
             UserEntity user = userRepository.findByStudentId(studentId)
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> new RuntimeException("User not found with studentId: " + studentId));
 
             // 파일 이름 생성 및 저장 경로 설정
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
@@ -56,7 +58,10 @@ public class ProfileImageServiceImpl implements ProfileImageService {
             user.setProfileImage(profileImage);
             userRepository.save(user);
 
+            log.info("Profile image uploaded successfully for studentId: " + studentId);
+
         } catch (IOException e) {
+            log.error("File upload failed for studentId: " + studentId, e);
             throw new RuntimeException("File upload failed", e);
         }
     }
@@ -66,7 +71,7 @@ public class ProfileImageServiceImpl implements ProfileImageService {
         Optional<UserEntity> userOptional = userRepository.findByStudentId(studentId);
 
         if (userOptional.isEmpty()) {
-            throw new RuntimeException("User not found");
+            throw new RuntimeException("User not found with studentId: " + studentId);
         }
 
         UserEntity user = userOptional.get();
