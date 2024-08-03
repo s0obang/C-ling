@@ -8,6 +8,11 @@ import Header from '../../Header';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Crew = () => {
+    const fadeIn = {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 1 } }
+    };
+
     const [apply, setApply] = useState([
         { id: 1, name: 'WAGI', firstResult: '1차 합격', secondResult: '2차 합격' }
     ]);
@@ -105,10 +110,16 @@ const Crew = () => {
         <div className='crew-page'>
             <Header />
             <div className="wrap">
-                <div className="banner">
+                <motion.div className="banner"
+                 variants={fadeIn}
+                 initial="hidden"
+                 animate="visible">
                     <img src={Banner} alt="배너" />
-                </div>
-                <div className="apply">
+                    
+                </motion.div>
+                <motion.div className="apply"variants={fadeIn}
+                 initial="hidden"
+                 animate="visible">
                     <h2 className='sub-title'>현재 나의 지원 현황</h2>
                     {apply.map((item) => (
                         <div className="apply-crew" key={item.id}>
@@ -127,8 +138,11 @@ const Crew = () => {
                             </div>
                         </div>
                     ))}
-                </div>
-                <div className="recrewting">
+                </motion.div>
+                <motion.div className="recrewting"
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible">
                     <h2 className='sub-title'>리크루팅 중인 크루</h2>
                     <div className="notice-list">
                         {recrewting.map((item) => (
@@ -141,8 +155,11 @@ const Crew = () => {
                             </div>
                         ))}
                     </div>
-                </div>
-                <div className="mycrew">
+                </motion.div>
+                <motion.div className="mycrew"
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible">
                     <div className='sub-title'>
                         <h2 className='sub-title'>나의 크루</h2>
                         <button className='addbtn' onClick={toggleCrewForm}>{`${crewForm.isAdding ? '완료' : '추가하기'}`}</button>
@@ -193,8 +210,10 @@ const Crew = () => {
                             <button onClick={handleRegisterCrew}>등록하기</button>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
+            <div className="empty"></div>
+
         </div>
     );
 };

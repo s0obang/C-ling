@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
-import Checkschool from "./components/contents/user/checkschool";
+import Checkschool from "./components/contents/user/CheckSchool";
 import Landing from './components/landing';
-import NoticeWrite from './components/contents/crew/noticeWrite';
+import NoticeWrite from './components/contents/crew/NoticeWrite';
 import Myhome from "./components/contents/my/myhome";
 import BadgeRequest from "./components/contents/my/badgeRequest";
 import BadgeManage from "./components/contents/my/badgeManage";
