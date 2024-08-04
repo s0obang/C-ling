@@ -59,11 +59,12 @@ public class ApplicationService {
                 Optional<UserEntity> userOptional = userRepository.findByStudentId(studentId);
                 if (userOptional.isPresent()) {
                     UserEntity user = userOptional.get();
-                    String subject = "지원 결과 통보";
-                    String resultText = result ? "합격" : "불합격";
-                    String content = String.format("%s님, 지원하신 부서에 대한 결과를 알려드립니다. 결과: %s", user.getName(), resultText);
+                    String subject = "[크링]에서 알람이 도착했어요!";
+                    String content = user.getName() + "님, 지원하신 크루에서 합격 여부를 등록 완료했어요!" + 	//html 형식으로 작성
+                            "<br><br>" +
+                            "지금 CREW > 현재 지원 현황에서 합격 여부를 확인할 수 있습니다";
                     try {
-                        mailSendService.mailSend("dionisos198@naver.com", user.getEmail(), subject, content);
+                        mailSendService.mailSend("quffl2002@gmail.com", user.getEmail(), subject, content);
                     } catch (Exception e) {
                         // 이메일 전송 실패 시 로깅
                         System.err.println("Failed to send email to " + user.getEmail() + ": " + e.getMessage());
