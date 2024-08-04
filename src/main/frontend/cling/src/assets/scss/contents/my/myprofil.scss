@@ -5,15 +5,185 @@
     width: 1000px;
     height: 300px;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    .hide {
+        display: none !important;
+    }
+    .delmodaldiv{
+        position: absolute;
+        z-index: 100;
+        width: 500px;
+        height:  320px;
+        background-color: #BACCFF;
+        color: white;
+        padding: 60px 80px;
+        border-radius: 30px;
+        border: 1px solid #fff;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+            img{
+                width: 41px;
+                right: 20px;
+                top: 20px;
+                position: absolute;
+            }
+        
+        .del {
+            vertical-align: top;
+            margin-top: 7px;
+            font-size: 25px;
+            color: white;
+            font-weight: bold;
+            background-color: #BACCFF;
+            border: none;
+            border-bottom: solid white;
+            
+            &:hover {
+                color: #8953ff;
+                border-bottom: solid #8953ff;
+            }
+        }
     
+        .submitBox {
+            .btnSubmit {
+                width: 120px;
+                height: 40px;
+                margin: 30px auto;
+                margin-bottom: 5px;
+                display: block;
+                background: linear-gradient(0deg, #3757FF, #7E8BFF);
+                border: 1px solid white;
+                border-radius: 100px;
+                color: white;
+                font-size: 20px;
+                font-weight: bold;
+            }
+        }
+    
+        .badgelist {
+            margin: 20px auto;
+            
+            #badgenamediv {
+                display: inline-block;
+                background-color: white;
+                border-radius: 25px;
+                padding: 10px 20px;
+                vertical-align: bottom;
+                margin: auto 50px;
+                box-shadow: 5px 5px 10px 0 grey inset;
+            }
+    
+            .badgename {
+                font-size: 22px;
+                font-weight: bold;
+                background: linear-gradient(90deg, #7939FF, #1E5BFF);
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+        }
+        
+        .btnSubmit{
+            width: 100px;
+            height: 38px;
+            border-radius: 30px;
+            color: #fff;
+            background: linear-gradient(0, #6F3EFF, #AE7EFF);
+            border: 1px solid #fff;
+            font-size: 16px;
+            font-weight: 600;
+            
+        }
+    }
+    
+    .modal-badge{
+        position: absolute;
+        z-index: 100;
+        width: 500px;
+        height:  320px;
+        background-color: #9D84C9;
+        color: white;
+        padding: 60px 80px;
+        border-radius: 30px;
+        border: 1px solid #fff;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+
+        .modaldiv{
+            position: relative;
+            img{
+                width: 41px;
+                right: -110px;
+                top: -20px;
+                position: absolute;
+            }
+        }
+        .formcolumn{
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .formtext{
+            font-size: 36px;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+        .input{
+            width: 300px;
+            height: 45px;
+            border-radius: 10px;
+            background-color: rgba($color: #fff, $alpha: 0.3);
+            border: none;
+        }
+        .btnUpload{
+            display: flex;
+            font-size: 25px;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: underline;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .submitBox{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .btnSubmit{
+            width: 100px;
+            height: 38px;
+            border-radius: 30px;
+            color: #fff;
+            background: linear-gradient(0, #6F3EFF, #AE7EFF);
+            border: 1px solid #fff;
+            font-size: 16px;
+            font-weight: 600;
+            
+        }
+    }
+    .blur{
+        filter: blur(10px);
+    
+    }
     #name{
+        padding-top: 100px;
         position: relative; 
         font-weight: bold;
         width: 100%;
         margin:30px 80px;
+        display: flex;
+        align-items: baseline;
         #username{
             font-family: 'PyeongChangPeace-Bold';
-            margin: auto 25px;
+            margin:0 25px;
             font-size: 45px;
             padding:10px;
         }
@@ -38,7 +208,7 @@
             color: transparent;
         }
         #badge{
-            display: inline-block;
+            display: flex;
             font-size: 22px;
             margin-left:30px;
             color:white;
@@ -75,7 +245,7 @@
                 width: 160px; 
                 height: 160px;
                 margin-right: 100px; 
-                margin-left: 120px;
+                margin-left: 90px;
                 object-fit: contain;
                 background-color: black;
             }
@@ -135,6 +305,7 @@
             }
         }
     }
+   
 
     #log{
         text-align: right;
