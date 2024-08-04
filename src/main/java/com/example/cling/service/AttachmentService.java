@@ -82,8 +82,7 @@ public class AttachmentService {
                 file.transferTo(dest);
                 System.out.println("File saved: " + imagePath);
             } catch (IOException e) {
-                System.err.println("Error saving file: " + imagePath);
-                e.printStackTrace();
+                throw new IOException("Error saving file: " + imagePath, e);
             }
 
             // DB에 정보 저장 및 Notice와 연동
@@ -95,14 +94,22 @@ public class AttachmentService {
                     .fileType("notice_image")
                     .notice(notice)
                     .build();
-            attachmentRepository.save(image);
 
+            try {
+                attachmentRepository.save(image);
+            } catch (Exception e) {
+                throw new RuntimeException("Error saving attachment to database", e);
+            }
             // 이미지 리스트에 이미지 추가
             notice.addImage(image);
         }
 
         // Notice 객체의 상태를 데이터베이스에 반영
-        noticeRepository.save(notice);
+        try {
+            noticeRepository.save(notice);
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating notice in database", e);
+        }
     }
 
     @Transactional
@@ -146,8 +153,7 @@ public class AttachmentService {
                 image.transferTo(dest);
                 System.out.println("File saved: " + imagePath);
             } catch (IOException e) {
-                System.err.println("Error saving file: " + imagePath);
-                e.printStackTrace();
+                throw new IOException("Error saving file: " + imagePath, e);
             }
 
             // DB에 정보 저장 및 recruitment와 연동
@@ -159,8 +165,11 @@ public class AttachmentService {
                     .fileType("recruitment_image")
                     .recruitment(recruitment)
                     .build();
-            attachmentRepository.save(savingImage);
-
+            try {
+                attachmentRepository.save(savingImage);
+            } catch (Exception e) {
+                throw new RuntimeException("Error saving attachment to database", e);
+            }
             // 이미지 리스트에 이미지 추가
             recruitment.addAttachment(savingImage);
         }
@@ -182,8 +191,8 @@ public class AttachmentService {
                 file.transferTo(dest);
                 System.out.println("File saved: " + filePath);
             } catch (IOException e) {
-                System.err.println("Error saving file: " + filePath);
-                e.printStackTrace();
+                throw new IOException("Error saving file: " + filePath, e);
+
             }
 
             // DB에 정보 저장 및 recruitment와 연동
@@ -195,19 +204,25 @@ public class AttachmentService {
                     .fileType("recruitment_file")
                     .recruitment(recruitment)
                     .build();
-            attachmentRepository.save(savingFile);
-
+            try {
+                attachmentRepository.save(savingFile);
+            } catch (Exception e) {
+                throw new RuntimeException("Error saving attachment to database", e);
+            }
             // 이미지 리스트에 이미지 추가
             recruitment.addAttachment(savingFile);
         }
 
+        try {
+            // recruitment 객체의 상태를 데이터베이스에 반영
+            recruitmentRepository.save(recruitment);
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating notice in database", e);
+        }
 
-
-        // recruitment 객체의 상태를 데이터베이스에 반영
-        recruitmentRepository.save(recruitment);
     }
 
-    public void uploadToApplication(List<MultipartFile> file, ApplicationDto applicationDto) {
+    public void uploadToApplication(List<MultipartFile> file, ApplicationDto applicationDto) throws IOException {
 
         baseDir += File.separator + "application";
         //이미지가 없는 경우 저장 x
@@ -246,8 +261,7 @@ public class AttachmentService {
                 attachment.transferTo(dest);
                 System.out.println("File saved: " + filePath);
             } catch (IOException e) {
-                System.err.println("Error saving file: " + filePath);
-                e.printStackTrace();
+                throw new IOException("Error saving file: " + filePath, e);
             }
 
             // DB에 정보 저장 및 application과 연동
@@ -259,14 +273,27 @@ public class AttachmentService {
                     .fileType("application_file")
                     .application(application)
                     .build();
-            attachmentRepository.save(syncAttachment);
-
+            try {
+                attachmentRepository.save(syncAttachment);
+            } catch (Exception e) {
+                throw new RuntimeException("Error saving attachment to database", e);
+            }
             // appliction에 추가
             application.addImage(syncAttachment);
         }
 
-        // Notice 객체의 상태를 데이터베이스에 반영
+        // application 객체의 상태를 데이터베이스에 반영
+        try {
+            applicationRepository.save(application);
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating notice in database", e);
+        }
         applicationRepository.save(application);
 
+    }
+
+    public Attachment getAttachmentById(int id) {
+        return attachmentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Attachment not found with id " + id));
     }
 }

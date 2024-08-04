@@ -10,21 +10,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttachmentDto {
+    private int id;
     @NotBlank
     private String originAttachmentName;
     @NotBlank
-    private String attachmentName;
-    @NotBlank
     private String attachmentUrl;
-    @NotBlank
-    private String fileType;
 
     public static AttachmentDto toDto(Attachment file) {
         return new AttachmentDto(
+                file.getId(),
                 file.getOriginAttachmentName(),
-                file.getAttachmentName(),
-                file.getAttachmentUrl(),
-                file.getFileType()
+                file.getAttachmentUrl()
         );
     }
 }

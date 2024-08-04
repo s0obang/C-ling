@@ -58,12 +58,16 @@ public class NoticeController {
                         .content(content)
                         .build();
 
-        //게시글 저장
-        NoticeDto noticeDto = noticeService.write(noticeCreateDto);
-        //이미지 저장
-        attachmentService.uploadToNotice(images, noticeDto);
-
-        return ResponseEntity.ok("게시글이 성공적으로 작성되었습니다.");
+        try {
+            // 게시글 저장
+            NoticeDto noticeDto = noticeService.write(noticeCreateDto);
+            // 이미지 저장
+            attachmentService.uploadToNotice(images, noticeDto);
+            return ResponseEntity.ok("게시글이 성공적으로 작성되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("게시글 작성에 실패했습니다: " + e.getMessage());
+        }
     }
 
     @GetMapping("/notice/{noticeId}")

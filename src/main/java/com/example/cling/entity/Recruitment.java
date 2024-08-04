@@ -32,7 +32,13 @@ public class Recruitment extends BaseTimeEntity {
     private String step;
 
     @Column(nullable = false)
+    private String startDate;
+
+    @Column(nullable = false)
     private String dueDate;
+
+    @Column(nullable = false)
+    private boolean isCompleted;
 
     @Column(nullable = false)
     private String onStep = "1";
@@ -54,6 +60,7 @@ public class Recruitment extends BaseTimeEntity {
     )
     @JsonManagedReference
     private List<Attachment> files = new ArrayList<>();
+
 
     public void addAttachment(Attachment attachment) {
         if (attachment.getFileType().equals("recruitment_image")) {

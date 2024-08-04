@@ -60,4 +60,12 @@ public class Application {
             throw new IllegalArgumentException("Invalid step value: " + step);
         }
     }
+
+    public boolean getFirstResult() {
+        return this.firstResult;
+    }
+
+    public boolean getSecondResult() {
+        return this.secondResult;
+    }
 }
