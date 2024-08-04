@@ -3,18 +3,17 @@ import '../../../assets/scss/contents/my/wantConnect.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, EffectCreative, Pagination } from 'swiper/modules';
 import { ImCircleLeft, ImCircleRight } from "react-icons/im";
-import BGCHAT from '../../../assets/img/chat_img.png';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-creative';
 
-import image1 from '../../../assets/img/image1.png';
-import image2 from '../../../assets/img/image2.png';
-import image3 from '../../../assets/img/image3.png';
-import image4 from '../../../assets/img/image4.png';
-import image5 from '../../../assets/img/image5.png';
+import image1 from '../../../assets/img/logo.png';
+import image2 from '../../../assets/img/logo.png';
+import image3 from '../../../assets/img/logo.png';
+import image4 from '../../../assets/img/logo.png';
+import image5 from '../../../assets/img/logo.png';
 
 const WantConnect = () => {
 
