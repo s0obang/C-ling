@@ -10,7 +10,7 @@ const no_matches = () => {
         
         <div className='no_matches'>
             
-            <Header></Header>
+            <Header />
             <div>
                 <h1 className="text">나와 연결된 수정이가 없습니다.</h1>
             </div>

@@ -1,13 +1,22 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import Header from '../../Header'
 import '../../../assets/scss/contents/matching/no_matches.scss'
-import { Link } from 'react-router-dom'
-
 
 const MatchInfo = () => {
+    const navigate = useNavigate();
+
+    const handleNavigation = (path) => {
+        navigate('/loading');
+
+        setTimeout(() => {
+            navigate(path);
+        }, 2000);
+    };
+
     return (
         <div className='matchinfo'>
-            <Header></Header>
+            <Header />
             <div>
                 <h1 className="text">같은 학번 수정이와 크링해보세요!</h1>
             </div>
@@ -17,12 +26,18 @@ const MatchInfo = () => {
                 <input className="major" type="text" placeholder='Major' />
 
                 <div className="button-group">
-                    <Link to='/samemajor'>
-                        <input className="matchingbtn" type="button" value="Clink" />
-                    </Link>
-                    <Link to='/othermajor'>
-                        <input className="matchingbtn" type="button" value="타 과 Clink" />
-                    </Link>
+                    <input 
+                        className="matchingbtn" 
+                        type="button" 
+                        value="Clink" 
+                        onClick={() => handleNavigation('/samemajor')}
+                    />
+                    <input 
+                        className="matchingbtn" 
+                        type="button" 
+                        value="타 과 Clink" 
+                        onClick={() => handleNavigation('/othermajor')}
+                    />
                 </div>
             </form>
         </div>

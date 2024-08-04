@@ -18,6 +18,7 @@ import Samemajor from './components/contents/matching/samemajor';
 import Othermajor from './components/contents/matching/othermajor';
 import Match from './components/contents/matching/match';
 import Matchprofile from './components/contents/matching/match_profile';
+import Loading from './components/contents/matching/loading';
 import Chat from './components/contents/chat/chat';
 import Login from './components/contents/user/Login';
 import Findpw from './components/contents/user/Findpw';
@@ -25,6 +26,7 @@ import Newpw from './components/contents/user/Newpw';
 import Crew from './components/contents/crew/Crew';
 import Mycrew from './components/contents/crew/Mycrew';   
 import NoticeDetail from './components/contents/crew/NoticeDetail';  
+import PassList from './components/contents/crew/PassList';
 
 
 
@@ -41,6 +43,9 @@ function App() {
                 <Route path='/login/newpw' element = {<Newpw />} />
                 <Route path='/crew' element = {<Crew />} />
                 <Route path='/mycrew' element = {<Mycrew />} />
+                <Route path='/mycrew/PassList' element = {<PassList />} />
+                <Route path='/mycrew/:crewId' element={<Mycrew />} />  
+                <Route path='/notice/:noticeId' element={<NoticeDetail />} />   
 
                 <Route path='/create' element={<Checkschool />} />
                 <Route path='/login' element={<Login />} />
@@ -56,12 +61,12 @@ function App() {
                 <Route path='/samemajor' element={<Samemajor />} />
                 <Route path='/othermajor' element={<Othermajor />} />
                 <Route path='/match' element={<Match />} />
-                <Route path="/matchprofile/" element={<Matchprofile />} />
+                <Route path="/matchprofile" element={<Matchprofile />} />
+                <Route path="/loading" element={<Loading />} />
                 <Route path="/chat/:userId" element={<Chat />} />
                 <Route path="/chat/:currentUserId/:otherUserId" element={<Chat />} />
 
-                <Route path='/mycrew/:crewId' element={<Mycrew />} />  
-                <Route path='/notice/:noticeId' element={<NoticeDetail />} />   
+               
                 
                 
             </Routes>
