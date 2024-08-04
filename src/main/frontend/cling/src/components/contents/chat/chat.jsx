@@ -4,7 +4,7 @@ import Ib from '../../../assets/img/chat/imagebutton.png';
 import Sb from '../../../assets/img/chat/sendbutton.png';
 import Header from '../../Header'
 
-// Mock messages
+
 const mockMessages = [
   { id: 1, sender: 'User1', message: '안녕하세요!', type: 'text' },
   { id: 2, sender: 'Me', message: '안녕하세요, 만나서 반가워요!', type: 'text' },
@@ -63,59 +63,63 @@ const Chat = () => {
     <div className="chat-container">
       <Header />
       {/* 상대방의 정보를 상단에 표시 */}
-      <div className="chat-header">
-        <div className="profile-img">
-          <img
-            src={userInfo.profileImage}
-            alt={`${userInfo.name}의 프로필`}
-          />
-        </div>
-
-        <div className="user-info">
-          <div className='text'>{userInfo.name}</div>
-          <div className='text'>{userInfo.studentNumber}</div>
-          <div className='text'>{userInfo.department}</div>
-        </div>
-      </div>
-      <div className="chat-messages">
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={`chat-message ${msg.sender === 'Me' ? 'me' : 'other'}`}
-          >
-            <strong>{msg.sender}: </strong>
-            {msg.type === 'text' ? (
-              <span>{msg.message}</span>
-            ) : (
-              <img src={msg.message} alt="sent image" className="sent-image" />
-            )}
-          </div>
-        ))}
-        {/* 스크롤 위치를 조정하기 위한 요소 */}
-        <div ref={messagesEndRef} />
-      </div>
-      <div className="chat-input">
+      <div className='content'>
         
-        <input
-          type="text"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          placeholder="메시지를 입력하세요..."
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={sendImage}
-          style={{ display: 'none' }}
-          id="image-upload"
-        />
-        <label htmlFor="image-upload" className="image-upload-label">
-          <img src={Ib} alt="이미지 전송" />
-        </label>
+        <div className="chat-header">
+          <div className="profile-img">
+            <img
+              src={userInfo.profileImage}
+              alt={`${userInfo.name}의 프로필`}
+            />
+          </div>
 
-        <button onClick={sendMessage} className="send-button">
-          <img src={Sb} alt="전송" />
-        </button>
+          <div className="user-info">
+            <div className='text'>{userInfo.name}</div>
+            <div className='text'>{userInfo.studentNumber}</div>
+            <div className='text'>{userInfo.department}</div>
+          </div>
+        </div>
+        <div className="chat-messages">
+          {messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`chat-message ${msg.sender === 'Me' ? 'me' : 'other'}`}
+            >
+              <strong>{msg.sender}: </strong>
+              {msg.type === 'text' ? (
+                <span>{msg.message}</span>
+              ) : (
+                <img src={msg.message} alt="sent image" className="sent-image" />
+              )}
+            </div>
+          ))}
+          {/* 스크롤 위치를 조정하기 위한 요소 */}
+          <div ref={messagesEndRef} />
+        </div>
+        <div className="chat-input">
+          
+          <input
+            type="text"
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            placeholder="메시지를 입력하세요..."
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={sendImage}
+            style={{ display: 'none' }}
+            id="image-upload"
+          />
+          <label htmlFor="image-upload" className="image-upload-label">
+            <img src={Ib} alt="이미지 전송" />
+          </label>
+
+          <button onClick={sendMessage} className="send-button">
+            <img src={Sb} alt="전송" />
+          </button>
+
+        </div>
 
       </div>
     </div>
