@@ -12,15 +12,15 @@
     overflow: hidden;
     .blur{
         backdrop-filter: blur(3px);
-
-       z-index: 100;
+        z-index: 100;
     }
 
     .profilecontent {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 100px;
+        margin-top: 120px;
+        position: fixed;
 
         .profileimg {
             display: flex;
@@ -55,6 +55,7 @@
                     left: 10px;
                     right: 20px;
                     font-size: 20px;
+                    font-weight: 500;
                     line-height: 1.2;
                     word-wrap: break-word;
                 }
@@ -77,6 +78,7 @@
                     left: 10px;
                     right: 20px;
                     font-size: 15px;
+                    font-weight: 500;
                     line-height: 1.2;
                     word-wrap: break-word;
                 }
@@ -115,11 +117,11 @@
 
     .content {
 
+        height: 100%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        width: 100%;
         border: none;
     }
 
@@ -135,7 +137,6 @@
         top: 16%;
         right: 70%;
         background-color: rgba(185, 157, 245, 0.34);
-        clip-path: inset(0 0 0 120px);
     }
 
     .circle2 {
@@ -152,7 +153,6 @@
         top: 60%;
         left: 80%;
         background-color: rgba(220, 203, 255, 0.37);
-        clip-path: inset(0 180px 170px 0);
     }
     .blur{
         width: 100%;

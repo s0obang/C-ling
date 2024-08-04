@@ -85,7 +85,6 @@ const Chat = () => {
               key={msg.id}
               className={`chat-message ${msg.sender === 'Me' ? 'me' : 'other'}`}
             >
-              <strong>{msg.sender}: </strong>
               {msg.type === 'text' ? (
                 <span>{msg.message}</span>
               ) : (

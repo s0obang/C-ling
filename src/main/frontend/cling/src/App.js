@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
-import Checkschool from "./components/contents/user/CheckSchool";
+import Checkschool from "./components/contents/user/checkschool";
 import Landing from './components/landing';
-import NoticeWrite from './components/contents/crew/NoticeWrite';
+import NoticeWrite from './components/contents/crew/noticeWrite';
 import NoticeWrites from './components/contents/homes/noticeWrites';
 import NoticeOpen from './components/contents/homes/noticeOpen';
 import Myhome from "./components/contents/my/myhome";
