@@ -5,6 +5,9 @@
     justify-content: center;
     display: flex;
     flex-direction: column;
+    input:focus{
+        outline: none;
+    }
     
 .caution{
     color: white;
@@ -22,43 +25,6 @@
     margin-bottom: 70px;
 }
 
-
-.info{
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-    .create-form{
-        width: 300px;
-        display: flex;
-        flex-direction: column;
-
-    }
-    .form input{
-        width: 260px;
-        height: 70px;
-        border-radius: 35px;
-        font-size: 25px;
-        margin-bottom: 10px;
-        padding: 10px 20px;
-       
-    }
-    .form .email{
-        width: 470px;
-    }
-    .form .id{
-        width: 365px;
-    }
-    .form input::placeholder{
-        color: #CDAFFF;
-    }
-    .pwd{
-        display: flex;
-        input{
-            margin-right: 20px;
-        }
-    }
-}
 
 .img{
     display: flex;

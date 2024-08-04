@@ -6,17 +6,17 @@ import axios from 'axios'
 
 const CheckSchool = () => {
     const [email, setEmail] = useState('');
+    const [authNum, setAuthNum] = useState('');
     const navigate = useNavigate();
 
-    const checkSubmit = () => {
-        axios.post('http://13.48.207.238:1234//mailSend/', {
+    const sendMail = () => {
+        axios.post('http://13.48.207.238:1234/mailSend', {
             email: email
         })
             .then((res) => {
                 if (res.status === 200) {
                     const accessToken = res.data.access;
                     localStorage.setItem('accessToken', accessToken);
-                    navigate('/create/info');
                     alert('메일로 인증번호가 전송되었습니다');
                     console.log(res);
                 }
@@ -25,12 +25,31 @@ const CheckSchool = () => {
                 console.log(err);
             });
     }
+    const authCheck = () => {
+        axios.post('http://13.48.207.238:1234/mailauthCheck', {
+            email: email,
+            authNum :authNum
+        })
+            .then((res) => {
+                if (res.status === 200) {
+                    const accessToken = res.data.access;
+                    localStorage.setItem('accessToken', accessToken);
+                    alert('인증에 성공했습니다.');
+                    console.log(res);
+                    navigate('/create/info')
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                alert('인증 번호가 일치하지 않거나 유효하지 않습니다');
+            });
+    }
 
     return (
         <div className='checkschool'>
-            <Link to='/' className="c-logo">
+            < div className="c-logo">
                 <img src={LOGO} alt="logo" />
-            </Link>
+            </div>
             <div className='check-form'>
                 <div className="email-check">
                     <input
@@ -40,11 +59,12 @@ const CheckSchool = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <div className="send-email" onClick={checkSubmit}>인증번호</div>
+                    <div className="send-email" onClick={sendMail}>인증번호</div>
                 </div>
 
-                <input className="number" type="text" placeholder='인증번호' />
-                <div className="btn" type="button" >학교 인증하기</div>
+                <input className="number" type="text" placeholder='인증번호'
+                onChange={(e) => setAuthNum(e.target.value)} />
+                <div className="btn" onClick={authCheck} >학교 인증하기</div>
             </div>
         </div>
     );

@@ -122,6 +122,45 @@
 }
 
 .info{
+    .img:hover{
+        cursor: pointer;
+    }
+  
+    .create-form{
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        
+    }
+    
+    .form input{
+        width: 260px;
+        height: 70px;
+        border-radius: 35px;
+        font-size: 25px;
+        margin-bottom: 10px;
+        padding: 10px 20px;
+       
+    }
+    .form .email{
+        width: 470px;
+    }
+    .form .id{
+        width: 365px;
+    }
+    .form input::placeholder{
+        color: #CDAFFF;
+    }
+    .pwd{
+        display: flex;
+        input{
+            margin-right: 20px;
+        }
+    }
+}
+
+
+.info{
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -129,7 +168,7 @@
     .create-form{
         width: 300px;
         display: flex;
-        margin-left: 100px;
+        margin-left: 50px;
         flex-direction: column;
 
     }
@@ -141,7 +180,41 @@
         margin-bottom: 10px;
         padding: 10px 20px;
        
+
     }
+    .form{
+        color:#AE88FF;
+        .majorSelect{
+            width: 470px;
+            margin-bottom: 10px;
+
+            
+        }
+        .custom-select{
+            padding:0 20px;
+            color:#AE88FF;
+        }
+        .custom-select__control {  //현재 선택되어있는거
+            width: 470px;
+            margin-bottom: 10px;
+            border-radius: 30px;
+           
+            font-size: 22px;
+            .css-1dimb5e-singleValue {
+                color:#CDAFFF;
+
+            }
+            .css-hlgwow{
+                padding:0 20px;
+            }
+          }
+          .custom-select__menu {  //리스트 속성
+              font-size: 22px;
+              color:#AE88FF;
+          }
+    }
+
+   
     .form .email{
         width: 470px;
     }
@@ -171,17 +244,18 @@
     img{
         width: 221px;
         height: 251px;
-
+        object-fit: cover;
     }
     .addimg{
         position: absolute;
+        z-index: 10;
         border: none;
         top:250px;
         background: rgba($color: #000000, $alpha: 0);
-        img{
+       
             height: 30px;
             width: 30px;
-        }
+       
 
     }
     

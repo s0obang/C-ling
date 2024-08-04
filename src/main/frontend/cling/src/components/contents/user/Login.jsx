@@ -30,6 +30,7 @@ const Login = () => {
                 if (res.status === 200) {
                     console.log(res);
                     navigate('/mainhome'); 
+                    alert('로그인 성공!');
                 }
             })
             .catch(err => {
