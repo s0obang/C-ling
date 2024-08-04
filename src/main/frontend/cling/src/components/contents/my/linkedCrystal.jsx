@@ -1,7 +1,7 @@
 import React from "react";
 import '../../../assets/scss/contents/my/linkedCrystal.scss'
 import BGPROFIL from '../../../assets/img/profil_background.png'
-import IMG_PROFIL from '../../../assets/img/testimg.png'
+import IMG_PROFIL from '../../../assets/img/logo.png'
 
 const LinkedCrystal = () => {
     const users = [

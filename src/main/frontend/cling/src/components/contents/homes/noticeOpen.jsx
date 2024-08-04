@@ -9,7 +9,7 @@ import axios from 'axios';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import '../../../assets/scss/contents/homes/noticePage.scss'
+import '../../../assets/scss/contents/homes/noticeOpen.scss'
 import image1 from '../../../assets/img/logo.png'
 import image2 from '../../../assets/img/logo.png'
 import image3 from '../../../assets/img/logo.png'
@@ -24,12 +24,8 @@ const images = [
     image5
 ];
 
-const notices = [
-    ['제목 엄~~~~~~~~~~~~~~~~~~~~~~~~~~~청 길다', '내용1'],
-    ['제목2', '내용2'],
-    ['제목3', '내용3'],
-    ['제목4', '내용4'],
-    ['제목5', '내용5']
+const notice = [
+    ['제목 엄~~~~~~~~~~~~~~~~~~~~~~~~~~~청 길다', '내용1']
 ];
 
 const NoticePage = ({ src, className }) => {
@@ -60,7 +56,7 @@ const NoticePage = ({ src, className }) => {
   };
 
   return (
-    <div id="noticepage">
+    <div id="noticeOpen">
       <Header />
       <div id="imgbox">
         <Swiper
@@ -77,7 +73,7 @@ const NoticePage = ({ src, className }) => {
         >
           {images.map((src, index) => (
             <SwiperSlide key={index} className="Slide">
-              <img src={src} alt={`slide-${index}`} className="imghuman" />
+              <img src={src} alt={`image-${index}`} className="imghuman" />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -89,13 +85,13 @@ const NoticePage = ({ src, className }) => {
         </div>
           <div id = "title">
           <IoChevronBackCircleOutline className="back" onClick={()=>{navigate(-1)}} />
-          <span className="text1">{notices[currentIndex][0]}</span>
+          <span className="text1">{notice[0]}</span>
           </div>
         <div id="editBox">
           <span id="delete" onClick={deleteNotice}>삭제하기</span>
         </div>
           <div id = "contents">
-          <span className="text2">{notices[currentIndex][1]}</span>
+          <span className="text2">{notice[1]}</span>
           </div>
       </div>
       <div>

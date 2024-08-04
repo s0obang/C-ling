@@ -1,4 +1,4 @@
-#noticepage {
+#noticeOpen {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -18,11 +18,11 @@
     }
 
     .swiper-slide {
-            width: 800px;
-            height: 400px;
-            display: flex; 
-            justify-content: center;  
-            align-items: center;  
+        width: 800px;
+        height: 400px;
+        display: flex; 
+        justify-content: center;  
+        align-items: center;  
     }
 
     .swiper-slide img {
@@ -51,7 +51,6 @@
 
         .backBox {
             width: 100%;
-
         }
 
         #editBox {
@@ -81,9 +80,8 @@
                 font-size: 40px;
                 margin-left: -70px;
                 margin-top: 20px;
-    
             }
-            .back:hover{
+            .back:hover {
                 cursor: pointer;
             }
             .text1 {
@@ -95,7 +93,6 @@
                 width: 500px;
             }
         }
-
 
         #contents {
             display: flex;
@@ -133,11 +130,11 @@
     }
 
     ::-webkit-scrollbar-thumb {
-        background: white; // 스크롤바 색상
+        background: white;
         border-radius: 10px;
     }
 
     ::-webkit-scrollbar-track {
-        background: rgba(220, 20, 60, .1); //스크롤바 뒷 배경 색
+        background: rgba(220, 20, 60, .1);
     }
 }

@@ -3,7 +3,7 @@ import BadgeRequest from './badgeRequest';
 import BadgeManage from './badgeManage';
 import '../../../assets/scss/contents/my/myprofil.scss';
 import BGPROFIL from '../../../assets/img/profil_background.png';
-import IMG_PROFIL from '../../../assets/img/testimg.png';
+import IMG_PROFIL from '../../../assets/img/logo.png';
 import OFF from '../../../assets/img/btnoff.png';
 import ON from '../../../assets/img/btnon.png';
 import Select from "react-select"; 

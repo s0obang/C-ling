@@ -136,10 +136,13 @@
         padding-top: 50px;
         padding-bottom: 50px;
         display: flex;
-        justify-content: center;
+        justify-content: center;  
+        align-items: center;  
     }
 
     .swiper-slide {
+        width: 350px;
+        height: 350px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -148,9 +151,11 @@
     .swiper-slide img {
         width: 350px;
         height: 350px;
-        border: 45px solid white; // 원하는 색상으로 변경할 수 있습니다
+        object-fit: contain;
+        border: 45px solid white; 
         border-radius: 50px;
-        box-sizing: border-box; /* 테두리가 포함되도록 설정 */
+        box-sizing: border-box; 
+        background-color: black;
     }
     .swiper-pagination-bullet {
         border: solid white !important;

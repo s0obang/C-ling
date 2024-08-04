@@ -8,11 +8,11 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import '../../../assets/scss/contents/homes/mainhome.scss';
-import image1 from '../../../assets/img/image1.png';
-import image2 from '../../../assets/img/image2.png';
-import image3 from '../../../assets/img/image3.png';
-import image4 from '../../../assets/img/image4.png';
-import image5 from '../../../assets/img/image5.png';
+import image1 from '../../../assets/img/logo.png'
+import image2 from '../../../assets/img/logo.png'
+import image3 from '../../../assets/img/logo.png'
+import image4 from '../../../assets/img/logo.png'
+import image5 from '../../../assets/img/logo.png'
 
 const images = [
   image1,
@@ -47,7 +47,13 @@ const Mainhome = ({ src, className }) => {
   };
 
   const GonoticeWrite = () => {
-    window.open('/noticeWrite', '_blank');
+    navigate('/noticeWrites');
+    window.scrollTo(0, 0);
+  };
+
+  const GonoticeOpen = () => {
+    navigate('/noticeOpen');
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -60,7 +66,7 @@ const Mainhome = ({ src, className }) => {
         spaceBetween={30} // 슬라이드 간 간격
         pagination={{ clickable: true }} // 하단 동그라미
         centeredSlides={true} // 센터모드
-        autoplay={{ delay: 1000 }}
+        autoplay={{ delay: 2500 }}
         modules={[Pagination, Autoplay]}
       >
         {images.map((src, index) => (
@@ -75,7 +81,7 @@ const Mainhome = ({ src, className }) => {
             {noticeLists.map((notice, index) => (
               <tr key={index}>
                 <th className="tableDate">{notice.date}</th>
-                <th className="tableTitle">{notice.titles}</th>
+                <th className="tableTitle" onClick={() => GonoticeOpen(index)}>{notice.titles}</th>
               </tr>
             ))}
           </tbody>

@@ -1,8 +1,10 @@
 import React from 'react'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
-import Checkschool from "./components/contents/user/CheckSchool";
+import Checkschool from "./components/contents/user/checkschool";
 import Landing from './components/landing';
-import NoticeWrite from './components/contents/crew/NoticeWrite';
+import NoticeWrite from './components/contents/crew/noticeWrite';
+import NoticeWrites from './components/contents/homes/noticeWrites';
+import NoticeOpen from './components/contents/homes/noticeOpen';
 import Myhome from "./components/contents/my/myhome";
 import BadgeRequest from "./components/contents/my/badgeRequest";
 import BadgeManage from "./components/contents/my/badgeManage";
@@ -48,6 +50,8 @@ function App() {
                 <Route path='/create' element={<Checkschool />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/noticeWrite' element={<NoticeWrite />} />
+                <Route path='/noticeWrites' element={<NoticeWrites />} />
+                <Route path='/noticeOpen' element={<NoticeOpen />} />
                 <Route path='/badgeRequest' element={<BadgeRequest />} />
                 <Route path='/badgeManage' element={<BadgeManage />} />
                 <Route path='/myhome' element={<Myhome />} />
