@@ -1,6 +1,6 @@
 import React from "react";
 import '../../../assets/scss/contents/my/linkedCrystal.scss'
-import BGPROFIL from '../../../assets/img/profil_background.png'
+import BGPROFIL from '../../../assets/img/my/profil_background.png'
 import IMG_PROFIL from '../../../assets/img/logo.png'
 
 const LinkedCrystal = () => {
