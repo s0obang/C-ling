@@ -14,8 +14,8 @@ public class EmailConfig {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-        mailSender.setUsername("aa");//구글 이메일
-        mailSender.setPassword("aa");//구글 인증 비밀번호 -> 필요하면 저한테 말하셈 보내드림  -88guri
+        mailSender.setUsername("quffl2002@gmail.com");//구글 이메일
+        mailSender.setPassword("vmiu yhgo nadc wjwu");//구글 인증 비밀번호 -> 필요하면 저한테 말하셈 보내드림  -88guri
 
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.transport.protocol", "smtp");
