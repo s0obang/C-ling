@@ -24,63 +24,66 @@ const users = [
 ];
 
 const Match = () => {
-    // Slider의 설정 옵션
+    
     const settings = {
         dots: false,
         
         arrows: false,
-        infinite: true, // 무한 슬라이드 여부
-        speed: 500, // 슬라이드 속도
+        infinite: true,
+        speed: 500,
         autoplay: true,
-        slidesToShow: 4, // 한 화면에 보여줄 슬라이드 수
-        slidesToScroll: 3, // 한번에 스크롤할 슬라이드 수
+        slidesToShow: 4,
+        slidesToScroll: 3,
         responsive: [
             {
-                breakpoint: 1024, // 화면 크기가 1024px 이하일 때
+                breakpoint: 1024, // 1024 이하
                 settings: {
-                    slidesToShow: 3, // 보여줄 슬라이드 수를 3개로 설정
+                    slidesToShow: 3,
                 }
             },
             {
-                breakpoint: 768, // 화면 크기가 768px 이하일 때
+                breakpoint: 768,
                 settings: {
-                    slidesToShow: 2, // 보여줄 슬라이드 수를 2개로 설정
+                    slidesToShow: 2,
                 }
             },
             {
-                breakpoint: 480, // 화면 크기가 480px 이하일 때
+                breakpoint: 480,
                 settings: {
-                    slidesToShow: 1, // 보여줄 슬라이드 수를 1개로 설정
+                    slidesToShow: 1,
                 }
             }
         ]
     };
 
-    const currentUserId = 'currentUserId'; // 이 부분을 로그인된 사용자 ID로 대체
+    const currentUserId = 'currentUserId';
 
     return (
         <div className='match'>
             <Header />
-            <Slider {...settings}>
-                {users.map(user => (
-                    <div key={user.id} className="slide">
-                        <div className="profileimg">
-                            <img src={Ex} alt="프로필사진" />
-                        </div>
-                        <div className="slide-content">
-                            <Link to={`/chat/${currentUserId}/${user.id}`}>
-                                <input className="btn" type="button" value={`${user.name}와 채팅하기`} />
-                            </Link>
-                            <div className="text">
-                                <h4 className="text">사쿠야</h4>
-                                <div className="text">20231138</div><br />
-                                <div className="text">제과제빵학과</div>
+            <div className='content'>
+                <Slider {...settings}>
+                    {users.map(user => (
+                        <div key={user.id} className="slide">
+                            <div className="profileimg">
+                                <img src={Ex} alt="프로필사진" />
                             </div>
+                            <div className="slide-content">
+                                <Link to={`/chat/${currentUserId}/${user.id}`}>
+                                    <input className="btn" type="button" value={'채팅하기'} />
+                                </Link>
+                                <div className="text">
+                                    <h4 className="text">사쿠야</h4>
+                                    <div className="text">20231138</div><br />
+                                    <div className="text">제과제빵학과</div>
+                                </div>
+                            </div>
+                            
                         </div>
-                        
-                    </div>
-                ))}
-            </Slider>
+                    ))}
+                </Slider>
+
+            </div>
 
             <div className='bigtext'>
                 다시 C-link 하기 <br></br>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../../Header';
-import '../../../assets/scss/contents/matching/no_matches.scss';
+import '../../../assets/scss/contents/matching/loading.scss';
 import { Link } from 'react-router-dom';
 
 const Loading = () => {

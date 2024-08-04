@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../Header'
-import '../../../assets/scss/contents/matching/no_matches.scss'
+import '../../../assets/scss/contents/matching/match_info.scss'
 
 const MatchInfo = () => {
     const navigate = useNavigate();

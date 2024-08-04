@@ -5,7 +5,16 @@
         border: none !important;
     }
     text-align: center;
+    margin-bottom: 200px;
 
+    .slick-list {
+        width: 1450px;
+    }
+    .content {
+        width: 100%;
+        align-items: center;
+
+    }
 
     .profileimg {
         display: flex;
@@ -23,19 +32,17 @@
             height: 251px;
         }
     }
-
-
-
     
     .btn {
         margin-top: 25px;
         margin-bottom: 10px;
         background-color: rgba(121, 57, 255, 1.0);
+        border: none;
         border-radius: 30px;
         height: 50px;
         width: 250px;
         color: white;
-        font-size: 20px;
+        font-size: 25px;
     }
     
     .text {
@@ -45,7 +52,7 @@
     }
 
     .bigtext {
-        margin-top: 400px;
+        margin-top: 100px;
         font-size: 60px;
         font-weight: 600;
         color:white;
@@ -65,7 +72,6 @@
         color: white;
         justify-content: center;
         margin: 50px;
-        margin-bottom: 200px;
     }
 
     .clinkbtn:hover {
