@@ -1,7 +1,14 @@
 import React from 'react';
+import PassListItem from './PassListItem';
 import '../../../assets/scss/contents/crew/passlist.scss';
 
 const PassList = () => {
+    const students = [
+        { studentId: '20231168', name: '최수진', fileName: '파일명1' },
+        { studentId: '20231169', name: '홍길동', fileName: '파일명2' }
+        
+    ];
+
     return (
         <div className='passlist'>
             <div className="table-title">
@@ -9,15 +16,17 @@ const PassList = () => {
                 <div className='passlist-item'>첨부파일</div>
                 <div className='passlist-item'>합/불</div>
             </div>
-            <div className="row">
-                <div className='passlist-item'></div>
-                <div className='passlist-item'></div>
-                <div className='passlist-item'>
-                    <button className='select-pass'>미정</button>
-                </div>
-            </div>
+            {students.map((student, index) => (
+                <PassListItem
+                    key={index}
+                    studentId={student.studentId}
+                    name={student.name}
+                    fileName={student.fileName}
+                />
+            ))}
+           
         </div>
-    )
-}
+    );
+};
 
 export default PassList;
