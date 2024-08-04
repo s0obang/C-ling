@@ -1,20 +1,63 @@
-import React, { useState, useEffect } from "react";
-import BadgeRequest from './badgeRequest';
-import BadgeManage from './badgeManage';
+import React, { useState, useRef } from "react";
 import '../../../assets/scss/contents/my/myprofil.scss';
 import BGPROFIL from '../../../assets/img/my/profil_background.png';
 import IMG_PROFIL from '../../../assets/img/logo.png';
+
 import OFF from '../../../assets/img/my/btnoff.png';
 import ON from '../../../assets/img/my/btnon.png';
 import Select from "react-select"; 
 
+import cancle from '../../../assets/img/my/cancle.png';
+import styled from "styled-components";
+
+
+const FileInputWrapper = styled.div`
+  .fileInput {
+    display: none;
+  }
+
+  .customFileUpload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+
+  .fileName {
+    margin-left: 10px;
+  }
+`;
 const Myprofil = () => {
     const [mailAlarm, setMailAlarm] = useState(true);
     const [connectionAlarm, setConnectionAlarm] = useState(true);
     const [myinfo, setMyinfo] = useState(['김준희', '20231133', '컴퓨터공학과']);
-    const myBadge = ['컴퓨터공학과 아무개'];
+    const myBadge = ['컴퓨터공학과 아무개','컴퓨터공학과 아무개'];
     const [isEditing, setIsEditing] = useState(false);
     const [newInfo, setNewInfo] = useState([...myinfo]);
+    const imageInput = useRef();
+    const [fileName, setFileName] = useState('');
+    const [badgeModal, setBadgeModal] = useState(false);
+    const [delModal, setDelModal] = useState(false);
+
+    // 버튼클릭시 input태그에 클릭이벤트를 걸어준다. 
+    const onClickImageUpload = () => {
+        imageInput.current.click();
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setFileName(file.name);
+        } else {
+            setFileName('');
+        }
+    };
+    const badge = () => {
+        setBadgeModal(!badgeModal);
+    }
+    const delBadge = () => {
+        setDelModal(!delModal);
+    }
 
     const majorLists = [
         { value: '국어국문학과', label: '국어국문학과' },
@@ -89,109 +132,132 @@ const Myprofil = () => {
         // 로그아웃 로직
     }
 
-    // 뱃지 신청 모달
-    const [requestOpen, setrequestOpen] = useState(false);
-    const showRequestModal = () => {
-        setrequestOpen(true);
-        document.body.style.overflow = 'hidden';
-    };
-    const closeRequestModal = () => {
-        setrequestOpen(false);
-        document.body.style.removeProperty('overflow');
-    };
 
-    // 뱃지 관리 모달
-    const [manageOpen, setremanageOpen] = useState(false);
-    const showManageModal = () => {
-        setremanageOpen(true);
-        document.body.style.overflow = 'hidden';
-    };
-    const closeManageModal = () => {
-        setremanageOpen(false);
-        document.body.style.removeProperty('overflow');
-    };
 
     return (
-        <div className="myprofil">
-            <div id="name">
-                <span id="username">{myinfo[0]} 님</span>
-                <div className="badgeBox">
-                    {myBadge.length > 0 && myBadge.map((badge, index) => (
+        <div className='myprofil'>
+            <div className={`modal-badge ${badgeModal ? 'hide' : ' '}`}>
+                <div className="modaldiv">
+                    <img src={cancle} alt="X" onClick={badge} />
+                    <form action="post" className="form">
+                        <div className='formcolumn'><span className="formtext">이름</span><input className="input" type="text" /></div>
+                        <div className='formcolumn'><span className="formtext">학과</span><input className="input" type="text" /></div>
+                        <div className='formcolumn'><span className="formtext">학번</span><input className="input" type="text" /></div>
+                        <div className='formcolumn'><span className="formtext">직책</span><input className="input" type="text" /></div>
+                    </form>
+                    <FileInputWrapper>
+                        <input
+                            type="file"
+                            accept="image/jpg, image/png, image/jpeg"
+                            ref={imageInput}
+                            className="fileInput"
+                            onChange={handleFileChange}
+                        />
+                        <div className="btnUpload" onClick={onClickImageUpload}>
+                            인증 이미지 선택
+                        </div>
+                        <div className="fileName">{fileName}</div>
+                    </FileInputWrapper>
+                    <div className="submitBox">
+                        <button className="btnSubmit">전송</button>
+                    </div>
+                </div>
+            </div>
+            <div className={`delmodaldiv ${delModal ? 'hide' : ' '}`}>
+            <img src={cancle} alt="X" onClick={delBadge} />
+                {myBadge.length > 0 && myBadge.map((badge, index) => (
+                    <div className="badgelist">
+                        
                         <div key={index} id="badgenamediv">
-                            <span id="badgename">{badge}</span>
+                            <span className="badgename">{badge}</span>
                         </div>
-                    ))}
+                        <button className="del">삭제하기</button>
+                    </div>
+                ))}
+                <div className="submitBox">
+                    <button className="btnSubmit">저장</button>
                 </div>
-                <div id="badge">
-                    <span onClick={showRequestModal} id="badge1">역할 뱃지 등록하기</span>
-                    <BadgeRequest isOpen={requestOpen} onRequestClose={closeRequestModal} />
+            </div>
+
+            <div className={`wrap  ${badgeModal && delModal ? ' ' : 'blur'}`}>
+                <div id="name">
+                    <div id="username">{myinfo[0]} 님</div>
+                    <div className="badgeBox">
+                        {myBadge.length > 0 && myBadge.map((badge, index) => (
+                            <div key={index} id="badgenamediv">
+                                <span id="badgename">{badge}</span>
+                            </div>
+                        ))}
+                    </div>
+                    <div id="badge">
+                        <div onClick={badge} id="badge1">역할 뱃지 등록하기</div>
+                        <div> / </div>
+                        <div onClick={delBadge} id="badge2">삭제하기</div>
+                    </div>
+                </div>
+                <div id="profilBox">
+                    <div className="profil">
+                        <img src={IMG_PROFIL} alt="imghuman" className="imghuman" />
+                        <img src={BGPROFIL} alt="imgprofil" className="imgprofil" />
+                        <div id="info">
+                            <div className="infotext">
+                                <span className="text1">이름</span>
+                                {isEditing ? (
+                                    <input
+                                        className="text2"
+                                        value={newInfo[0]}
+                                        onChange={(e) => myinfoChange(0, e.target.value)}
+                                    />
+                                ) : (
+                                    <span className="text2">{myinfo[0]}</span>
+                                )}
+                            </div>
+                            <div className="infotext">
+                                <span className="text1">학번</span>
+                                {isEditing ? (
+                                    <input
+                                        className="text2"
+                                        value={newInfo[1]}
+                                        onChange={(e) => myinfoChange(1, e.target.value)}
+                                    />
+                                ) : (
+                                    <span className="text2">{myinfo[1]}</span>
+                                )}
+                            </div>
+                            <div className="infotext">
+                                <span className="text1">학과</span>
+                                {isEditing ? (
+                                    <Select
+                                        className="majorSelectOption"
+                                        classNamePrefix="custom-select"
+                                        value={majorLists.find(dept => dept.value === newInfo[2])}
+                                        onChange={(selectedOption) => myinfoChange(2, selectedOption.value)}
+                                        options={majorLists}
+                                    />
+                                ) : (
+                                    <span className="text2">{myinfo[2]}</span>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="log">
+                    <span id="edit" onClick={editProfil}>{isEditing ? "저장하기" : "수정하기"}</span>
                     <span> / </span>
-                    <span onClick={showManageModal} id="badge2">삭제하기</span>
-                    <BadgeManage isOpen={manageOpen} onRequestClose={closeManageModal} />
+                    <span id="logout" onClick={logOut}>로그아웃</span>
                 </div>
-            </div>
-            <div id="profilBox">
-                <div className="profil">
-                    <img src={IMG_PROFIL} alt="imghuman" className="imghuman" />
-                    <img src={BGPROFIL} alt="imgprofil" className="imgprofil" />
-                    <div id="info">
-                        <div className="infotext">
-                            <span className="text1">이름</span>
-                            {isEditing ? (
-                                <input
-                                    className="text2"
-                                    value={newInfo[0]}
-                                    onChange={(e) => myinfoChange(0, e.target.value)}
-                                />
-                            ) : (
-                                <span className="text2">{myinfo[0]}</span>
-                            )}
-                        </div>
-                        <div className="infotext">
-                            <span className="text1">학번</span>
-                            {isEditing ? (
-                                <input
-                                    className="text2"
-                                    value={newInfo[1]}
-                                    onChange={(e) => myinfoChange(1, e.target.value)}
-                                />
-                            ) : (
-                                <span className="text2">{myinfo[1]}</span>
-                            )}
-                        </div>
-                        <div className="infotext">
-                            <span className="text1">학과</span>
-                            {isEditing ? (
-                                <Select
-                                    className="majorSelectOption"
-                                    classNamePrefix="custom-select"
-                                    value={majorLists.find(dept => dept.value === newInfo[2])}
-                                    onChange={(selectedOption) => myinfoChange(2, selectedOption.value)}
-                                    options={majorLists}
-                                />
-                            ) : (
-                                <span className="text2">{myinfo[2]}</span>
-                            )}
+                <div className="setdiv">
+                    <div className="onoff">
+                        <span className="onofftext">메일 알람</span>
+                        <div>
+                            <img src={mailAlarm ? ON : OFF} alt="imgon" className="onOffBtn" onClick={mailOnOff} />
                         </div>
                     </div>
-                </div>
-            </div>
-            <div id="log">
-                <span id="edit" onClick={editProfil}>{isEditing ? "저장하기" : "수정하기"}</span>
-                <span> / </span>
-                <span id="logout" onClick={logOut}>로그아웃</span>
-            </div>
-            <div className="setdiv">
-                <div className="onoff">
-                    <span className="onofftext">메일 알람</span>
-                    <div>
-                        <img src={mailAlarm ? ON : OFF} alt="imgon" className="onOffBtn" onClick={mailOnOff} />
-                    </div>
-                </div>
-                <div className="onoff">
-                    <span className="onofftext">수정이들과의 연결</span>
-                    <div>
-                        <img src={connectionAlarm ? ON : OFF} alt="imgon" className="onOffBtn" onClick={connectionOnOff} />
+                    <div className="onoff">
+                        <span className="onofftext">수정이들과의 연결</span>
+                        <div>
+                            <img src={connectionAlarm ? ON : OFF} alt="imgon" className="onOffBtn" onClick={connectionOnOff} />
+                        </div>
                     </div>
                 </div>
             </div>
