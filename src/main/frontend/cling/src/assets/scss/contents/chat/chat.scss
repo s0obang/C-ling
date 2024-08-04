@@ -1,9 +1,22 @@
 .chat-container {
+    .Matching{
+        background: linear-gradient(90deg,#3851FF,  #8037FF);
+        border: none !important;
+    }
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
+
+}
+.content {
+    width: 50%;
     display: flex;
     flex-direction: column;
     height: 100vh;
-    border: 1px solid #ccc;
+    margin: 0 auto;
     overflow: hidden;
+    border: 1px solid white;
 }
 
 .chat-header {
@@ -95,7 +108,6 @@
     align-items: center; 
     justify-content: space-between;
     padding: 15px 10px;
-    border-top: 1px solid #ccc;
     background-color: rgba(1, 1, 1, 1.0);
     z-index: 1;
 }
