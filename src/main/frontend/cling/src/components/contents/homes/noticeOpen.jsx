@@ -25,7 +25,7 @@ const images = [
 ];
 
 const notice = [
-    ['제목 엄~~~~~~~~~~~~~~~~~~~~~~~~~~~청 길다', '내용1']
+    ['제목입디다', '내용1']
 ];
 
 const NoticePage = ({ src, className }) => {
@@ -42,6 +42,9 @@ const NoticePage = ({ src, className }) => {
     }).then(response => setPosts(response.data))
   })*/}
   
+  const editNotice = () => {
+
+  }
   const deleteNotice = () => {
     // 삭제 기능 구현. 내가 쓴 글이면 보이게
   }
@@ -52,7 +55,6 @@ const NoticePage = ({ src, className }) => {
   
   const GonoticeWrite = () => {
     navigate('/noticeWrites');
-    window.scrollTo(0, 0);
   };
 
   return (
@@ -85,13 +87,15 @@ const NoticePage = ({ src, className }) => {
         </div>
           <div id = "title">
           <IoChevronBackCircleOutline className="back" onClick={()=>{navigate(-1)}} />
-          <span className="text1">{notice[0]}</span>
+          <span className="text1">{notice[0][0]}</span>
           </div>
         <div id="editBox">
+          <span id="edit" onClick={editNotice}>수정하기</span>
+          <span> / </span>
           <span id="delete" onClick={deleteNotice}>삭제하기</span>
         </div>
           <div id = "contents">
-          <span className="text2">{notice[1]}</span>
+          <span className="text2">{notice[0][1]}</span>
           </div>
       </div>
       <div>

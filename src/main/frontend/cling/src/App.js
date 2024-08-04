@@ -9,7 +9,6 @@ import Myhome from "./components/contents/my/myhome";
 
 import Main from './components/Main';
 import Mainhome from './components/contents/homes/mainhome';
-import NoticePage from './components/contents/homes/noticePage';
 import Create from './components/contents/user/create';
 import NoMatching from './components/contents/matching/no_matches';
 import MatchingInfo from './components/contents/matching/match_info';
@@ -37,7 +36,6 @@ function App() {
             <Routes>
                 <Route path='/' element={<Landing />} />
                 <Route path='/mainhome' element={<Mainhome />} />
-                <Route path='/notice' element={<NoticePage />} />
                 <Route path='/login/findpw' element = {<Findpw />} />
                 <Route path='/login/newpw' element = {<Newpw />} />
                 <Route path='/crew' element = {<Crew />} />
