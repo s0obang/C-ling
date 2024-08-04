@@ -15,8 +15,7 @@ const CheckSchool = () => {
         })
             .then((res) => {
                 if (res.status === 200) {
-                    const accessToken = res.data.access;
-                    localStorage.setItem('accessToken', accessToken);
+                    
                     alert('메일로 인증번호가 전송되었습니다');
                     console.log(res);
                 }
