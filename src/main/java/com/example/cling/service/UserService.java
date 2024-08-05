@@ -59,7 +59,7 @@ public class UserService {
         // 프로필 이미지 URL 가져오기
         String profileImageUrl = user.getProfileImage() != null ? user.getProfileImage().getUrl() : defaultImageUrl;
 
-        return new MyPageResponseDto(user.getName(), user.getStudentId(), profileImageUrl, user.getMajor());
+        return new MyPageResponseDto(user.getName(), user.getStudentId(), profileImageUrl, user.getMajor(), user.getPosition());
     }
 
     public void updatePassword(String email, String newPassword) {

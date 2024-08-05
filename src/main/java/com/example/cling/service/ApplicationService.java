@@ -3,6 +3,7 @@ package com.example.cling.service;
 import com.example.cling.dto.ApplicationCreateDto;
 import com.example.cling.dto.ApplicationDto;
 import com.example.cling.entity.Application;
+import com.example.cling.entity.Recruitment;
 import com.example.cling.entity.Attachment;
 import com.example.cling.entity.Recruitment;
 import com.example.cling.entity.UserEntity;
@@ -11,8 +12,14 @@ import com.example.cling.repository.RecruitmentRepository;
 import com.example.cling.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +65,7 @@ public class ApplicationService {
     }
 
 
-    public void updateResults(int step, Map<String, Boolean> results) {
+    public void updateResults(int step, Map<String, Boolean> results, int recruitingId) {
         for (Map.Entry<String, Boolean> entry : results.entrySet()) {
             String studentId = entry.getKey();
             Boolean result = entry.getValue();
@@ -88,6 +95,42 @@ public class ApplicationService {
                 throw new IllegalArgumentException("Application not found for student ID: " + studentId);
             }
         }
+
+        // Recruitment의 step과 비교하여 모집 완료 여부 확인
+        Optional<Recruitment> recruitmentOptional = recruitmentRepository.findById(recruitingId);
+        if (recruitmentOptional.isPresent()) {
+            Recruitment recruitment = recruitmentOptional.get();
+
+            if (Integer.toString(step).equals(recruitment.getStep())) {
+                try {
+                    recruitment.setOnStep("0");
+                    recruitmentRepository.save(recruitment);
+                }catch (Exception e){
+                    System.err.println("Failed to update recruitment step : " + e.getMessage());
+                }
+            }
+        }
+    }
+
+    public Resource generateStudentList(String recruitingDepartment, int step) throws IOException {
+        List<Application> applications;
+
+        if (step == 1) {
+            applications = applicationRepository.findByRecruitingDepartmentAndFirstResult(recruitingDepartment, true);
+        } else if (step == 2) {
+            applications = applicationRepository.findByRecruitingDepartmentAndSecondResult(recruitingDepartment, true);
+        } else {
+            throw new IllegalArgumentException("Invalid step value: " + step);
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream))) {
+            for (Application app : applications) {
+                writer.printf("학번: %s, 이름: %s%n", app.getStudentId(), app.getStudentName());
+            }
+        }
+
+        return new ByteArrayResource(outputStream.toByteArray());
     }
 
 
