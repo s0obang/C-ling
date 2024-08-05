@@ -92,32 +92,25 @@
     height: 400px;
     overflow-y: scroll;
     align-items: center;
-    margin: 10px auto;
-    padding:50px;
-    padding-bottom: 0px;
+    margin: auto;
+    padding:10px 50px;
+    padding-bottom: 50px;
 
-    table {
-      width: 100%;
-      border-collapse: collapse; // 테두리 겹침 제거 
-    }
-    #tableList{
+    #notices{
       cursor: pointer;
+      padding: 10px;
+      border-bottom: solid 0.1px white;
+      display: flex;
     }
-    #tableList:hover{
+    #notices:hover{
       color: #7939FF;
 
     }
-    tr{
-      border-bottom: solid 0.1px white;
-    }
-    th {
-      padding: 10px; /* 셀 간격 추가 */
-    }
-      .tableDate{
+      .noticeDate{
         text-align: left;
         width: 100px;
       }
-      .tableTitle{
+      .noticeTitle{
         text-align: left;
       }
   }
