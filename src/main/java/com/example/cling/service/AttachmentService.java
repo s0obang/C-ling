@@ -45,7 +45,7 @@ public class AttachmentService {
     @Transactional
     public void uploadToNotice(List<MultipartFile> files, NoticeDto noticeDto) throws IOException {
 
-        baseDir += File.separator + "notice";
+        baseDir = "/home/ubuntu/uploads/Attachments" + File.separator + "notice";
         //이미지가 없는 경우 저장 x
         if (files == null || files.isEmpty()) {
             throw new IllegalArgumentException("이미지 파일이 없습니다.");
@@ -58,7 +58,7 @@ public class AttachmentService {
             if (postDir.mkdirs()) {
                 System.out.println("Directory created: " + postDirName);
             } else {
-                System.err.println("Failed to create directory: " + postDirName);
+                throw new IllegalArgumentException("디렉토리 생성에 실패했습니다.");
             }
         }
 
@@ -115,7 +115,7 @@ public class AttachmentService {
     @Transactional
     public void uploadToRecruitment(List<MultipartFile> images, List<MultipartFile> files, RecruitmentDto recruitmentDto) throws IOException {
 
-        baseDir += File.separator + "recruitment";
+        baseDir = "/home/ubuntu/uploads/Attachments" + File.separator + "recruitment";
         //이미지가 없는 경우 저장 x
         if (images == null || images.isEmpty() || files == null || files.isEmpty()) {
             throw new IllegalArgumentException("이미지 또는 첨부파일이 없습니다.");
@@ -224,8 +224,8 @@ public class AttachmentService {
 
     public void uploadToApplication(List<MultipartFile> file, ApplicationDto applicationDto, int recruitment_id) throws IOException {
 
-        baseDir += File.separator + "recruitment" + File.separator + recruitment_id;
-        //이미지가 없는 경우 저장 x
+        baseDir = "/home/ubuntu/uploads/Attachments" + File.separator + "recruitment" + File.separator + recruitment_id;
+        //이미지가 없는  경우 저장 x
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("지원서가 없습니다.");
         }

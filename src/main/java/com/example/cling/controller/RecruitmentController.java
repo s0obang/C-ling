@@ -34,6 +34,7 @@ public class RecruitmentController {
         this.userRepository = userRepository;
     }
 
+    // 작성한 공고 불러오기
     @GetMapping("/recruitment/all/{recruitingDepartment}")
     @ResponseStatus(HttpStatus.OK)
     public List<RecruitmentDto> getAllRecruitments(
