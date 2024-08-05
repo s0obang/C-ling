@@ -136,7 +136,7 @@ const Myprofil = () => {
 
     return (
         <div className='myprofil'>
-            <div className={`modal-badge ${badgeModal ? 'hide' : ' '}`}>
+            <div className={`modal-badge ${badgeModal ? ' ' : ' hide'}`}>
                 <div className="modaldiv">
                     <img src={cancle} alt="X" onClick={badge} />
                     <form action="post" className="form">
@@ -163,7 +163,7 @@ const Myprofil = () => {
                     </div>
                 </div>
             </div>
-            <div className={`delmodaldiv ${delModal ? 'hide' : ' '}`}>
+            <div className={`delmodaldiv ${delModal ? ' ' : ' hide'}`}>
             <img src={cancle} alt="X" onClick={delBadge} />
                 {myBadge.length > 0 && myBadge.map((badge, index) => (
                     <div className="badgelist">
@@ -179,7 +179,7 @@ const Myprofil = () => {
                 </div>
             </div>
 
-            <div className={`wrap  ${badgeModal && delModal ? ' ' : 'blur'}`}>
+            <div className={`wrap  ${badgeModal || delModal ? 'blur ' : ''}`}>
                 <div id="name">
                     <div id="username">{myinfo[0]} 님</div>
                     <div className="badgeBox">

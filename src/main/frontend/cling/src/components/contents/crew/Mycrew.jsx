@@ -4,7 +4,7 @@ import Header from '../../Header';
 import left from '../../../assets/img/crew/left.png';
 import Folder from '../../../assets/img/crew/Folder.png';
 import PassList from './PassList';
-import {Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios'
 
@@ -36,40 +36,43 @@ const Mycrew = () => {
         }
     };
     const listDown = () => {
-        axios.get('http://13.48.207.238:1234/downloadStudentList', {
+
+        axios.get('http://13.48.207.238:1234/api/downloadStudentList', {
             headers: {
+
                 'Content-Type': 'text/plain'
             },
-            responseType: 'blob',
+            responseType: 'blob', // 응답을 Blob 형식으로 처리
             params: {
                 recruitingDepartment: 'cs',
                 step: '2'
             }
         })
-        .then(res => {
-            if (res.status === 200) {
-                console.log(res);
-                const url = window.URL.createObjectURL(new Blob([res.data], { type: 'text/plain' }));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', 'student_list.txt');
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
-        })
-        .catch(err => {
-            console.error(err);
-        });
+            .then(res => {
+                if (res.status === 200) {
+                    const url = window.URL.createObjectURL(new Blob([res.data], { type: 'text/plain' }));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'student_list.txt'); 
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+             
+            });
     };
-    
+
+
     return (
         <div className='mycrew-page'>
             <Header />
             <motion.div className="wrap"
-             variants={fadeIn}
-             initial="hidden"
-             animate="visible">
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible">
                 <div className="title">
                     <img src={left} alt="뒤로가기" onClick={handleBackClick} />
                     <h1>컴퓨터공학과 제 13대 학생회</h1>
@@ -101,7 +104,7 @@ const Mycrew = () => {
                             </div>
                             <div className="line"></div>
                         </div>
-                       
+
                     </div>
                     <Link to='/noticeWrite' className='towrite'>글 작성</Link>
                 </div>
@@ -120,14 +123,14 @@ const Mycrew = () => {
                     <p className="send-text">※ 합/불 입력 완료 이후  지원자에게 메일이 발송되며  합/불 수정이 불가능합니다. </p>
                 </div>
                 <div className="list-down">
-                <h2 className="sub-title">최종 합격자 명단 다운로드</h2>
-                <div className="file">
-                    <img src={Folder} alt="Folder" />
-                    <div className="filename"  onClick={listDown}>컴퓨터공학과 제 13대 학생회 부원을 모집합니다.</div>
+                    <h2 className="sub-title">최종 합격자 명단 다운로드</h2>
+                    <div className="file">
+                        <img src={Folder} alt="Folder" />
+                        <div className="filename" onClick={listDown}>컴퓨터공학과 제 13대 학생회 부원을 모집합니다.</div>
+                    </div>
                 </div>
-            </div>
             </motion.div>
-           
+
             <div className="empty"></div>
             <div className="empty"></div>
         </div>
