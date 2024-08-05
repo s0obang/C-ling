@@ -61,6 +61,15 @@ public class Recruitment extends BaseTimeEntity {
     @JsonManagedReference
     private List<Attachment> files = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "recruitment",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
+    )
+    @JsonManagedReference
+    private List<Application> applications = new ArrayList<>();
+
 
     public void addAttachment(Attachment attachment) {
         if (attachment.getFileType().equals("recruitment_image")) {
@@ -73,5 +82,14 @@ public class Recruitment extends BaseTimeEntity {
             attachment.setRecruitment(this);
         }
     }
+
+    public void addApplication(Application application) {
+            this.applications.add(application);
+
+        if (application.getRecruitment() != this) {
+            application.setRecruitment(this);
+        }
+    }
+
 
 }

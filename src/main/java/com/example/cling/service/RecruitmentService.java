@@ -3,8 +3,10 @@ package com.example.cling.service;
 import com.example.cling.dto.RecruitmentCreateDto;
 import com.example.cling.dto.RecruitmentDto;
 import com.example.cling.dto.RecruitmentInfoDto;
+import com.example.cling.entity.Application;
 import com.example.cling.entity.Attachment;
 import com.example.cling.entity.Recruitment;
+import com.example.cling.repository.ApplicationRepository;
 import com.example.cling.repository.AttachmentRepository;
 import com.example.cling.repository.RecruitmentRepository;
 import jakarta.transaction.Transactional;
@@ -23,11 +25,12 @@ public class RecruitmentService {
 
     private final RecruitmentRepository recruitmentRepository;
     private final AttachmentRepository attachmentRepository;
-
+    private final ApplicationRepository applicationRepository;
     @Autowired
-    public RecruitmentService(RecruitmentRepository recruitmentRepository, AttachmentRepository attachmentRepository) {
+    public RecruitmentService(RecruitmentRepository recruitmentRepository, AttachmentRepository attachmentRepository, ApplicationRepository applicationRepository) {
         this.recruitmentRepository = recruitmentRepository;
         this.attachmentRepository = attachmentRepository;
+        this.applicationRepository = applicationRepository;
     }
 
     @Value("${spring.servlet.multipart.location}")
@@ -75,34 +78,47 @@ public class RecruitmentService {
             return new IllegalArgumentException("삭제할 게시물이 없습니다.");
         });
 
-        //관련 파일 지우기
-        for (Attachment image : recruitment.getImages()) {
-            File file = new File(image.getAttachmentPath());
-            if (file.exists()) {
-                if (file.delete()) {
-                    System.out.println("Image deleted: " + file.getPath());
-                } else {
-                    System.err.println("Failed to delete image: " + file.getPath());
-                }
-            }
-        }
-        for (Attachment attachment : recruitment.getFiles()) {
-            File file = new File(attachment.getAttachmentPath());
-            if (file.exists()) {
-                if (file.delete()) {
-                    System.out.println("Attachment deleted: " + file.getPath());
-                } else {
-                    System.err.println("Failed to delete attachment: " + file.getPath());
-                }
-            }
+        // 관련 지원서 가져오기
+        List<Application> applications = applicationRepository.findByRecruitment(recruitment);
+
+
+        // 관련 파일 삭제
+        deleteFiles(recruitment.getImages());
+        deleteFiles(recruitment.getFiles());
+
+        // 관련 지원서 삭제 및 그에 연결된 첨부 파일 삭제
+        for (Application application : applications) {
+            deleteFiles(application.getApplication());
+            applicationRepository.delete(application);
         }
 
         attachmentRepository.deleteAll(recruitment.getImages());
         attachmentRepository.deleteAll(recruitment.getFiles());
 
         // 게시물 아이디에 해당하는 폴더 삭제
-        baseDir += "/recruitment";
-        String postDirName = baseDir + "/" + id;
+        deleteDirectory(id);
+
+        //공고 삭제
+        recruitmentRepository.deleteById(id);
+    }
+
+    //관련 파일 지우기
+    private void deleteFiles(List<Attachment> attachments) {
+        for (Attachment attachment : attachments) {
+            File file = new File(attachment.getAttachmentPath());
+            if (file.exists()) {
+                if (file.delete()) {
+                    System.out.println("File deleted: " + file.getPath());
+                } else {
+                    System.err.println("Failed to delete file: " + file.getPath());
+                }
+            }
+        }
+    }
+
+    // 게시물 아이디에 해당하는 폴더 삭제
+    private void deleteDirectory(int id) {
+        String postDirName = baseDir + "/recruitment/" + id;
         File postDir = new File(postDirName);
         if (postDir.exists() && postDir.isDirectory()) {
             try {
@@ -112,10 +128,6 @@ public class RecruitmentService {
                 e.printStackTrace();
             }
         }
-
-        //게시물 삭제
-        recruitmentRepository.deleteById(id);
-
     }
 
     private void deleteDirectoryRecursively(File directory) throws IOException {

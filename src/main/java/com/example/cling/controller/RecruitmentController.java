@@ -94,11 +94,11 @@ public class RecruitmentController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/recruitment/apply/{recruitingDepartment}")
+    @PostMapping("/recruitment/apply/{recruitment_id}")
     public ResponseEntity<String> sendApplication (
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam("application") List<MultipartFile> file,
-            @PathVariable("recruitingDepartment") String recruitingDepartment
+            @PathVariable("recruitment_id") int recruitment_id
             ) {
         if (file == null)
             return ResponseEntity.badRequest().body("첨부파일이 없습니다.");
@@ -110,18 +110,19 @@ public class RecruitmentController {
 
         ApplicationCreateDto applicationCreateDto =
                 ApplicationCreateDto.builder()
-                        .recruitingDepartment(recruitingDepartment)
+                        .recruitment_id(recruitment_id)
                         .studentId(student.getStudentId())
                         .studentName(student.getName())
+                        .application(file)
                         .build();
 
         try {
             ApplicationDto applicationDto = applicationService.send(applicationCreateDto);
-            attachmentService.uploadToApplication(file, applicationDto);
+            attachmentService.uploadToApplication(file, applicationDto, recruitment_id);
             return ResponseEntity.ok("지원서가 성공적으로 전송되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("게시글 작성에 실패했습니다: " + e.getMessage());
+                    .body("지원서 전송에 실패했습니다: " + e.getMessage());
         }
 
     }
@@ -132,7 +133,6 @@ public class RecruitmentController {
     ) {
         //Dto 만들어서 서비스에서 id 값이 가장 큰 게시글(최신공고) 의 정보를 가져옴
         //Dto에는 title, 모집일정, 선발계획
-        //Recruitment 엔티티에... startDate 추가
 
         return recruitmentService.getRecruitmentInfo(recruitingDepartment);
     }

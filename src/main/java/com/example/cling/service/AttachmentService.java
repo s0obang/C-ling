@@ -222,16 +222,16 @@ public class AttachmentService {
 
     }
 
-    public void uploadToApplication(List<MultipartFile> file, ApplicationDto applicationDto) throws IOException {
+    public void uploadToApplication(List<MultipartFile> file, ApplicationDto applicationDto, int recruitment_id) throws IOException {
 
-        baseDir += File.separator + "application";
+        baseDir += File.separator + "recruitment" + File.separator + recruitment_id;
         //이미지가 없는 경우 저장 x
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("지원서가 없습니다.");
         }
 
-        // 부서에 따라 디렉토리 생성
-        String postDirName = baseDir + File.separator + applicationDto.getRecruitingDepartment();
+        // 공고 id 폴더 밑에 application 폴더 생성
+        String postDirName = baseDir + File.separator + "application" + File.separator + applicationDto.getId();
         File postDir = new File(postDirName);
         if (!postDir.exists()) {
             if (postDir.mkdirs()) {
@@ -254,7 +254,7 @@ public class AttachmentService {
 
             String fileName =  UUID.randomUUID().toString() + "_" + originFileName;
             String filePath = postDirName + File.separator + fileName;
-            String fileUrl = "/Attachments/application/" + application.getId() + "/" + fileName;
+            String fileUrl = "/Attachments/recruitment/" + recruitment_id + "/application/" + application.getId() + "/" + fileName;
             // 지원서 저장
             File dest = new File(filePath);
             try {
@@ -279,14 +279,14 @@ public class AttachmentService {
                 throw new RuntimeException("Error saving attachment to database", e);
             }
             // appliction에 추가
-            application.addImage(syncAttachment);
+            application.addFile(syncAttachment);
         }
 
         // application 객체의 상태를 데이터베이스에 반영
         try {
             applicationRepository.save(application);
         } catch (Exception e) {
-            throw new RuntimeException("Error updating notice in database", e);
+            throw new RuntimeException("Error updating application in database", e);
         }
         applicationRepository.save(application);
 
@@ -296,4 +296,32 @@ public class AttachmentService {
         return attachmentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Attachment not found with id " + id));
     }
+
+    // 인스턴스에서 파일 삭제
+    public void deleteFileFromFileSystem(String filePath) {
+        File file = new File(filePath);
+        if (file.exists()) {
+            if (file.delete()) {
+                System.out.println("File deleted successfully: " + filePath);
+            } else {
+                System.err.println("Failed to delete file: " + filePath);
+            }
+        } else {
+            System.err.println("File not found: " + filePath);
+        }
+    }
+
+    // DB에서 파일 정보 삭제
+    @Transactional
+    public void deleteFileFromDatabase(int attachmentId) {
+        attachmentRepository.deleteById(attachmentId);
+    }
+
+    // 인스턴스 및 DB에서 파일 삭제
+    @Transactional
+    public void deleteFile(Attachment attachment) {
+        deleteFileFromFileSystem(attachment.getAttachmentPath());
+        deleteFileFromDatabase(attachment.getId());
+    }
+
 }
