@@ -89,18 +89,14 @@ const Mainhome = () => {
         </div>
       </div>
       <div className="tableBox">
-        <table>
-          <tbody>
-            {noticeLists.map((notice, index) => (
-              <tr key={index}>
-                <div id="tableList">
-                <th className="tableDate">{notice.date}</th>
-                <th className="tableTitle" onClick={() => GonoticeOpen(index)}>{notice.titles}</th>
-                </div>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {noticeLists.map((notice, index) => (
+          <div key={index}>
+            <div id="notices">
+            <div className="noticeDate">{notice.date}</div>
+            <div className="noticeTitle" onClick={() => GonoticeOpen(index)}>{notice.titles}</div>
+            </div>
+          </div>
+        ))}
       </div>
       <div>
         <button id="btnWrite" onClick={GonoticeWrite}>글 작성하기</button>

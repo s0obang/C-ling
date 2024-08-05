@@ -77,7 +77,7 @@ const NoticeWrites = () => {
           <div className="btnUpload" onClick={onClickImageUploads}>
             <button className="button1">이미지 업로드</button>
           </div>
-          <ul className="fileNames">
+          <ul className="fileName1">
             {fileNames.map((fileName, index) => (
               <li key={index}>{fileName}</li>
             ))}
