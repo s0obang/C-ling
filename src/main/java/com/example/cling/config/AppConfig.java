@@ -1,13 +1,14 @@
 package com.example.cling.config;
 
+import com.example.cling.util.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class AppConfig {
+
     @Bean
-    public WebClient.Builder webClientBuilder() {
-        return WebClient.builder();
+    public JwtUtil jwtUtil() {
+        return new JwtUtil();
     }
 }
