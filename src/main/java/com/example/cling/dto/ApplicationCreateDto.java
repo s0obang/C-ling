@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,11 +15,13 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ApplicationCreateDto {
-    @NotBlank(message = "recruitmentDepartment cannot be blank")
-    private String recruitingDepartment;
+    @NotBlank(message = "recruitment_id cannot be blank")
+    private int recruitment_id;
     @NotBlank(message = "studentId cannot be blank")
     private String studentId;
     @NotBlank(message = "studentName cannot be blank")
     private String studentName;
+    @NotBlank(message = "application cannot be blank")
+    private List<MultipartFile> application;
 }
 

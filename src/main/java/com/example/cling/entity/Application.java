@@ -1,5 +1,6 @@
 package com.example.cling.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,13 +39,18 @@ public class Application {
     @JsonManagedReference
     private List<Attachment> application = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recruitment_id")
+    @JsonBackReference
+    private Recruitment recruitment;
+
     @Column
     private boolean firstResult;
 
     @Column
     private boolean secondResult;
 
-    public void addImage(Attachment file) {
+    public void addFile(Attachment file) {
         this.application.add(file);
 
         // 만약 게시글이 다를 경우? 게시글 정보 업데이트? (동기화)
@@ -68,4 +74,5 @@ public class Application {
     public boolean getSecondResult() {
         return this.secondResult;
     }
+
 }

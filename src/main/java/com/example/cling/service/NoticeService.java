@@ -2,6 +2,7 @@ package com.example.cling.service;
 
 import com.example.cling.dto.NoticeCreateDto;
 import com.example.cling.dto.NoticeDto;
+import com.example.cling.dto.NoticeUpdateDto;
 import com.example.cling.entity.Attachment;
 import com.example.cling.entity.Notice;
 import com.example.cling.repository.AttachmentRepository;
@@ -22,11 +23,13 @@ public class NoticeService {
 
     private final NoticeRepository noticeRepository;
     private final AttachmentRepository attachmentRepository;
+    private  final AttachmentService attachmentService;
 
     @Autowired
-    public NoticeService(NoticeRepository noticeRepository, AttachmentRepository attachmentRepository) {
+    public NoticeService(NoticeRepository noticeRepository, AttachmentRepository attachmentRepository, AttachmentService attachmentService) {
         this.noticeRepository = noticeRepository;
         this.attachmentRepository = attachmentRepository;
+        this.attachmentService = attachmentService;
     }
 
     @Value("${spring.servlet.multipart.location}")
@@ -52,6 +55,29 @@ public class NoticeService {
         return NoticeDto.toDto(savedNotice);
     }
 
+    //게시물 업데이트
+    @Transactional
+    public NoticeDto update(NoticeUpdateDto noticeUpdateDto) throws IOException {
+        Notice notice = noticeRepository.findById(noticeUpdateDto.getId())
+                .orElseThrow(() -> new RuntimeException("Notice not found"));
+
+        notice.setTitle(noticeUpdateDto.getTitle());
+        notice.setContent(noticeUpdateDto.getContent());
+
+        List<Attachment> existingImages = notice.getImages();
+        for (Attachment image : existingImages) {
+            attachmentService.deleteFile(image);
+        }
+        notice.getImages().clear();
+
+        if (noticeUpdateDto.getImages() != null && !noticeUpdateDto.getImages().isEmpty()) {
+            attachmentService.uploadToNotice(noticeUpdateDto.getImages(), NoticeDto.toDto(notice));
+        }
+
+        Notice updatedNotice = noticeRepository.save(notice);
+        return NoticeDto.toDto(updatedNotice);
+    }
+
     // 게시물 조회
     public Optional<NoticeDto> getNotice(int id) {
         return noticeRepository.findById(id)
@@ -60,6 +86,13 @@ public class NoticeService {
 
     public Notice getNoticeById(int id) {
         return noticeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Notice not found"));
+    }
+
+    public List<NoticeDto> getNoticeMy(String userId) {
+        List<Notice> notices = noticeRepository.findByUserId(userId);
+        List<NoticeDto> noticeDtos = new ArrayList<>();
+        notices.forEach(s -> noticeDtos.add(NoticeDto.toDto(s)));
+        return noticeDtos;
     }
 
     //게시물 삭제

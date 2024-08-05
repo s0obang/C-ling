@@ -12,8 +12,8 @@ spring:
   servlet:
     multipart:
       location: /home/ubuntu/uploads/Attachments #공지사항 이미지 업로드 경로
-      maxFileSize: 10MB
-      maxRequestSize: 100MB
+      maxFileSize: 50MB
+      maxRequestSize: 200MB
 
 
   # spring data jpa 설정

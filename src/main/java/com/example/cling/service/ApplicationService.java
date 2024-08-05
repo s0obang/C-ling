@@ -3,8 +3,11 @@ package com.example.cling.service;
 import com.example.cling.dto.ApplicationCreateDto;
 import com.example.cling.dto.ApplicationDto;
 import com.example.cling.entity.Application;
+import com.example.cling.entity.Attachment;
+import com.example.cling.entity.Recruitment;
 import com.example.cling.entity.UserEntity;
 import com.example.cling.repository.ApplicationRepository;
+import com.example.cling.repository.RecruitmentRepository;
 import com.example.cling.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +25,25 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final MailSendService mailSendService;
     private final UserRepository userRepository;
+    private final RecruitmentRepository recruitmentRepository;
 
 
 
     public ApplicationDto send(ApplicationCreateDto applicationCreateDto) {
         Application application = new Application();
-        application.setRecruitingDepartment(applicationCreateDto.getRecruitingDepartment());
+
+        // 공고 찾기
+        Optional<Recruitment> getRecruitment = recruitmentRepository.findById(Integer.valueOf(applicationCreateDto.getRecruitment_id()));
+        Recruitment recruitment;
+        if (getRecruitment.isPresent())
+            recruitment =  getRecruitment.get();
+        else
+            throw new IllegalArgumentException("리크루팅 공고가 존재하지 않습니다.");
+        application.setRecruitment(recruitment);
+        application.setRecruitingDepartment(recruitment.getRecruitingDepartment());
         application.setStudentId(applicationCreateDto.getStudentId());
         application.setStudentName(applicationCreateDto.getStudentName());
+        recruitment.addApplication(application);
         Application savedApplication = applicationRepository.save(application);
         return ApplicationDto.toDto(savedApplication);
 
