@@ -1,26 +1,34 @@
 package com.example.cling.config;
 
 import com.example.cling.service.CustomUserDetailService;
+import com.example.cling.util.JwtUtil;
+import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final CustomUserDetailService customUserDetailService;
+    private final JwtUtil jwtUtil;
+
+    public SecurityConfig(CustomUserDetailService customUserDetailService, JwtUtil jwtUtil) {
+        this.customUserDetailService = customUserDetailService;
+        this.jwtUtil = jwtUtil;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -30,12 +38,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))// CORS 활성화
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/login", "/api/auth/signup", "/login.html", "/ws-stomp/**").permitAll()
                         .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/mailSend", "/mailauthCheck", "/api/auth/change-password", "/api/auth/logout").permitAll() // 이메일 및 비밀번호 변경 요청 허용
+                        .requestMatchers("/mailSend", "/mailauthCheck", "/api/auth/change-password", "/api/auth/logout").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -43,10 +51,11 @@ public class SecurityConfig {
                         .usernameParameter("studentId")
                         .passwordParameter("password")
                         .successHandler((request, response, authentication) -> {
+                            String token = jwtUtil.generateToken(authentication.getName());
                             response.setContentType("application/json");
                             response.setCharacterEncoding("UTF-8");
                             response.setStatus(HttpServletResponse.SC_OK);
-                            response.getWriter().write("{\"message\": \"로그인 성공\", \"status\": 200}");
+                            response.getWriter().write("{\"token\": \"" + token + "\"}");
                         })
                         .failureHandler((request, response, exception) -> {
                             response.setContentType("application/json");
@@ -59,6 +68,12 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/api/auth/logout")
                         .logoutSuccessHandler((request, response, authentication) -> {
+                            // 토큰 폐기
+                            String token = request.getHeader("Authorization");
+                            if (token != null && token.startsWith("Bearer ")) {
+                                token = token.substring(7); // "Bearer " 제거
+                                jwtUtil.blacklistToken(token);
+                            }
                             response.setContentType("application/json");
                             response.setCharacterEncoding("UTF-8");
                             response.setStatus(HttpServletResponse.SC_OK);
@@ -74,10 +89,12 @@ public class SecurityConfig {
                             response.getWriter().write("{\"message\": \"인증 필요\", \"status\": 401}");
                         })
                 )
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, customUserDetailService), UsernamePasswordAuthenticationFilter.class)
                 .userDetailsService(customUserDetailService);
 
         return http.build();
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

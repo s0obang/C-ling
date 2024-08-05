@@ -24,7 +24,6 @@ public class UserController {
         try {
             UserEntity user = userService.registerUser(signUpRequestDto);
 
-            // 프로필 이미지가 있는 경우->프로필 이미지 업로드
             if (signUpRequestDto.getProfileImage() != null && !signUpRequestDto.getProfileImage().isEmpty()) {
                 userService.updateProfileImage(user.getStudentId(), signUpRequestDto.getProfileImage());
             }
@@ -34,6 +33,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"회원가입 실패\", \"status\": 400}");
         }
     }
+
     @PostMapping("/uploadProfileImage")
     public ResponseEntity<String> uploadProfileImage(@RequestParam("file") MultipartFile file,
                                                      @RequestParam("studentId") String studentId) {
@@ -58,11 +58,7 @@ public class UserController {
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
-        session.invalidate(); // 세션 무효화
+        session.invalidate();
         return ResponseEntity.ok("{\"message\": \"로그아웃 성공\", \"status\": 200}");
     }
-
-
-
-
 }
