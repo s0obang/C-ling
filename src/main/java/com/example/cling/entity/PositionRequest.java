@@ -35,4 +35,9 @@ public class PositionRequest {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20, nullable = false)
     private PositionRequestStatus status; // 인증 요청
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }

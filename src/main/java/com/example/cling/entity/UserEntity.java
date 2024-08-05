@@ -3,6 +3,9 @@ package com.example.cling.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -34,10 +37,11 @@ public class UserEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private ProfileImage profileImage;
 
-    public void setProfileImage(ProfileImage profileImage) {
-        this.profileImage = profileImage;
-        if (profileImage != null) {
-            profileImage.setUser(this); // 양방향 설정
-        }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<PositionRequest> positionRequests = new ArrayList<>();
+
+    public int getPositionCount() {
+        // 직책 수를 반환＝＝ 이걸로 ３개 이상이면 에러메세지 보낼라구
+        return positionRequests.size();
     }
 }

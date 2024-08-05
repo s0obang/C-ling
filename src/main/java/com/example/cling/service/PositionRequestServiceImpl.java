@@ -6,6 +6,7 @@ import com.example.cling.entity.PositionRequestStatus;
 import com.example.cling.entity.UserEntity;
 import com.example.cling.repository.PositionRequestRepository;
 import com.example.cling.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class PositionRequestServiceImpl implements PositionRequestService {
     private String positionImagePath;
 
     @Override
+    @Transactional
     public void processPositionRequest(PositionRequestDto positionRequestDto) {
         MultipartFile authenticationImage = positionRequestDto.getAuthenticationImage();
         String imageUrl = "";
@@ -46,6 +48,14 @@ public class PositionRequestServiceImpl implements PositionRequestService {
             }
         }
 
+        UserEntity user = userRepository.findByStudentId(positionRequestDto.getStudentId())
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        // 직책 수를 확인하여 3개 이상일 경우 예외 발생
+        if (user.getPositionRequests().size() >= 3) {
+            throw new RuntimeException("직책은 최대 3개까지만 등록 가능합니다.");
+        }
+
         PositionRequest positionRequest = PositionRequest.builder()
                 .name(positionRequestDto.getName())
                 .major(positionRequestDto.getMajor())
@@ -53,12 +63,14 @@ public class PositionRequestServiceImpl implements PositionRequestService {
                 .position(positionRequestDto.getPosition())
                 .authenticationImage(imageUrl) // URL을 String으로 저장
                 .status(PositionRequestStatus.PENDING)
+                .user(user) // UserEntity 설정
                 .build();
 
         positionRequestRepository.save(positionRequest);
     }
 
     @Override
+    @Transactional
     public void approvePositionRequest(Long requestId) {
         PositionRequest positionRequest = positionRequestRepository.findById(requestId)
                 .orElseThrow(() -> new RuntimeException("직책 인증 요청을 찾을 수 없습니다."));
@@ -78,6 +90,7 @@ public class PositionRequestServiceImpl implements PositionRequestService {
     }
 
     @Override
+    @Transactional
     public void rejectPositionRequest(Long requestId) {
         PositionRequest positionRequest = positionRequestRepository.findById(requestId)
                 .orElseThrow(() -> new RuntimeException("직책 인증 요청을 찾을 수 없습니다."));

@@ -36,6 +36,9 @@ public class PositionController {
         try {
             positionRequestService.processPositionRequest(positionRequestDto);
             return ResponseEntity.ok("{\"message\": \"직책 인증 요청이 성공적으로 처리되었습니다.\", \"status\": 200}");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"message\": \"" + e.getMessage() + "\", \"status\": 400}");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("{\"message\": \"직책 인증 요청 처리 실패: " + e.getMessage() + "\", \"status\": 500}");
@@ -53,3 +56,4 @@ public class PositionController {
         }
     }
 }
+
