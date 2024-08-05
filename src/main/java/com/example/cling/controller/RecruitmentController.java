@@ -41,6 +41,7 @@ public class RecruitmentController {
             @PathVariable("recruitingDepartment") String recruitingDepartment
     ) { return recruitmentService.getAllRecruitments(recruitingDepartment); }
 
+    // 공고 작성하기
     @PostMapping("/recruitment/write")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> writeRecruitment (
@@ -80,6 +81,7 @@ public class RecruitmentController {
 
     }
 
+    // 공고 상세보기
     @GetMapping("/recruitment/{recruitmentId}")
     public ResponseEntity<RecruitmentDto> getRecruitment(@PathVariable("recruitmentId") int recruitmentId) {
         Optional<RecruitmentDto> recruitmentDto = recruitmentService.getRecruitment(recruitmentId);
@@ -87,6 +89,7 @@ public class RecruitmentController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    // 공고 삭제
     @DeleteMapping("/recruitment/{recruitmentId}")
     public ResponseEntity<Void> deleteRecruitment(
             @PathVariable("recruitmentId") int recruitmentId
@@ -95,7 +98,8 @@ public class RecruitmentController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/recruitment/apply/{recruitment_id}")
+    //지원서 전송
+    @PostMapping("/recruitment/apply/{recruitmentId}")
     public ResponseEntity<String> sendApplication (
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam("application") List<MultipartFile> file,
@@ -128,6 +132,7 @@ public class RecruitmentController {
 
     }
 
+    // 리크루팅 현황 정보 가져오기
     @GetMapping("/applications/{recruitingDepartment}/info")
     public RecruitmentInfoDto getRecruitmentInfo(
             @PathVariable("recruitingDepartment") String recruitingDepartment

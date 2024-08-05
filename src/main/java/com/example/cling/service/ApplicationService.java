@@ -58,7 +58,8 @@ public class ApplicationService {
     }
 
     public List<ApplicationDto> getApplications(String recruitingDepartment) {
-        List<Application> applications = applicationRepository.findByRecruitingDepartment(recruitingDepartment);
+        Recruitment recruitment = recruitmentRepository.findFirstByRecruitingDepartmentOrderByIdDesc(recruitingDepartment);
+        List<Application> applications = recruitment.getApplications();
         List<ApplicationDto> applicationDtos = new ArrayList<>();
         applications.forEach(s -> applicationDtos.add(ApplicationDto.toDto(s)));
         return applicationDtos;
