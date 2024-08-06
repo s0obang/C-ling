@@ -35,11 +35,10 @@ public class ApplicationController {
         }
     }
 
+    // 부서의 최신 공고에 들어온 지원서 확인
     @GetMapping("/applications/{recruitingDepartment}")
     public List<ApplicationDto> getApplications(@PathVariable("recruitingDepartment") String recruitingDepartment) {
-
         return applicationService.getApplications(recruitingDepartment);
-
     }
 
     @GetMapping("/downloadStudentList")

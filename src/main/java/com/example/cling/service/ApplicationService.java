@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -59,6 +61,11 @@ public class ApplicationService {
 
     public List<ApplicationDto> getApplications(String recruitingDepartment) {
         Recruitment recruitment = recruitmentRepository.findFirstByRecruitingDepartmentOrderByIdDesc(recruitingDepartment);
+
+        if (recruitment == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "부서 이름을 다시 확인하세요." + recruitingDepartment);
+        }
+
         List<Application> applications = recruitment.getApplications();
         List<ApplicationDto> applicationDtos = new ArrayList<>();
         applications.forEach(s -> applicationDtos.add(ApplicationDto.toDto(s)));
