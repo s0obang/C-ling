@@ -73,10 +73,10 @@ public class RecruitmentController {
         try {
             RecruitmentDto recruitmentDto = recruitmentService.write(recruitmentCreateDto);
             attachmentService.uploadToRecruitment(images, files, recruitmentDto);
-            return ResponseEntity.ok("게시글이 성공적으로 작성되었습니다.");
+            return ResponseEntity.ok("리크투팅 공고가 성공적으로 작성되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("게시글 작성에 실패했습니다: " + e.getMessage());
+                    .body("리크루팅 공고 작성에 실패했습니다: " + e.getMessage());
         }
 
     }
@@ -92,9 +92,9 @@ public class RecruitmentController {
     // 공고 삭제
     @DeleteMapping("/recruitment/{recruitmentId}")
     public ResponseEntity<Void> deleteRecruitment(
-            @PathVariable("recruitmentId") int recruitmentId
+            @PathVariable("recruitmentId") String recruitmentId
     ) {
-        recruitmentService.delete(recruitmentId);
+        recruitmentService.delete(Integer.parseInt(recruitmentId));
         return ResponseEntity.noContent().build();
     }
 
@@ -103,7 +103,7 @@ public class RecruitmentController {
     public ResponseEntity<String> sendApplication (
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam("application") List<MultipartFile> file,
-            @PathVariable("recruitment_id") int recruitment_id
+            @PathVariable("recruitment_id") String recruitment_id
             ) {
         if (file == null)
             return ResponseEntity.badRequest().body("첨부파일이 없습니다.");
@@ -115,7 +115,7 @@ public class RecruitmentController {
 
         ApplicationCreateDto applicationCreateDto =
                 ApplicationCreateDto.builder()
-                        .recruitment_id(recruitment_id)
+                        .recruitment_id(Integer.parseInt(recruitment_id))
                         .studentId(student.getStudentId())
                         .studentName(student.getName())
                         .application(file)
@@ -123,7 +123,7 @@ public class RecruitmentController {
 
         try {
             ApplicationDto applicationDto = applicationService.send(applicationCreateDto);
-            attachmentService.uploadToApplication(file, applicationDto, recruitment_id);
+            attachmentService.uploadToApplication(file, applicationDto, Integer.parseInt(recruitment_id));
             return ResponseEntity.ok("지원서가 성공적으로 전송되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
