@@ -1,5 +1,5 @@
 // Match.js
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../Header';
 import '../../../assets/scss/contents/matching/match.scss';
 import Ex from '../../../assets/img/eximg.png';
@@ -7,24 +7,23 @@ import { Link } from 'react-router-dom';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-const users = [
-    { id: 1, name: 'User1' },
-    { id: 2, name: 'User2' },
-    { id: 3, name: 'User3' },
-    { id: 4, name: 'User4' },
-    { id: 5, name: 'User5' },
-    { id: 6, name: 'User6' },
-    { id: 7, name: 'User7' },
-    { id: 8, name: 'User8' },
-    { id: 9, name: 'User9' },
-    { id: 10, name: 'User10' },
-    { id: 11, name: 'User11' },
-    { id: 12, name: 'User12' },
-];
+import axios from 'axios';
 
 const Match = () => {
-    
+    const [users, setUsers] = useState([]);
+
+    const maching = () => {
+        axios.get('http://13.48.207.238:1234/matching', {})
+
+        .then(response => {
+            setUsers(response.data);
+            console.log(response);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+    }
+
     const settings = {
         dots: false,
         
@@ -56,7 +55,6 @@ const Match = () => {
         ]
     };
 
-    const currentUserId = 'currentUserId';
 
     return (
         <div className='match'>
@@ -64,18 +62,18 @@ const Match = () => {
             <div className='content'>
                 <Slider {...settings}>
                     {users.map(user => (
-                        <div key={user.id} className="slide">
+                        <div key={user.studentId} className="slide">
                             <div className="profileimg">
-                                <img src={Ex} alt="프로필사진" />
+                                <img src={user.profileImageUrl} alt="프로필사진" />
                             </div>
                             <div className="slide-content">
-                                <Link to={`/chat/${currentUserId}/${user.id}`}>
+                                <Link to={`/chat/${user.studentId}`}>
                                     <input className="btn" type="button" value={'채팅하기'} />
                                 </Link>
                                 <div className="text">
-                                    <h4 className="text">사쿠야</h4>
-                                    <div className="text">20231138</div><br />
-                                    <div className="text">제과제빵학과</div>
+                                    <h4 className="text">{user.name}</h4>
+                                    <div className="text">{user.studentId}</div><br />
+                                    <div className="text">{user.major}</div>
                                 </div>
                             </div>
                             
