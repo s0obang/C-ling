@@ -151,4 +151,9 @@ public class RecruitmentController {
         return recruitmentService.getRecruitmentInfo(recruitingDepartment);
     }
 
+    @GetMapping("/recruitments/latest")
+    public List<RecruitmentSummaryDto> getLatestRecruitments() {
+        return recruitmentService.getLatestRecruitments();
+    }
+
 }

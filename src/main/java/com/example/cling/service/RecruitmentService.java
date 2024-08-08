@@ -3,6 +3,7 @@ package com.example.cling.service;
 import com.example.cling.dto.RecruitmentCreateDto;
 import com.example.cling.dto.RecruitmentDto;
 import com.example.cling.dto.RecruitmentInfoDto;
+import com.example.cling.dto.RecruitmentSummaryDto;
 import com.example.cling.entity.Application;
 import com.example.cling.entity.Attachment;
 import com.example.cling.entity.Recruitment;
@@ -12,6 +13,8 @@ import com.example.cling.repository.RecruitmentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -19,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RecruitmentService {
@@ -162,5 +166,17 @@ public class RecruitmentService {
             throw new IllegalArgumentException("No recruitment found for department: " + recruitingDepartment);
         }
         return RecruitmentInfoDto.toDto(recruitment);
+    }
+
+    public List<RecruitmentSummaryDto> getLatestRecruitments() {
+        Pageable pageable = PageRequest.of(0, 3); //0부터 시작하는 페이지, 3개 가져옴
+        List<Recruitment> recruitments = recruitmentRepository.findAllByOrderByIdDesc(pageable);
+        return recruitments.stream()
+                .map(recruitment -> new RecruitmentSummaryDto(
+                        recruitment.getId(),
+                        recruitment.getRecruitingDepartment(),
+                        recruitment.getTitle()
+                ))
+                .collect(Collectors.toList());
     }
 }
