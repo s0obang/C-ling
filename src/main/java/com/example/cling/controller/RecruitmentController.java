@@ -34,12 +34,20 @@ public class RecruitmentController {
         this.userRepository = userRepository;
     }
 
+    // 모든 공고 불러오기
+    @GetMapping("/recruitments")
+    @ResponseStatus(HttpStatus.OK)
+    public List<RecruitmentDto> getAllRecruitments() {
+        return recruitmentService.getAllRecruitments();
+    }
+
+
     // 작성한 공고 불러오기
     @GetMapping("/recruitment/all/{recruitingDepartment}")
     @ResponseStatus(HttpStatus.OK)
-    public List<RecruitmentDto> getAllRecruitments(
+    public List<RecruitmentDto> getRecruitments(
             @PathVariable("recruitingDepartment") String recruitingDepartment
-    ) { return recruitmentService.getAllRecruitments(recruitingDepartment); }
+    ) { return recruitmentService.getRecruitments(recruitingDepartment); }
 
     // 공고 작성하기
     @PostMapping("/recruitment/write")

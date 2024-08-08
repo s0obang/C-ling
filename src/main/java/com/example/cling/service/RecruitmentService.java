@@ -36,10 +36,18 @@ public class RecruitmentService {
     @Value("${spring.servlet.multipart.location}")
     private String baseDir;
 
-    // 전체 게시물 조회
+    // 특정 부서의 모든 게시물 조회
     @Transactional
-    public List<RecruitmentDto> getAllRecruitments(String recruitingDepartment) {
+    public List<RecruitmentDto> getRecruitments(String recruitingDepartment) {
         List<Recruitment> recruitments = recruitmentRepository.findByRecruitingDepartment(recruitingDepartment);
+        List<RecruitmentDto> recruitmentDtos = new ArrayList<>();
+        recruitments.forEach(s -> recruitmentDtos.add(RecruitmentDto.toDto(s)));
+        return recruitmentDtos;
+    }
+
+    // 모든 게시물 조회
+    public List<RecruitmentDto> getAllRecruitments() {
+        List<Recruitment> recruitments = recruitmentRepository.findAll();
         List<RecruitmentDto> recruitmentDtos = new ArrayList<>();
         recruitments.forEach(s -> recruitmentDtos.add(RecruitmentDto.toDto(s)));
         return recruitmentDtos;
