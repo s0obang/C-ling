@@ -21,4 +21,10 @@ public class MyPageController {
         MyPageResponseDto userInfo = userService.getUserInfo(studentId);
         return ResponseEntity.ok(userInfo);
     }
+
+    @GetMapping("/position-and-crew")
+    public ResponseEntity<MyPageResponseDto> getPositionAndCrew(@RequestParam("studentId") String studentId) {
+        MyPageResponseDto positionAndCrew = userService.getUserPositionAndCrew(studentId);
+        return ResponseEntity.ok(positionAndCrew);
+    }
 }

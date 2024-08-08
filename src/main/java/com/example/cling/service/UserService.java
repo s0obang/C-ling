@@ -4,8 +4,10 @@ import com.example.cling.dto.MyPageResponseDto;
 import com.example.cling.dto.SignUpRequestDto;
 import com.example.cling.entity.ProfileImage;
 import com.example.cling.entity.UserEntity;
+import com.example.cling.entity.Crew;
 import com.example.cling.repository.ProfileImageRepository;
 import com.example.cling.repository.UserRepository;
+import com.example.cling.repository.CrewRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,11 +16,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final CrewRepository crewRepository;
     private final ProfileImageService profileImageService;
     private final PasswordEncoder passwordEncoder;
 
@@ -31,7 +37,7 @@ public class UserService {
         user.setStudentId(signUpRequestDto.getStudentId());
         user.setEmail(signUpRequestDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpRequestDto.getPassword()));
-        user.setMajor(signUpRequestDto.getMajor()); // major 설정
+        user.setMajor(signUpRequestDto.getMajor());
 
         // 기본 프로필 이미지 설정
         ProfileImage profileImage = new ProfileImage();
@@ -56,10 +62,51 @@ public class UserService {
         UserEntity user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
+        // 크루명을 가져오기
+        List<Crew> userCrews = crewRepository.findByUser(user);
+        String crewName = userCrews.isEmpty() ? null : userCrews.get(0).getCrewName();
+
         // 프로필 이미지 URL 가져오기
         String profileImageUrl = user.getProfileImage() != null ? user.getProfileImage().getUrl() : defaultImageUrl;
 
-        return new MyPageResponseDto(user.getName(), user.getStudentId(), profileImageUrl, user.getMajor(), user.getPosition());
+        return new MyPageResponseDto(
+                user.getName(),
+                user.getStudentId(),
+                profileImageUrl,
+                user.getMajor(),
+                user.getPosition(),
+                crewName,
+                null // positionsAndCrews 필드의 초기값은 null로
+        );
+    }
+
+    public MyPageResponseDto getUserPositionAndCrew(String studentId) {
+        UserEntity user = userRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        // 크루 데이터 가져오기
+        List<Crew> crews = crewRepository.findByUser(user);
+        // 로그 추가
+        System.out.println("사용자: " + user.getStudentId() + ", 크루 리스트: " + crews);
+
+        MyPageResponseDto response = new MyPageResponseDto();
+        response.setName(user.getName());
+        response.setStudentId(user.getStudentId());
+        response.setProfileImageUrl(user.getProfileImage() != null ? user.getProfileImage().getUrl() : null);
+        response.setMajor(user.getMajor());
+
+        List<MyPageResponseDto.PositionAndCrew> positionsAndCrews = crews.stream()
+                .map(crew -> {
+                    MyPageResponseDto.PositionAndCrew positionAndCrew = new MyPageResponseDto.PositionAndCrew();
+                    positionAndCrew.setPosition(crew.getPosition());
+                    positionAndCrew.setCrewName(crew.getCrewName());
+                    return positionAndCrew;
+                })
+                .collect(Collectors.toList());
+
+        response.setPositionsAndCrews(positionsAndCrews);
+
+        return response;
     }
 
     public void updatePassword(String email, String newPassword) {

@@ -40,8 +40,10 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<PositionRequest> positionRequests = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Crew> crews = new ArrayList<>();
+
     public int getPositionCount() {
-        // 직책 수를 반환＝＝ 이걸로 ３개 이상이면 에러메세지 보낼라구
         return positionRequests.size();
     }
 }
