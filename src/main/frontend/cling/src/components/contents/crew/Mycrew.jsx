@@ -37,12 +37,12 @@ const Mycrew = () => {
     };
     const listDown = () => {
 
-        axios.get('http://13.48.207.238:1234/api/downloadStudentList', {
+        axios.get('http://13.48.207.238:1234/downloadStudentList', {
             headers: {
-
+               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                 'Content-Type': 'text/plain'
             },
-            responseType: 'blob', // 응답을 Blob 형식으로 처리
+            responseType: 'blob', 
             params: {
                 recruitingDepartment: 'cs',
                 step: '2'
