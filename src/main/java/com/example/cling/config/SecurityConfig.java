@@ -2,7 +2,6 @@ package com.example.cling.config;
 
 import com.example.cling.service.CustomUserDetailService;
 import com.example.cling.util.JwtUtil;
-import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -102,7 +101,7 @@ public class SecurityConfig {
         configuration.addAllowedOrigin("http://localhost:3001");
         configuration.addAllowedOrigin("http://localhost:1234");
         configuration.addAllowedOrigin("http://13.48.207.238:1234");
-        configuration.addAllowedOrigin("https://apic.app");//apic으로 웹소켓 테스트해서
+        configuration.addAllowedOrigin("https://apic.app");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
