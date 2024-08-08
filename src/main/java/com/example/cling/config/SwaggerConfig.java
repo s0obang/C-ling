@@ -8,30 +8,34 @@ import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
-
     @Bean
     public OpenAPI openAPI() {
+        String jwt = "JWT";
+        SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwt);
+        Components components = new Components().addSecuritySchemes(jwt, new SecurityScheme()
+                .name(jwt)
+                .type(SecurityScheme.Type.HTTP)
+                .scheme("bearer")
+                .bearerFormat("JWT")
+        );
         return new OpenAPI()
-                .components(new Components()
-                        .addSchemas("LoginRequest", new Schema<LoginRequest>()
-                                .type("object")
-                                .addProperties("studentId", new Schema<String>().type("string"))
-                                .addProperties("password", new Schema<String>().type("string")))
-                        .addRequestBodies("LoginRequestBody", new RequestBody()
-                                .content(new Content().addMediaType("application/json",
-                                        new MediaType().schema(new Schema<>().$ref("#/components/schemas/LoginRequest"))))))
-                .info(apiInfo());
+                .components(new Components())
+                .info(apiInfo())
+                .addSecurityItem(securityRequirement)
+                .components(components);
     }
-
     private Info apiInfo() {
         return new Info()
-                .title("Spring Boot REST API Specifications")
-                .description("Specification")
-                .version("1.0.0");
+                .title("API Test") // API의 제목
+                .description("Let's practice Swagger UI") // API에 대한 설명
+                .version("1.0.0"); // API의 버전
     }
+
 }
