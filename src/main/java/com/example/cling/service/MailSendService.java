@@ -56,21 +56,6 @@ public class MailSendService {
         return Integer.toString(authNumber);
     }
 
-    public String sendPasswordChangeAuth(String email) {
-        makeRandomNumber();
-        String setFrom = "quffl2002@gmail.com"; // 이메일 발신자 주소
-        String toMail = email;
-        String title = "[크링] 비밀번호 변경 인증 이메일입니다."; // 이메일 제목
-        String content = "크링을 방문해주셔서 감사합니다.<br><br>" +
-                "인증 번호는 " + authNumber + "입니다.<br>" +
-                "인증번호를 제대로 입력해주세요.";
-
-        mailSend(setFrom, toMail, title, content);
-        redisUtil.setDataExpire(Integer.toString(authNumber), toMail, 60 * 5L); // 인증번호와 이메일을 Redis에 저장, 5분 유효
-
-        return Integer.toString(authNumber);
-    }
-
     //이메일을 전송
     public void mailSend(String setFrom, String toMail, String title, String content) {
         MimeMessage message = mailSender.createMimeMessage();
