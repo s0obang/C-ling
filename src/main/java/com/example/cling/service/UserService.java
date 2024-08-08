@@ -70,7 +70,13 @@ public class UserService {
     }
 
     public UserEntity getUserByStudentId(String studentId) {
-        return userRepository.findByStudentId(studentId).orElseThrow(() -> new UsernameNotFoundException("User not found with studentId: " + studentId));
+        return userRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with studentId: " + studentId));
+    }
+
+    public UserEntity getUserByStudentIdAndName(String studentId, String name) {
+        return userRepository.findByStudentIdAndName(studentId, name)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with studentId: " + studentId + " and name: " + name));
     }
 
     public void updatePosition(String studentId, String position) {
