@@ -71,9 +71,9 @@ public class RequestService {
 
 
 
-        UserEntity requester = userRepository.findById(requester_id)
+        UserEntity requester = userRepository.findById(Long.valueOf(requester_id))
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id " + requester_id));
-        UserEntity requestee = userRepository.findById(requestee_id)
+        UserEntity requestee = userRepository.findById(Long.valueOf(requestee_id))
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id " + requestee_id));
 
         Request request = new Request(requester, requestee);
@@ -126,9 +126,9 @@ public class RequestService {
         if(requestRepository.existsById(id)) {
             requestRepository.deleteById(id);
 
-            UserEntity requester = userRepository.findById(requester_id)
+            UserEntity requester = userRepository.findById(Long.valueOf(requester_id))
                     .orElseThrow(() -> new IllegalArgumentException("User not found with id " + requester_id));
-            UserEntity requestee = userRepository.findById(requestee_id)
+            UserEntity requestee = userRepository.findById(Long.valueOf(requestee_id))
                     .orElseThrow(() -> new IllegalArgumentException("User not found with id " + requestee_id));
 
             Matching matching = new Matching(requester, requestee);
@@ -141,7 +141,7 @@ public class RequestService {
     @Transactional
     public List<UserResponseDto> clinkSame(String userId) {
 
-        Optional<UserEntity> user = userRepository.findById(userId);
+        Optional<UserEntity> user = userRepository.findById(Long.valueOf(userId));
         UserEntity student;
         if (user.isPresent()) {
             student = user.get();
@@ -172,7 +172,7 @@ public class RequestService {
     @Transactional
     public List<UserResponseDto> clinkOther(String userId) {
 
-        Optional<UserEntity> user = userRepository.findById(userId);
+        Optional<UserEntity> user = userRepository.findById(Long.valueOf(userId));
         UserEntity student;
         if (user.isPresent()) {
             student = user.get();

@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/auth/login", "/api/auth/signup", "/login.html", "/ws-stomp/**").permitAll()
+                        .requestMatchers("/api/auth/login", "/api/auth/signup", "/login.html", "/ws/**").permitAll()
                         .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/mailSend", "/mailauthCheck", "/api/auth/change-password", "/api/auth/logout").permitAll()
                         .anyRequest().authenticated()
@@ -102,6 +102,7 @@ public class SecurityConfig {
         configuration.addAllowedOrigin("http://localhost:3001");
         configuration.addAllowedOrigin("http://localhost:1234");
         configuration.addAllowedOrigin("http://13.48.207.238:1234");
+        configuration.addAllowedOrigin("https://apic.app");//apic으로 웹소켓 테스트해서
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);

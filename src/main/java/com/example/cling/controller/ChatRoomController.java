@@ -22,35 +22,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatRoomController {
     private final ChatService chatService;
-    private final UserService userService;
-    private final WebClient.Builder webClientBuilder;
 
-    //채팅방 참여
-    @GetMapping("/{roomId}")
-    public ChatRoomResponseDto joinRoom(@PathVariable(required = false) Long roomId) {
 
+    //기존 채팅 내용 불러오기
+    @GetMapping("/oldChat/{roomId}")
+    public ResponseEntity<ChatRoomResponseDto> getOldChat(@PathVariable(required = false) Long roomId) {
         List<ChatEntity> chatList = chatService.findAllChatByRoomId(chatService.findByRoomId(roomId));
-
-        return ChatRoomResponseDto.builder()
-                .roomEntity(chatService.findByRoomId(roomId))
+        ChatRoomResponseDto response = ChatRoomResponseDto.builder()
                 .roomId(roomId)
                 .chatEntities(chatList)
                 .build();
-    }
-    @GetMapping("/roomMapping")
-    public Long roomMapper(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String id2) {
-        return chatService.findRoomByRoomName(chatService.roomNameMaker(userDetails.getUsername(), id2)).getRoomId();
-          // URL은 실제 서버 주소에 맞게 조정해야 합니다
+        return ResponseEntity.ok(response);
     }
 
-//채팅방 등록(생성하는거)
-    @PostMapping("/room")
-    public RoomEntity createRoom(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String id2) {
-
-        if (userDetails == null) {
-            throw new IllegalArgumentException("User is not authenticated");
-        }
-        return chatService.createRoom(userDetails.getUsername(), id2);
-
+    //채팅방 들어가기(매칭 페이지에서 클릭했을 때
+    @GetMapping("/roomEnter")
+    public ResponseEntity<RoomEntity> roomMapper(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String id2) {
+        RoomEntity roomEntity = chatService.findRoomByRoomName(chatService.roomNameMaker(userDetails.getUsername(), id2));
+        return ResponseEntity.ok(roomEntity);
     }
+    //채팅방 참여하면 roomEntity을 return함 topic은 roomEntity의 Id
+
 }

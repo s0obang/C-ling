@@ -118,7 +118,7 @@ public class RecruitmentController {
 
         String userId = userDetails.getUsername();
 
-        Optional<UserEntity> user = userRepository.findById(userId);
+        Optional<UserEntity> user = userRepository.findById(Long.valueOf(userId));
         UserEntity student = user.orElseThrow(() -> new IllegalArgumentException("다시 로그인 하세요."));
 
         ApplicationCreateDto applicationCreateDto =

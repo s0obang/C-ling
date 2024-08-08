@@ -11,4 +11,7 @@ public class EmailRequestDto {
     @Email//이메일 검증
     @NotEmpty(message = "이메일을 입력해 주세요")
     private String email;
+
+    @NotEmpty(message="학번을 입력해 주세요")
+    private String studentId;
 }
