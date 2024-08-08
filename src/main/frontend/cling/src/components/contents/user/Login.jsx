@@ -28,6 +28,8 @@ const Login = () => {
         })
             .then(res => {
                 if (res.status === 200) {
+                    const token = res.data.token; 
+                    localStorage.setItem('accessToken', token)
                     console.log(res);
                     navigate('/mainhome'); 
                     alert('로그인 성공!');
