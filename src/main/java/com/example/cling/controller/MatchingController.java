@@ -19,6 +19,7 @@ public class MatchingController {
         this.matchingService = matchingService;
     }
 
+    //연결된 수정이 불러오기
     @GetMapping("/matching")
     public List<UserResponseDto> matchingList(
             @AuthenticationPrincipal UserDetails userDetails

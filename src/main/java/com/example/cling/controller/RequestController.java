@@ -30,7 +30,7 @@ public class RequestController {
     }
 
     @PostMapping("/request/send")
-    public ResponseEntity<?> sendRequest(
+    public ResponseEntity<String> sendRequest(
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestBody RequestDto requestDto //신청 받는 사람의 studentId
                             ) {
@@ -38,7 +38,7 @@ public class RequestController {
             String requester_id = userDetails.getUsername();
             String requestee_id = requestDto.getStudentId();
             Request request = requestService.send(requester_id, requestee_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body("링크 신청이 완료되었습니다.");
         } catch (IllegalArgumentException e) {
             // 이미 요청이 존재하는 경우 처리
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

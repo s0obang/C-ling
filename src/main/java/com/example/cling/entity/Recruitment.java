@@ -22,7 +22,7 @@ public class Recruitment extends BaseTimeEntity {
     @Column(nullable = false)
     private String recruitingDepartment;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false, columnDefinition = "TEXT")

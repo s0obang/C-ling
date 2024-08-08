@@ -34,12 +34,14 @@ public class RecruitmentController {
         this.userRepository = userRepository;
     }
 
+    // 작성한 공고 불러오기
     @GetMapping("/recruitment/all/{recruitingDepartment}")
     @ResponseStatus(HttpStatus.OK)
     public List<RecruitmentDto> getAllRecruitments(
             @PathVariable("recruitingDepartment") String recruitingDepartment
     ) { return recruitmentService.getAllRecruitments(recruitingDepartment); }
 
+    // 공고 작성하기
     @PostMapping("/recruitment/write")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> writeRecruitment (
@@ -71,14 +73,15 @@ public class RecruitmentController {
         try {
             RecruitmentDto recruitmentDto = recruitmentService.write(recruitmentCreateDto);
             attachmentService.uploadToRecruitment(images, files, recruitmentDto);
-            return ResponseEntity.ok("게시글이 성공적으로 작성되었습니다.");
+            return ResponseEntity.ok("리크투팅 공고가 성공적으로 작성되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("게시글 작성에 실패했습니다: " + e.getMessage());
+                    .body("리크루팅 공고 작성에 실패했습니다: " + e.getMessage());
         }
 
     }
 
+    // 공고 상세보기
     @GetMapping("/recruitment/{recruitmentId}")
     public ResponseEntity<RecruitmentDto> getRecruitment(@PathVariable("recruitmentId") int recruitmentId) {
         Optional<RecruitmentDto> recruitmentDto = recruitmentService.getRecruitment(recruitmentId);
@@ -86,6 +89,7 @@ public class RecruitmentController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    // 공고 삭제
     @DeleteMapping("/recruitment/{recruitmentId}")
     public ResponseEntity<Void> deleteRecruitment(
             @PathVariable("recruitmentId") int recruitmentId
@@ -94,11 +98,12 @@ public class RecruitmentController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/recruitment/apply/{recruitment_id}")
+    //지원서 전송
+    @PostMapping("/recruitment/apply/{recruitmentId}")
     public ResponseEntity<String> sendApplication (
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam("application") List<MultipartFile> file,
-            @PathVariable("recruitment_id") int recruitment_id
+            @PathVariable("recruitmentId") int recruitment_id
             ) {
         if (file == null)
             return ResponseEntity.badRequest().body("첨부파일이 없습니다.");
@@ -127,6 +132,7 @@ public class RecruitmentController {
 
     }
 
+    // 리크루팅 현황 정보 가져오기
     @GetMapping("/applications/{recruitingDepartment}/info")
     public RecruitmentInfoDto getRecruitmentInfo(
             @PathVariable("recruitingDepartment") String recruitingDepartment
