@@ -2,6 +2,7 @@ package com.example.cling.repository;
 
 import com.example.cling.entity.Recruitment;
 import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -11,5 +12,7 @@ public interface RecruitmentRepository extends JpaRepository<Recruitment, Intege
     List<Recruitment> findByRecruitingDepartment(String recruitingDepartment);
 
     Recruitment findFirstByRecruitingDepartmentOrderByIdDesc(String recruitingDepartment);
+
+    List<Recruitment> findAllByOrderByIdDesc(Pageable pageable);
 
 }

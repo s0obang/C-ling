@@ -11,6 +11,8 @@ import com.example.cling.repository.CrewRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -132,5 +134,9 @@ public class UserService {
 
         user.setPosition(position);  // 직책을 저장하는 필드에 업데이트
         userRepository.save(user);
+    }
+
+    public String getLoggedInUsername(@AuthenticationPrincipal UserDetails userDetails) {
+        return userDetails.getUsername();
     }
 }

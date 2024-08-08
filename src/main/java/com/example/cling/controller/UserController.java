@@ -7,6 +7,8 @@ import com.example.cling.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,5 +62,10 @@ public class UserController {
     public ResponseEntity<String> logout(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok("{\"message\": \"로그아웃 성공\", \"status\": 200}");
+    }
+
+    @GetMapping("/getLoggedInUsername")
+    public ResponseEntity<String> getLoggedInUsername(@AuthenticationPrincipal UserDetails userdetails) {
+        return ResponseEntity.ok(userdetails.getUsername());
     }
 }
