@@ -13,7 +13,6 @@ import java.util.List;
 @Builder
 public class ChatRoomResponseDto {
 
-    private RoomEntity roomEntity;
     private List<ChatEntity> chatEntities;
     private Long roomId;
 
