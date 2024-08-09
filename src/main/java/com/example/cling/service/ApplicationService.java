@@ -2,11 +2,8 @@ package com.example.cling.service;
 
 import com.example.cling.dto.ApplicationCreateDto;
 import com.example.cling.dto.ApplicationDto;
-import com.example.cling.entity.Application;
+import com.example.cling.entity.*;
 import com.example.cling.entity.Recruitment;
-import com.example.cling.entity.Attachment;
-import com.example.cling.entity.Recruitment;
-import com.example.cling.entity.UserEntity;
 import com.example.cling.repository.ApplicationRepository;
 import com.example.cling.repository.RecruitmentRepository;
 import com.example.cling.repository.UserRepository;
@@ -144,4 +141,10 @@ public class ApplicationService {
     }
 
 
+    public List<ApplicationDto> getMyApplications(String userId) {
+        List<Application> applications = applicationRepository.findByStudentId(userId);
+        List<ApplicationDto> applicationDtos = new ArrayList<>();
+        applications.forEach(s -> applicationDtos.add(ApplicationDto.toDto(s)));
+        return  applicationDtos;
+    }
 }

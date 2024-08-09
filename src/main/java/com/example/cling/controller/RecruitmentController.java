@@ -156,4 +156,12 @@ public class RecruitmentController {
         return recruitmentService.getLatestRecruitments();
     }
 
+
+    @GetMapping("/application/my")
+    public List<ApplicationDto> myApplications(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        String userId = userDetails.getUsername();
+        return applicationService.getMyApplications(userId);
+    }
 }

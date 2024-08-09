@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ApplicationRepository extends JpaRepository<Application, Integer> {
-    Application findByStudentId(String studentId);
+    List<Application> findByStudentId(String studentId);
     List<Application> findByRecruitingDepartment(String recruitingDepartment);
     List<Application> findByRecruitingDepartmentAndFirstResult(String recruitingDepartment, boolean firstResult);
     List<Application> findByRecruitingDepartmentAndSecondResult(String recruitingDepartment, boolean secondResult);
