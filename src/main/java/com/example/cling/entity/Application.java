@@ -39,7 +39,7 @@ public class Application {
     @JsonManagedReference
     private List<Attachment> application = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "recruitment_id")
     @JsonBackReference
     private Recruitment recruitment;

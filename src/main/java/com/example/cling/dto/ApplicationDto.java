@@ -32,7 +32,7 @@ public class ApplicationDto {
     @NotBlank(message = "secondResult application cannot be blank")
     private boolean secondResult;
     @NotBlank(message = "recruitment_id cannot be blank")
-    private Recruitment recruitment;
+    private int recruitment_id;
 
 
 
@@ -54,7 +54,7 @@ public class ApplicationDto {
                 attachmentDtoList,
                 savedApplication.getFirstResult(),
                 savedApplication.getSecondResult(),
-                savedApplication.getRecruitment()
+                savedApplication.getRecruitment().getId()
         );
     }
 }
