@@ -2,6 +2,7 @@ package com.example.cling.controller;
 
 import com.example.cling.dto.ApplicationDto;
 import com.example.cling.service.ApplicationService;
+import com.example.cling.service.RecruitmentService;
 import io.lettuce.core.dynamic.annotation.Param;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,13 @@ import java.util.Map;
 public class ApplicationController {
 
     private final ApplicationService applicationService;
+    private final RecruitmentService recruitmentService;
 
 //step은 현재 모집중인 단계
     @PutMapping("/updateResults")
-    public ResponseEntity<String> updateResults(@RequestParam int step, @RequestParam int recruitingId, @RequestParam String recruitingDepartment, @RequestBody Map<String, Boolean> results) {
+    public ResponseEntity<String> updateResults(@RequestParam int step, @RequestParam int recruitingId, @RequestBody Map<String, Boolean> results) {
         try {
-            applicationService.updateResults(step, results, recruitingDepartment,recruitingId);
+            applicationService.updateResults(step, results, recruitmentService.getRecruitment(recruitingId).orElseThrow().getRecruitingDepartment(), recruitingId);
             return ResponseEntity.ok("Results updated successfully.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
