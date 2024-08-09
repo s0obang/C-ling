@@ -2,11 +2,8 @@ package com.example.cling.service;
 
 import com.example.cling.dto.ApplicationCreateDto;
 import com.example.cling.dto.ApplicationDto;
-import com.example.cling.entity.Application;
+import com.example.cling.entity.*;
 import com.example.cling.entity.Recruitment;
-import com.example.cling.entity.Attachment;
-import com.example.cling.entity.Recruitment;
-import com.example.cling.entity.UserEntity;
 import com.example.cling.repository.ApplicationRepository;
 import com.example.cling.repository.RecruitmentRepository;
 import com.example.cling.repository.UserRepository;
@@ -79,7 +76,8 @@ public class ApplicationService {
             Boolean result = entry.getValue();
 
             //학번으로 application객체 찾기
-            Application application = applicationRepository.findByStudentId(studentId);
+            List<Application> getApplication = applicationRepository.findByStudentId(studentId);
+            Application application = getApplication.get(0);
             if (application != null) {
                 application.updateResult(step, result);
                 applicationRepository.save(application);
@@ -142,4 +140,10 @@ public class ApplicationService {
     }
 
 
+    public List<ApplicationDto> getMyApplications(String userId) {
+        List<Application> applications = applicationRepository.findByStudentId(userId);
+        List<ApplicationDto> applicationDtos = new ArrayList<>();
+        applications.forEach(s -> applicationDtos.add(ApplicationDto.toDto(s)));
+        return  applicationDtos;
+    }
 }
