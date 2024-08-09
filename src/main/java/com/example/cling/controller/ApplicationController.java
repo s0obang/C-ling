@@ -24,9 +24,9 @@ public class ApplicationController {
 
 //step은 현재 모집중인 단계
     @PutMapping("/updateResults")
-    public ResponseEntity<String> updateResults(@RequestParam int step, @RequestParam int recruitingId, @RequestBody Map<String, Boolean> results) {
+    public ResponseEntity<String> updateResults(@RequestParam int step, @RequestParam int recruitingId, @RequestParam String recruitingDepartment, @RequestBody Map<String, Boolean> results) {
         try {
-            applicationService.updateResults(step, results, recruitingId);
+            applicationService.updateResults(step, results, recruitingDepartment,recruitingId);
             return ResponseEntity.ok("Results updated successfully.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
