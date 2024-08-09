@@ -34,6 +34,11 @@ public class UserService {
     private String defaultImageUrl;
 
     public UserEntity registerUser(SignUpRequestDto signUpRequestDto) {
+        // studentId 중복 검사
+        if (userRepository.findByStudentId(signUpRequestDto.getStudentId()).isPresent()) {
+            throw new IllegalArgumentException("같은 학번으로 가입된 계정이 이미 존재합니다.");
+        }
+
         UserEntity user = new UserEntity();
         user.setName(signUpRequestDto.getName());
         user.setStudentId(signUpRequestDto.getStudentId());

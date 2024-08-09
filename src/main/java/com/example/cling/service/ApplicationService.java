@@ -70,24 +70,24 @@ public class ApplicationService {
     }
 
 
-    public void updateResults(int step, Map<String, Boolean> results, int recruitingId) {
+    public void updateResults(int step, Map<String, Boolean> results, String recruitingDepartment, int recruitingId) {
         for (Map.Entry<String, Boolean> entry : results.entrySet()) {
             String studentId = entry.getKey();
             Boolean result = entry.getValue();
 
-            //학번으로 application객체 찾기
-            List<Application> getApplication = applicationRepository.findByStudentId(studentId);
-            Application application = getApplication.get(0);
-            if (application != null) {
+            // 학번과 모집 부서로 application 객체 찾기
+            Optional<Application> applicationOptional = applicationRepository.findByStudentIdAndRecruitingDepartment(studentId, recruitingDepartment);
+            if (applicationOptional.isPresent()) {
+                Application application = applicationOptional.get();
                 application.updateResult(step, result);
                 applicationRepository.save(application);
 
-                //사용자 정보 조회임
+                // 사용자 정보 조회
                 Optional<UserEntity> userOptional = userRepository.findByStudentId(studentId);
                 if (userOptional.isPresent()) {
                     UserEntity user = userOptional.get();
                     String subject = "[크링]에서 알람이 도착했어요!";
-                    String content = user.getName() + "님, 지원하신 크루에서 합격 여부를 등록 완료했어요!" + 	//html 형식으로 작성
+                    String content = user.getName() + "님, 지원하신 크루에서 합격 여부를 등록 완료했어요!" + // html 형식으로 작성
                             "<br><br>" +
                             "지금 CREW > 현재 지원 현황에서 합격 여부를 확인할 수 있습니다";
                     try {
@@ -98,7 +98,7 @@ public class ApplicationService {
                     }
                 }
             } else {
-                throw new IllegalArgumentException("Application not found for student ID: " + studentId);
+                throw new IllegalArgumentException("Application not found for student ID: " + studentId + " and recruiting department: " + recruitingDepartment);
             }
         }
 
@@ -111,12 +111,13 @@ public class ApplicationService {
                 try {
                     recruitment.setOnStep("0");
                     recruitmentRepository.save(recruitment);
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.err.println("Failed to update recruitment step : " + e.getMessage());
                 }
             }
         }
     }
+
 
     public Resource generateStudentList(String recruitingDepartment, int step) throws IOException {
         List<Application> applications;

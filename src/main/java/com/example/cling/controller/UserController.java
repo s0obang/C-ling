@@ -31,6 +31,8 @@ public class UserController {
             }
 
             return ResponseEntity.ok("{\"message\": \"회원가입 성공\", \"status\": 200}");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"" + e.getMessage() + "\", \"status\": 400}");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"회원가입 실패\", \"status\": 400}");
         }
@@ -65,7 +67,7 @@ public class UserController {
     }
 
     @GetMapping("/getLoggedInUsername")
-    public ResponseEntity<String> getLoggedInUsername(@AuthenticationPrincipal UserDetails userdetails) {
-        return ResponseEntity.ok(userdetails.getUsername());
+    public ResponseEntity<String> getLoggedInUsername(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(userDetails.getUsername());
     }
 }
