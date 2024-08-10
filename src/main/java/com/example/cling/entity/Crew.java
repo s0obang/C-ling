@@ -25,4 +25,8 @@ public class Crew {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    public String getCrewName() {
+        return crewName != null ? crewName : "";
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.cling.service;
 
+import com.example.cling.dto.CrewRequestDto;
 import com.example.cling.dto.MyPageResponseDto;
 import com.example.cling.dto.SignUpRequestDto;
 import com.example.cling.entity.ProfileImage;
@@ -69,10 +70,6 @@ public class UserService {
         UserEntity user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        // 크루명을 가져오기
-        List<Crew> userCrews = crewRepository.findByUser(user);
-        String crewName = userCrews.isEmpty() ? null : userCrews.get(0).getCrewName();
-
         // 프로필 이미지 URL 가져오기
         String profileImageUrl = user.getProfileImage() != null ? user.getProfileImage().getUrl() : defaultImageUrl;
 
@@ -81,9 +78,9 @@ public class UserService {
                 user.getStudentId(),
                 profileImageUrl,
                 user.getMajor(),
-                user.getPosition(),
-                crewName,
-                null // positionsAndCrews 필드의 초기값은 null로
+                null, // positions는 null로 설정
+                null, // crewNames는 null로 설정
+                null  // positionsAndCrews는 null로 설정
         );
     }
 
@@ -91,26 +88,39 @@ public class UserService {
         UserEntity user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        // 크루 데이터 가져오기
+        // 사용자와 관련된 크루 데이터를 가져옵니다.
         List<Crew> crews = crewRepository.findByUser(user);
-        // 로그 추가
-        System.out.println("사용자: " + user.getStudentId() + ", 크루 리스트: " + crews);
+
+        // 프로필 이미지 URL을 가져옵니다.
+        String profileImageUrl = user.getProfileImage() != null ? user.getProfileImage().getUrl() : defaultImageUrl;
+
+        // PositionAndCrew 리스트를 생성합니다.
+        List<MyPageResponseDto.PositionAndCrew> positionsAndCrews = crews.stream()
+                .map(crew -> new MyPageResponseDto.PositionAndCrew(
+                        crew.getPosition(),
+                        crew.getCrewName() != null ? crew.getCrewName() : "" // crewName이 null인 경우 빈 문자열로 처리
+                ))
+                .collect(Collectors.toList());
+
+        // positions 리스트를 생성합니다.
+        List<String> positions = positionsAndCrews.stream()
+                .map(MyPageResponseDto.PositionAndCrew::getPosition)
+                .distinct()
+                .collect(Collectors.toList());
+
+        // crewNames 리스트를 생성합니다.
+        List<String> crewNames = positionsAndCrews.stream()
+                .map(MyPageResponseDto.PositionAndCrew::getCrewName)
+                .distinct()  // 중복 제거
+                .collect(Collectors.toList());
 
         MyPageResponseDto response = new MyPageResponseDto();
         response.setName(user.getName());
         response.setStudentId(user.getStudentId());
-        response.setProfileImageUrl(user.getProfileImage() != null ? user.getProfileImage().getUrl() : null);
+        response.setProfileImageUrl(profileImageUrl);
         response.setMajor(user.getMajor());
-
-        List<MyPageResponseDto.PositionAndCrew> positionsAndCrews = crews.stream()
-                .map(crew -> {
-                    MyPageResponseDto.PositionAndCrew positionAndCrew = new MyPageResponseDto.PositionAndCrew();
-                    positionAndCrew.setPosition(crew.getPosition());
-                    positionAndCrew.setCrewName(crew.getCrewName());
-                    return positionAndCrew;
-                })
-                .collect(Collectors.toList());
-
+        response.setPositions(positions);   // positions 리스트 설정
+        response.setCrewNames(crewNames);   // crewNames 리스트 설정
         response.setPositionsAndCrews(positionsAndCrews);
 
         return response;
@@ -143,5 +153,27 @@ public class UserService {
 
     public String getLoggedInUsername(@AuthenticationPrincipal UserDetails userDetails) {
         return userDetails.getUsername();
+    }
+
+    public void addCrew(String studentId, CrewRequestDto crewRequestDto) {
+        UserEntity user = userRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        String crewName = crewRequestDto.getCrewName() != null ? crewRequestDto.getCrewName() : "";
+
+        Crew crew = Crew.builder()
+                .position(crewRequestDto.getPosition())
+                .crewName(crewName)
+                .user(user)
+                .build();
+
+        crewRepository.save(crew);
+    }
+
+    public String getUserPosition(String studentId) {
+        UserEntity user = userRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        return user.getPosition() != null ? user.getPosition() : "";
     }
 }
