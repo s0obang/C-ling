@@ -102,6 +102,7 @@ public class SecurityConfig {
         configuration.addAllowedOrigin("http://localhost:1234");
         configuration.addAllowedOrigin("http://13.48.207.238:1234");
         configuration.addAllowedOrigin("https://apic.app");
+        configuration.addAllowedOrigin("https://clinkback.store");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
