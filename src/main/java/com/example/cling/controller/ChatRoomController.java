@@ -16,7 +16,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,10 +31,30 @@ public class ChatRoomController {
     @GetMapping("/oldChat/{roomId}")
     public ResponseEntity<ChatRoomResponseDto> getOldChat(@PathVariable(required = false) Long roomId) {
         List<ChatEntity> chatList = chatService.findAllChatByRoomId(chatService.findByRoomId(roomId));
+
+        List<ChatRoomResponseDto.ChatEntityResponseDto> chatEntities = chatList.stream().map(chat -> {
+            byte[] imageBytes = null;
+            if (chat.getFileUrl() != null) {
+                try {
+                    imageBytes = chatService.getImageBytes(chat.getFileUrl());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return ChatRoomResponseDto.ChatEntityResponseDto.builder()
+                    .chatId(chat.getChatId())
+                    .sender(chat.getSender())
+                    .message(chat.getMessage())
+                    .imageBytes(imageBytes)
+                    .sendDate(chat.getSendDate())
+                    .build();
+        }).collect(Collectors.toList());
+
         ChatRoomResponseDto response = ChatRoomResponseDto.builder()
                 .roomId(roomId)
-                .chatEntities(chatList)
+                .chatEntities(chatEntities)
                 .build();
+
         return ResponseEntity.ok(response);
     }
 

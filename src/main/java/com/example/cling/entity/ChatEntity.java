@@ -27,6 +27,12 @@ public class ChatEntity {
     @Column(columnDefinition = "TEXT")
     private String message;
 
+    @Column
+    private String fileName; // 파일 이름 (이미지 전송 시)
+
+    @Column
+    private String fileUrl; // 파일 경로나 URL (이미지 전송 시)
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime sendDate;

@@ -17,4 +17,5 @@ public class ChatDto {
     private String sender;
     private String message;
     private LocalDateTime sendDate;
+    private byte[] imageBytes;
 }
