@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from '../../Header';
 import '../../../assets/scss/contents/matching/other_major.scss';
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import Bubble1 from '../../../assets/img/matching/speech-bubble1.png';
@@ -11,6 +11,9 @@ import SmallBubble2 from '../../../assets/img/matching/small-speech-bubble2.png'
 import Ex from '../../../assets/img/eximg.png';
 
 const OtherMajor = () => {
+    const location = useLocation();
+    const profiles = location.state?.profiles || [];
+
     const containerVariants = {
         hidden: {},
         visible: {
@@ -26,7 +29,6 @@ const OtherMajor = () => {
         visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
     };
 
-    
     const containerControls = useAnimation();
     const [containerRef, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
@@ -47,67 +49,38 @@ const OtherMajor = () => {
                 ref={containerRef} 
                 variants={containerVariants}
                 initial="hidden"
-                animate={containerControls}>
-                
-                <motion.div className="profileimg profileimg1"
-                    variants={profileVariants}>
-                    <Link to="/matchprofile" className="profile-link">
-                        <img src={Ex} alt="프로필사진" />
-                        <div className="bubbleimg">
-                            <img src={Bubble1} alt="말풍선" />
-                            <div className="bubble-text">
-                                20230039 고양이입니다.
+                animate={containerControls}
+            >
+                {profiles.map((profile, index) => (
+                    <motion.div
+                        key={profile.studentId}
+                        className={`profileimg profileimg${index + 1}`}
+                        variants={profileVariants}
+                    >
+                        <Link
+                            to={`/matchprofile/${profile.studentId}`}
+                            className="profile-link"
+                            state={{ profiles }}
+                        >
+                            <img src={profile.profileImageUrl} alt="프로필사진" />
+                            <div className="bubbleimg">
+                                <img src={profile.studentId % 2 === 0 ? Bubble1 : Bubble2} alt="말풍선" />
+                                <div className="bubble-text">
+                                    {profile.studentId} {profile.name}입니다.
+                                </div>
                             </div>
-                        </div>
-                        <div className="smallbubbleimg">
-                            <img src={SmallBubble1} alt="말풍선" />
-                            <div className="bubble-text">
-                                실용음학과
+                            <div className="smallbubbleimg">
+                                <img src={profile.studentId % 2 === 0 ? SmallBubble1 : SmallBubble2} alt="말풍선" />
+                                <div className="bubble-text">
+                                    {profile.major}
+                                </div>
                             </div>
-                        </div>
-                    </Link>
-                </motion.div>
-                
-                <motion.div className="profileimg profileimg2"
-                    variants={profileVariants}>
-                    <Link to="/matchprofile" className="profile-link">
-                        <img src={Ex} alt="프로필사진" />
-                        <div className="bubbleimg">
-                            <img src={Bubble2} alt="말풍선" />
-                            <div className="bubble-text">
-                                20235539 시온입니다.
-                            </div>
-                        </div>
-                        <div className="smallbubbleimg">
-                            <img src={SmallBubble2} alt="말풍선" />
-                            <div className="bubble-text">
-                                의상 디자인학과
-                            </div>
-                        </div>
-                    </Link>
-                </motion.div>
-
-                <motion.div className="profileimg profileimg3"
-                    variants={profileVariants}>
-                    <Link to="/matchprofile" className="profile-link">
-                        <img src={Ex} alt="프로필사진" />
-                        <div className="bubbleimg">
-                            <img src={Bubble1} alt="말풍선" />
-                            <div className="bubble-text">
-                                20234439 찐떵깨입니다.
-                            </div>
-                        </div>
-                        <div className="smallbubbleimg">
-                            <img src={SmallBubble1} alt="말풍선" />
-                            <div className="bubble-text">
-                                식품공학과
-                            </div>
-                        </div>
-                    </Link>
-                </motion.div>
+                        </Link>
+                    </motion.div>
+                ))}
             </motion.div>
         </div>
-    )
-}
+    );
+};
 
 export default OtherMajor;

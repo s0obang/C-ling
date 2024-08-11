@@ -54,7 +54,11 @@ const Samemajor = () => {
                         className={`profileimg profileimg${index + 1}`}
                         variants={profileVariants}
                     >
-                        <Link to="/matchprofile" className="profile-link">
+                        <Link 
+                            to={`/matchprofile/${profile.studentId}`} 
+                            className="profile-link"
+                            state={{ profiles }}
+                        >
                             <img src={profile.profileImageUrl} alt="프로필사진" />
                             <div className="bubbleimg">
                                 <img src={index % 2 === 0 ? Bubble1 : Bubble2} alt="말풍선" />
