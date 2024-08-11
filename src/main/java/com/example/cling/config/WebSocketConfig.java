@@ -11,6 +11,13 @@ import org.springframework.web.socket.config.annotation.*;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
+    public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
+        registration.setMessageSizeLimit(20 * 1024 * 1024); // 20MB
+        registration.setSendBufferSizeLimit(20 * 1024 * 1024); // 20MB
+        registration.setSendTimeLimit(20000); // 20 seconds
+    }
+
+    @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns("*");
