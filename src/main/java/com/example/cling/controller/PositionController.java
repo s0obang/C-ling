@@ -78,6 +78,22 @@ public class PositionController {
         }
     }
 
+    @DeleteMapping("/deleteCrew")
+    public ResponseEntity<String> deleteCrew(
+            @RequestHeader("Authorization") String token,
+            @RequestParam("crewName") String crewName) {
+
+        String studentId = extractStudentIdFromToken(token);
+
+        try {
+            crewService.deleteCrew(studentId, crewName);
+            return ResponseEntity.ok("{\"message\": \"크루명이 성공적으로 삭제되었습니다.\", \"status\": 200}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"message\": \"크루명 삭제 실패: " + e.getMessage() + "\", \"status\": 500}");
+        }
+    }
+
     private String extractStudentIdFromToken(String token) {
         if (token.startsWith("Bearer ")) {
             token = token.substring(7); // Remove "Bearer " prefix

@@ -82,12 +82,14 @@ public class PositionRequestServiceImpl implements PositionRequestService {
         UserEntity user = userRepository.findByStudentId(positionRequest.getStudentId())
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
+        // 직책을 사용자에게 설정
         user.setPosition(positionRequest.getPosition());
         userRepository.save(user);
 
         positionRequest.setStatus(PositionRequestStatus.APPROVED);
         positionRequestRepository.save(positionRequest);
     }
+
 
     @Override
     @Transactional
