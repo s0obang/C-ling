@@ -2,6 +2,7 @@ package com.example.cling.controller;
 
 import com.example.cling.dto.LoginRequest;
 import com.example.cling.dto.SignUpRequestDto;
+import com.example.cling.dto.UpdateUserDto;
 import com.example.cling.entity.UserEntity;
 import com.example.cling.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -70,4 +71,35 @@ public class UserController {
     public ResponseEntity<String> getLoggedInUsername(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(userDetails.getUsername());
     }
+
+    @PostMapping("/updateUser")
+    public ResponseEntity<String> updateUser(@AuthenticationPrincipal UserDetails userDetails,
+                                             @RequestParam(value = "name", required = false) String name,
+                                             @RequestParam(value = "email", required = false) String email,
+                                             @RequestParam(value = "major", required = false) String major,
+                                             @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) {
+        try {
+            String studentId = userDetails.getUsername(); // 현재 로그인한 사용자의 studentId를 가져옴
+
+            UpdateUserDto updateUserDto = UpdateUserDto.builder()
+                    .name(name)
+                    .email(email)
+                    .major(major)
+                    .profileImage(profileImage)
+                    .build();
+
+            // 유저 업데이트
+            UserEntity updatedUser = userService.updateUser(studentId, updateUserDto);
+
+            if (profileImage != null && !profileImage.isEmpty()) {
+                userService.updateProfileImage(studentId, profileImage);
+            }
+
+            return ResponseEntity.ok("{\"message\": \"유저 정보 업데이트 성공\", \"status\": 200}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"유저 정보 업데이트 실패\", \"status\": 400}");
+        }
+    }
+
+
 }

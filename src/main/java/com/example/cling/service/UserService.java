@@ -3,6 +3,7 @@ package com.example.cling.service;
 import com.example.cling.dto.CrewRequestDto;
 import com.example.cling.dto.MyPageResponseDto;
 import com.example.cling.dto.SignUpRequestDto;
+import com.example.cling.dto.UpdateUserDto;
 import com.example.cling.entity.ProfileImage;
 import com.example.cling.entity.UserEntity;
 import com.example.cling.entity.Crew;
@@ -176,4 +177,23 @@ public class UserService {
 
         return user.getPosition() != null ? user.getPosition() : "";
     }
+
+    public UserEntity updateUser(String studentId, UpdateUserDto updateUserDto) {
+        UserEntity user = userRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        // 정보 업데이트하는거임
+        if (updateUserDto.getName() != null) {
+            user.setName(updateUserDto.getName());
+        }
+        if (updateUserDto.getEmail() != null) {
+            user.setEmail(updateUserDto.getEmail());
+        }
+        if (updateUserDto.getMajor() != null) {
+            user.setMajor(updateUserDto.getMajor());
+        }
+
+        return userRepository.save(user);
+    }
+
 }
