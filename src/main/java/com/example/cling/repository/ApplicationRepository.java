@@ -12,8 +12,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     List<Application> findByRecruitingDepartment(String recruitingDepartment);
     List<Application> findByRecruitingDepartmentAndFirstResult(String recruitingDepartment, boolean firstResult);
     List<Application> findByRecruitingDepartmentAndSecondResult(String recruitingDepartment, boolean secondResult);
-
     List<Application> findByRecruitment(Recruitment recruitment);
-
+    Optional<Application> findByStudentIdAndRecruitmentId(String studentId, int recruitmentId);
     Optional<Application> findByStudentIdAndRecruitingDepartment(String studentId, String recruitingDepartment);
 }

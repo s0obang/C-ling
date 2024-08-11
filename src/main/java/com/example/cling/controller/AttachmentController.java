@@ -18,12 +18,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-public class AttachmentDownloadController {
+public class AttachmentController {
 
     private final AttachmentService attachmentService;
 
     @Autowired
-    public AttachmentDownloadController(AttachmentService attachmentService) {
+    public AttachmentController(AttachmentService attachmentService) {
         this.attachmentService = attachmentService;
     }
 

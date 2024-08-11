@@ -37,7 +37,7 @@ public class RecruitmentController {
     // 모든 공고 불러오기
     @GetMapping("/recruitments")
     @ResponseStatus(HttpStatus.OK)
-    public List<RecruitmentDto> getAllRecruitments() {
+    public List<RecruitmentSummaryDto> getAllRecruitments() {
         return recruitmentService.getAllRecruitments();
     }
 
@@ -140,6 +140,16 @@ public class RecruitmentController {
 
     }
 
+    @GetMapping("/recruitment/apply/{recruitmentId}")
+    public boolean rejectDoubleApply(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable("recruitmentId") int recruitment_id
+    ) {
+        String userId = userDetails.getUsername();
+        return applicationService.checkApplication(userId, recruitment_id);
+    }
+
+
     // 리크루팅 현황 정보 가져오기
     @GetMapping("/applications/{recruitingDepartment}/info")
     public RecruitmentInfoDto getRecruitmentInfo(
@@ -150,12 +160,6 @@ public class RecruitmentController {
 
         return recruitmentService.getRecruitmentInfo(recruitingDepartment);
     }
-
-    @GetMapping("/recruitments/latest")
-    public List<RecruitmentSummaryDto> getLatestRecruitments() {
-        return recruitmentService.getLatestRecruitments();
-    }
-
 
     @GetMapping("/application/my")
     public List<ApplicationDto> myApplications(

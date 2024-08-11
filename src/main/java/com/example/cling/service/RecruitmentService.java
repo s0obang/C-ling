@@ -13,8 +13,6 @@ import com.example.cling.repository.RecruitmentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -50,11 +48,15 @@ public class RecruitmentService {
     }
 
     // 모든 게시물 조회
-    public List<RecruitmentDto> getAllRecruitments() {
+    public List<RecruitmentSummaryDto> getAllRecruitments() {
         List<Recruitment> recruitments = recruitmentRepository.findAll();
-        List<RecruitmentDto> recruitmentDtos = new ArrayList<>();
-        recruitments.forEach(s -> recruitmentDtos.add(RecruitmentDto.toDto(s)));
-        return recruitmentDtos;
+        return recruitments.stream()
+                .map(recruitment -> new RecruitmentSummaryDto(
+                        recruitment.getId(),
+                        recruitment.getRecruitingDepartment(),
+                        recruitment.getTitle()
+                ))
+                .collect(Collectors.toList());
     }
 
     // 게시물 작성
@@ -166,17 +168,5 @@ public class RecruitmentService {
             throw new IllegalArgumentException("No recruitment found for department: " + recruitingDepartment);
         }
         return RecruitmentInfoDto.toDto(recruitment);
-    }
-
-    public List<RecruitmentSummaryDto> getLatestRecruitments() {
-        Pageable pageable = PageRequest.of(0, 3); //0부터 시작하는 페이지, 3개 가져옴
-        List<Recruitment> recruitments = recruitmentRepository.findAllByOrderByIdDesc(pageable);
-        return recruitments.stream()
-                .map(recruitment -> new RecruitmentSummaryDto(
-                        recruitment.getId(),
-                        recruitment.getRecruitingDepartment(),
-                        recruitment.getTitle()
-                ))
-                .collect(Collectors.toList());
     }
 }

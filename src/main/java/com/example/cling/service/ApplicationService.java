@@ -147,4 +147,8 @@ public class ApplicationService {
         applications.forEach(s -> applicationDtos.add(ApplicationDto.toDto(s)));
         return  applicationDtos;
     }
+
+    public boolean checkApplication(String userId, int recruitmentId) {
+        return applicationRepository.findByStudentIdAndRecruitmentId(userId, recruitmentId).isPresent();
+    }
 }
