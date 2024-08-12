@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,12 +19,24 @@ public class AttachmentDto {
     private String originAttachmentName;
     @NotBlank
     private String attachmentUrl;
+    @NotBlank
+    private byte[] attachmentByteList;
 
-    public static AttachmentDto toDto(Attachment file) {
+    public static AttachmentDto toDto(Attachment file) throws IOException {
+        byte[] attachmentBytes = AttachmentDto.getAttachmentBytes(file.getAttachmentPath());
         return new AttachmentDto(
                 file.getId(),
                 file.getOriginAttachmentName(),
-                file.getAttachmentUrl()
+                file.getAttachmentUrl(),
+                attachmentBytes
         );
+    }
+
+    public static byte[] getAttachmentBytes(String fileUrl) throws IOException {
+        File file = new File(fileUrl);
+        if (!file.exists()) {
+            throw new IllegalArgumentException("File not found");
+        }
+        return Files.readAllBytes(file.toPath());
     }
 }

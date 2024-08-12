@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,20 +36,34 @@ public class RecruitmentDto {
     public static RecruitmentDto toDto(Recruitment recruitment) {
         List<AttachmentDto> imageDtoList = recruitment.getImages() != null ? recruitment.getImages().stream()
                 .filter(image -> image.getFileType().equals("recruitment_image"))
-                .map(image -> new AttachmentDto(
-                        image.getId(),
-                        image.getOriginAttachmentName(),
-                        image.getAttachmentUrl()
-                ))
+                .map(image -> {
+                    try {
+                        return new AttachmentDto(
+                                image.getId(),
+                                image.getOriginAttachmentName(),
+                                image.getAttachmentUrl(),
+                                AttachmentDto.getAttachmentBytes(image.getAttachmentPath())
+                        );
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .collect(Collectors.toList()) : Collections.emptyList();
 
         List<AttachmentDto> fileDtoList = recruitment.getFiles() != null ? recruitment.getFiles().stream()
                 .filter(file -> file.getFileType().equals("recruitment_file"))
-                .map(file -> new AttachmentDto(
-                        file.getId(),
-                        file.getOriginAttachmentName(),
-                        file.getAttachmentUrl()
-                ))
+                .map(file -> {
+                    try {
+                        return new AttachmentDto(
+                                file.getId(),
+                                file.getOriginAttachmentName(),
+                                file.getAttachmentUrl(),
+                                AttachmentDto.getAttachmentBytes(file.getAttachmentPath())
+                        );
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .collect(Collectors.toList()) : Collections.emptyList();
 
         return new RecruitmentDto(
