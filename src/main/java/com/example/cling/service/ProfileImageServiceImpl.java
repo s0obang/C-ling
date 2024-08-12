@@ -86,7 +86,9 @@ public class ProfileImageServiceImpl implements ProfileImageService {
 
     @Override
     public byte[] getImageBytes(String fileUrl) throws IOException {
-        String filePath = fileUrl;
+        String fileName = fileUrl.replace("/profileImages/", "");
+
+        String filePath = uploadFolder + "/" + fileName;
 
         File file = new File(filePath);
 
@@ -96,6 +98,7 @@ public class ProfileImageServiceImpl implements ProfileImageService {
 
         return Files.readAllBytes(file.toPath());
     }
+
 
 
 }
