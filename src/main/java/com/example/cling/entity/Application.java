@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
 public class Application {
 
     @Id
@@ -45,10 +48,10 @@ public class Application {
     private Recruitment recruitment;
 
     @Column
-    private boolean firstResult;
+    private Boolean firstResult;
 
     @Column
-    private boolean secondResult;
+    private Boolean secondResult;
 
     public void addFile(Attachment file) {
         this.application.add(file);
@@ -57,7 +60,7 @@ public class Application {
         if (file.getApplication()!= this)
             file.setApplication(this);
     }
-    public void updateResult(int step, boolean result) {
+    public void updateResult(int step, Boolean result) {
         if (step == 1) {
             this.firstResult = result;
         } else if (step == 2) {
@@ -67,12 +70,12 @@ public class Application {
         }
     }
 
-    public boolean getFirstResult() {
-        return this.firstResult;
-    }
+    //public boolean getFirstResult() {
+        //return this.firstResult;
+    //}
 
-    public boolean getSecondResult() {
-        return this.secondResult;
-    }
+    //public boolean getSecondResult() {
+        //return this.secondResult;
+    //}
 
 }

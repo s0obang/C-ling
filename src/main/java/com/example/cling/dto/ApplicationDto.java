@@ -29,9 +29,9 @@ public class ApplicationDto {
     @NotBlank(message = "application cannot be blank")
     private List<AttachmentDto> application;
     @NotBlank(message = "firstResult cannot be blank")
-    private boolean firstResult;
+    private Boolean firstResult;
     @NotBlank(message = "secondResult application cannot be blank")
-    private boolean secondResult;
+    private Boolean secondResult;
     @NotBlank(message = "recruitment_id cannot be blank")
     private int recruitment_id;
 
