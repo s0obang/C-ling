@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -29,14 +30,21 @@ public class NoticeDto {
 
     public static NoticeDto toDto(Notice notice) {
         List<AttachmentDto> imageDtoList = notice.getImages().stream()
-                .map(image -> new AttachmentDto(
-                        image.getId(),
-                        image.getOriginAttachmentName(),
-                        image.getAttachmentUrl()
-                ))
+                .map(image -> {
+                    try {
+                        return new AttachmentDto(
+                                image.getId(),
+                                image.getOriginAttachmentName(),
+                                image.getAttachmentUrl(),
+                                AttachmentDto.getAttachmentBytes(image.getAttachmentPath())
+                        );
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .collect(Collectors.toList());
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         String createdDate = notice.getCreatedDate().format(formatter);
 
         return new NoticeDto(

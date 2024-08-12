@@ -35,7 +35,7 @@ public class ApplicationService {
 
 
 
-    public ApplicationDto send(ApplicationCreateDto applicationCreateDto) {
+    public ApplicationDto send(ApplicationCreateDto applicationCreateDto) throws IOException {
         Application application = new Application();
 
         // 공고 찾기
@@ -65,7 +65,13 @@ public class ApplicationService {
 
         List<Application> applications = recruitment.getApplications();
         List<ApplicationDto> applicationDtos = new ArrayList<>();
-        applications.forEach(s -> applicationDtos.add(ApplicationDto.toDto(s)));
+        applications.forEach(s -> {
+            try {
+                applicationDtos.add(ApplicationDto.toDto(s));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         return applicationDtos;
     }
 
@@ -144,7 +150,13 @@ public class ApplicationService {
     public List<ApplicationDto> getMyApplications(String userId) {
         List<Application> applications = applicationRepository.findByStudentId(userId);
         List<ApplicationDto> applicationDtos = new ArrayList<>();
-        applications.forEach(s -> applicationDtos.add(ApplicationDto.toDto(s)));
+        applications.forEach(s -> {
+            try {
+                applicationDtos.add(ApplicationDto.toDto(s));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         return  applicationDtos;
     }
 

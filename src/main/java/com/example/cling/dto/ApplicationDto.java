@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,13 +38,20 @@ public class ApplicationDto {
 
 
 
-    public static ApplicationDto toDto(Application savedApplication) {
+    public static ApplicationDto toDto(Application savedApplication) throws IOException {
         List<AttachmentDto> attachmentDtoList = savedApplication.getApplication().stream()
-                .map(attachment -> new AttachmentDto(
-                        attachment.getId(),
-                        attachment.getOriginAttachmentName(),
-                        attachment.getAttachmentUrl()
-                ))
+                .map(attachment -> {
+                    try {
+                        return new AttachmentDto(
+                                attachment.getId(),
+                                attachment.getOriginAttachmentName(),
+                                attachment.getAttachmentUrl(),
+                                AttachmentDto.getAttachmentBytes(attachment.getAttachmentPath())
+                        );
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .collect(Collectors.toList());
 
         return new ApplicationDto(
