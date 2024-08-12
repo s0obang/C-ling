@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,7 +41,6 @@ public class ProfileImageServiceImpl implements ProfileImageService {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             File destinationFile = new File(uploadFolder + "/" + fileName);
 
-            // 파일 저장
             file.transferTo(destinationFile);
 
             ProfileImage profileImage = profileImageRepository.findByUser(user)
@@ -71,7 +71,6 @@ public class ProfileImageServiceImpl implements ProfileImageService {
         }
 
         UserEntity user = userOptional.get();
-
         Optional<ProfileImage> profileImageOptional = profileImageRepository.findByUser(user);
 
         if (profileImageOptional.isPresent()) {
@@ -84,4 +83,15 @@ public class ProfileImageServiceImpl implements ProfileImageService {
                     .build();
         }
     }
+
+    @Override
+    public byte[] getImageBytes(String fileUrl) throws IOException {
+        // 절대 경로로 변환
+        File file = new File(uploadFolder + fileUrl.replace("/profileImages/", ""));
+        if (!file.exists()) {
+            throw new IllegalArgumentException("File not found: " + fileUrl);
+        }
+        return Files.readAllBytes(file.toPath());
+    }
+
 }
