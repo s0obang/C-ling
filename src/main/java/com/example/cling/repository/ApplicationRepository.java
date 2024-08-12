@@ -10,8 +10,8 @@ import java.util.Optional;
 public interface ApplicationRepository extends JpaRepository<Application, Integer> {
     List<Application> findByStudentId(String studentId);
     List<Application> findByRecruitingDepartment(String recruitingDepartment);
-    List<Application> findByRecruitingDepartmentAndFirstResult(String recruitingDepartment, boolean firstResult);
-    List<Application> findByRecruitingDepartmentAndSecondResult(String recruitingDepartment, boolean secondResult);
+    List<Application> findByRecruitingDepartmentAndFirstResult(String recruitingDepartment, Boolean firstResult);
+    List<Application> findByRecruitingDepartmentAndSecondResult(String recruitingDepartment, Boolean secondResult);
     List<Application> findByRecruitment(Recruitment recruitment);
     Optional<Application> findByStudentIdAndRecruitmentId(String studentId, int recruitmentId);
     Optional<Application> findByStudentIdAndRecruitingDepartment(String studentId, String recruitingDepartment);
