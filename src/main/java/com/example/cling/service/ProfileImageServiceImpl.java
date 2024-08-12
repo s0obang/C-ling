@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,27 +35,22 @@ public class ProfileImageServiceImpl implements ProfileImageService {
     @Override
     public void upload(MultipartFile file, String studentId) {
         try {
-            // 사용자 찾기
             UserEntity user = userRepository.findByStudentId(studentId)
                     .orElseThrow(() -> new RuntimeException("User not found with studentId: " + studentId));
 
-            // 파일 이름 생성 및 저장 경로 설정
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            File destinationFile = new File(uploadFolder + fileName);
+            File destinationFile = new File(uploadFolder + "/" + fileName);
 
-            // 파일을 저장
             file.transferTo(destinationFile);
 
-            // 프로필 이미지 정보 업데이트
             ProfileImage profileImage = profileImageRepository.findByUser(user)
                     .orElse(ProfileImage.builder().user(user).build());
 
             profileImage.setUrl("/profileImages/" + fileName);
-            profileImage.setUser(user); // 연관관계 설정
+            profileImage.setUser(user);
 
             profileImageRepository.save(profileImage);
 
-            // 사용자 엔티티에 프로필 이미지 설정
             user.setProfileImage(profileImage);
             userRepository.save(user);
 
@@ -75,7 +71,6 @@ public class ProfileImageServiceImpl implements ProfileImageService {
         }
 
         UserEntity user = userOptional.get();
-
         Optional<ProfileImage> profileImageOptional = profileImageRepository.findByUser(user);
 
         if (profileImageOptional.isPresent()) {
@@ -87,5 +82,14 @@ public class ProfileImageServiceImpl implements ProfileImageService {
                     .url(defaultImageUrl)
                     .build();
         }
+    }
+
+    @Override
+    public byte[] getImageBytes(String fileUrl) throws IOException {
+        File file = new File(uploadFolder + fileUrl);
+        if (!file.exists()) {
+            throw new IllegalArgumentException("File not found: " + fileUrl);
+        }
+        return Files.readAllBytes(file.toPath());
     }
 }
