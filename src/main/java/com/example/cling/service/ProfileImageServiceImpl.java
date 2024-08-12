@@ -86,8 +86,8 @@ public class ProfileImageServiceImpl implements ProfileImageService {
 
     @Override
     public byte[] getImageBytes(String fileUrl) throws IOException {
-        // 절대 경로로 변환
-        File file = new File(uploadFolder + fileUrl.replace("/profileImages/", ""));
+        // 파일 경로를 절대 경로로 변환
+        File file = new File(uploadFolder + "/" + fileUrl.replace("/profileImages/", ""));
         if (!file.exists()) {
             throw new IllegalArgumentException("File not found: " + fileUrl);
         }

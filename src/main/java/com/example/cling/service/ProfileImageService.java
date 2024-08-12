@@ -8,5 +8,5 @@ import java.io.IOException;
 public interface ProfileImageService {
     void upload(MultipartFile file, String studentId);
     ProfileImageResponseDto findImage(String studentId);
-    byte[] getImageBytes(String fileUrl) throws IOException;
+    byte[] getImageBytes(String fileUrl) throws IOException; // 바이너리 데이터 반환
 }
