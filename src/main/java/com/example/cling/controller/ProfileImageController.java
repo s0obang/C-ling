@@ -36,7 +36,7 @@ public class ProfileImageController {
             byte[] imageBytes = profileImageService.getImageBytes(profileImageResponse.getUrl());
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg"); // 예시로 JPEG 타입을 사용합니다. 실제 이미지 타입에 맞게 조정 필요.
+            headers.add(HttpHeaders.CONTENT_TYPE, "image/png"); // 실제 이미지 타입에 맞게 조정 필요... 일단 png함
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + studentId + ".jpg\"");
 
             return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
