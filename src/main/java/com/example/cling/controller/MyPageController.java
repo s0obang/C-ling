@@ -40,11 +40,12 @@ public class MyPageController {
             ProfileImageResponseDto profileImageResponse = profileImageService.findImage(studentId);
             byte[] imageBytes = profileImageService.getImageBytes(profileImageResponse.getUrl());
 
+            // 이미지 데이터를 Base64로 인코딩
             String base64Image = Base64.getEncoder().encodeToString(imageBytes);
             positionAndCrew.setProfileImageUrl("data:image/png;base64," + base64Image);  // 이미지 타입에 맞게 수정 가능
         } catch (IOException e) {
             // 예외 처리
-            e.printStackTrace();  // 로그==예외 출력
+            e.printStackTrace();  // 로그로 예외를 출력
         }
 
         return ResponseEntity.ok(positionAndCrew);
