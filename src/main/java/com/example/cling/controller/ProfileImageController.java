@@ -36,10 +36,8 @@ public class ProfileImageController {
             byte[] imageBytes = profileImageService.getImageBytes(profileImageResponse.getUrl());
 
             HttpHeaders headers = new HttpHeaders();
-
-            headers.add(HttpHeaders.CONTENT_TYPE, "image/png"); // 이미지 타입에 맞게 설정
+            headers.add(HttpHeaders.CONTENT_TYPE, "jpg/png");
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + studentId + ".png\"");
-
             return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
 
         } catch (IOException e) {
