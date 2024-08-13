@@ -37,9 +37,7 @@ public class CrewService {
         UserEntity user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        Crew crew = crewRepository.findByUser(user).stream()
-                .filter(c -> c.getCrewName().equals(crewName))
-                .findFirst()
+        Crew crew = crewRepository.findByUserAndCrewName(user, crewName)
                 .orElseThrow(() -> new RuntimeException("크루명을 찾을 수 없습니다."));
 
         crewRepository.delete(crew);

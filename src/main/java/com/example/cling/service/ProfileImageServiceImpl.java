@@ -86,19 +86,24 @@ public class ProfileImageServiceImpl implements ProfileImageService {
 
     @Override
     public byte[] getImageBytes(String fileUrl) throws IOException {
-        String fileName = fileUrl.replace("/profileImages/", "");
+        if (fileUrl.equals(defaultImageUrl)) {
+            File file = new File(defaultImageUrl);
 
-        String filePath = uploadFolder + "/" + fileName;
+            if (!file.exists()) {
+                throw new IllegalArgumentException("File not found: " + defaultImageUrl);
+            }
 
-        File file = new File(filePath);
+            return Files.readAllBytes(file.toPath());
+        } else {
+            String fileName = fileUrl.replace("/profileImages/", "");
+            String filePath = uploadFolder + "/" + fileName;
+            File file = new File(filePath);
 
-        if (!file.exists()) {
-            throw new IllegalArgumentException("File not found: " + filePath);
+            if (!file.exists()) {
+                throw new IllegalArgumentException("File not found: " + filePath);
+            }
+
+            return Files.readAllBytes(file.toPath());
         }
-
-        return Files.readAllBytes(file.toPath());
     }
-
-
-
 }
