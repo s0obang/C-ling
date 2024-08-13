@@ -77,7 +77,7 @@ public class NoticeController {
                                                @RequestParam("id") int notice_id,
                                                @RequestParam("title") String title,
                                                @RequestParam("content") String content,
-                                               @RequestParam("images") List<MultipartFile> images) {
+                                               @RequestParam(value = "images", required = false) List<MultipartFile> images) {
         String authenticatedUserId = userDetails.getUsername();
 
         NoticeUpdateDto noticeUpdateDto = new NoticeUpdateDto(notice_id, title, content, images);
