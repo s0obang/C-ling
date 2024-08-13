@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -72,8 +73,8 @@ public class ChatService {
         return roomRepository.findByRoomId(roomId);
     }
 
-    public ChatEntity sendImage(SendImageDto sendImageDTO) throws IOException {
-        RoomEntity room = roomRepository.findById(sendImageDTO.getRoomId())
+    public ChatEntity sendImage(Long roomId, SendImageDto sendImageDTO) throws IOException {
+        RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid room ID"));
 
         MultipartFile imageFile = sendImageDTO.getImageFile();
@@ -100,7 +101,9 @@ public class ChatService {
         }
 
         // 파일 이름 가져오기
-        String fileName = file.getOriginalFilename();
+        String originalFileName = file.getOriginalFilename();
+
+        String fileName = UUID.randomUUID() + "_" + originalFileName;
 
         // 파일 저장 경로 설정
         Path filePath = uploadPath.resolve(fileName);
