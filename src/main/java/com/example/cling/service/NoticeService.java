@@ -64,13 +64,15 @@ public class NoticeService {
         notice.setTitle(noticeUpdateDto.getTitle());
         notice.setContent(noticeUpdateDto.getContent());
 
-        List<Attachment> existingImages = notice.getImages();
-        for (Attachment image : existingImages) {
-            attachmentService.deleteFile(image);
-        }
-        notice.getImages().clear();
-
         if (noticeUpdateDto.getImages() != null && !noticeUpdateDto.getImages().isEmpty()) {
+            // 기존 이미지 삭제
+            List<Attachment> existingImages = notice.getImages();
+            for (Attachment image : existingImages) {
+                attachmentService.deleteFile(image);
+            }
+            notice.getImages().clear();
+
+            // 새 이미지 업로드
             attachmentService.uploadToNotice(noticeUpdateDto.getImages(), NoticeDto.toDto(notice));
         }
 
