@@ -87,7 +87,7 @@ public class ProfileImageServiceImpl implements ProfileImageService {
     @Override
     public byte[] getImageBytes(String fileUrl) throws IOException {
         if (fileUrl.equals(defaultImageUrl)) {
-            File file = new File(defaultImageUrl);
+            File file = new File(uploadFolder, "/anonymous.png");
 
             if (!file.exists()) {
                 throw new IllegalArgumentException("File not found: " + defaultImageUrl);
