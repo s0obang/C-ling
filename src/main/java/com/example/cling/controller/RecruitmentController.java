@@ -168,4 +168,12 @@ public class RecruitmentController {
         String userId = userDetails.getUsername();
         return applicationService.getMyApplications(userId);
     }
+
+    @PutMapping("/application/display/{applicationId}")
+    public ResponseEntity<String> displayApplication(
+            @PathVariable("applicationId") int applicationId
+    ) {
+        applicationService.setDisplayNone(applicationId);
+        return ResponseEntity.ok("지원서가 숨김 처리 되었습니다.");
+    }
 }
