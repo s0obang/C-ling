@@ -1,3 +1,4 @@
+//ProfileImageService
 package com.example.cling.service;
 
 import com.example.cling.dto.ProfileImageResponseDto;
@@ -46,7 +47,7 @@ public class ProfileImageServiceImpl implements ProfileImageService {
             ProfileImage profileImage = profileImageRepository.findByUser(user)
                     .orElse(ProfileImage.builder().user(user).build());
 
-            profileImage.setUrl("/profileImages/" + fileName);
+            profileImage.setUrl(uploadFolder + fileName);
             profileImage.setUser(user);
 
             profileImageRepository.save(profileImage);
@@ -86,24 +87,10 @@ public class ProfileImageServiceImpl implements ProfileImageService {
 
     @Override
     public byte[] getImageBytes(String fileUrl) throws IOException {
-        if (fileUrl.equals(defaultImageUrl)) {
-            File file = new File(uploadFolder, "/anonymous.png");
-
-            if (!file.exists()) {
-                throw new IllegalArgumentException("File not found: " + defaultImageUrl);
-            }
-
-            return Files.readAllBytes(file.toPath());
-        } else {
-            String fileName = fileUrl.replace("/profileImages/", "");
-            String filePath = uploadFolder + "/" + fileName;
-            File file = new File(filePath);
-
-            if (!file.exists()) {
-                throw new IllegalArgumentException("File not found: " + filePath);
-            }
-
-            return Files.readAllBytes(file.toPath());
+        File file = new File(fileUrl);
+        if (!file.exists()) {
+            throw new IllegalArgumentException("File not found");
         }
+        return Files.readAllBytes(file.toPath());
     }
 }

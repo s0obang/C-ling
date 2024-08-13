@@ -1,3 +1,4 @@
+//PositionRequestServiceImpl
 package com.example.cling.service;
 
 import com.example.cling.dto.PositionRequestDto;
@@ -46,7 +47,7 @@ public class PositionRequestServiceImpl implements PositionRequestService {
                 authenticationImage.transferTo(destinationFile);
 
                 // 저장된 파일의 URL 생성
-                imageUrl = "/positionImages/" + fileName;
+                imageUrl = positionImagePath + File.separator + fileName;
 
             } catch (IOException e) {
                 throw new RuntimeException("직책 인증 이미지 저장 실패: " + e.getMessage());

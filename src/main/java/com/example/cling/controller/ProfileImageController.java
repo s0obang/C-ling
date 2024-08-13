@@ -1,6 +1,8 @@
+//ProfileImageController
 package com.example.cling.controller;
 
 import com.example.cling.dto.MyPageResponseDto;
+import com.example.cling.dto.ProfileImageByteDto;
 import com.example.cling.dto.ProfileImageDto;
 import com.example.cling.dto.ProfileImageResponseDto;
 import com.example.cling.service.ProfileImageService;
@@ -33,28 +35,18 @@ public class ProfileImageController {
     }
 
     @GetMapping("/get/{studentId}")
-    public ResponseEntity<ProfileImageDto> getImageAsBase64(@PathVariable String studentId) {
-        try {
-            // 사용자 ID로 프로필 이미지 URL을 찾기
-            ProfileImageResponseDto profileImageResponse = profileImageService.findImage(studentId);
+    public ResponseEntity<ProfileImageByteDto> getImageAsBase64(@PathVariable String studentId) throws IOException {
+        // 사용자 ID로 프로필 이미지 URL을 찾기
+        ProfileImageResponseDto profileImageResponse = profileImageService.findImage(studentId);
 
-            // 프로필 이미지 URL에서 바이트 배열 가져오기
-            byte[] imageBytes = profileImageService.getImageBytes(profileImageResponse.getUrl());
+        // 프로필 이미지 URL에서 바이트 배열 가져오기
+        byte[] imageBytes = profileImageService.getImageBytes(profileImageResponse.getUrl());
 
-            // 이미지 데이터를 Base64로 인코딩
-            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-            String base64ImageUrl = "data:image/png;base64," + base64Image;  // 이미지 타입에 맞게 수정 가능
+        ProfileImageByteDto profileImageByteDto = new ProfileImageByteDto(imageBytes);
 
-            // ProfileImageDto에 Base64 이미지 URL 설정
-            ProfileImageDto responseDto = new ProfileImageDto(base64ImageUrl);
+        return ResponseEntity.ok(profileImageByteDto);
 
-            return ResponseEntity.ok(responseDto);
 
-        } catch (IOException e) {
-            // 예외 처리
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
     }
 
 }
