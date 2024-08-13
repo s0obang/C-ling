@@ -49,6 +49,7 @@ public class ApplicationService {
         application.setRecruitingDepartment(recruitment.getRecruitingDepartment());
         application.setStudentId(applicationCreateDto.getStudentId());
         application.setStudentName(applicationCreateDto.getStudentName());
+        application.setView(true);
         recruitment.addApplication(application);
         Application savedApplication = applicationRepository.save(application);
         return ApplicationDto.toDto(savedApplication);
@@ -162,5 +163,14 @@ public class ApplicationService {
 
     public boolean checkApplication(String userId, int recruitmentId) {
         return applicationRepository.findByStudentIdAndRecruitmentId(userId, recruitmentId).isPresent();
+    }
+
+    public void setDisplayNone(int applicationId) {
+        Optional<Application> applicationOptional = applicationRepository.findById(applicationId);
+        if (applicationOptional.isPresent()) {
+            Application application = applicationOptional.get();
+            application.setView(false);
+            applicationRepository.save(application);
+        } else throw new RuntimeException("지원서를 찾을 수 없습니다.");
     }
 }

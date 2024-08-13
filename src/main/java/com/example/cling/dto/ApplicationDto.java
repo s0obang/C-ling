@@ -1,9 +1,6 @@
 package com.example.cling.dto;
 
 import com.example.cling.entity.Application;
-import com.example.cling.entity.Attachment;
-import com.example.cling.entity.Recruitment;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +31,8 @@ public class ApplicationDto {
     private Boolean secondResult;
     @NotBlank(message = "recruitment_id cannot be blank")
     private int recruitment_id;
-
+    @NotBlank(message = "view cannot be blank")
+    private boolean view;
 
 
 
@@ -62,7 +60,8 @@ public class ApplicationDto {
                 attachmentDtoList,
                 savedApplication.getFirstResult(),
                 savedApplication.getSecondResult(),
-                savedApplication.getRecruitment().getId()
+                savedApplication.getRecruitment().getId(),
+                savedApplication.isView()
         );
     }
 }

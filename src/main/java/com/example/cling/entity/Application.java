@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +51,9 @@ public class Application {
 
     @Column
     private Boolean secondResult;
+
+    @Column
+    private boolean view;
 
     public void addFile(Attachment file) {
         this.application.add(file);
