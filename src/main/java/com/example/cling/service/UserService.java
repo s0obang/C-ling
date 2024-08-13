@@ -124,8 +124,12 @@ public class UserService {
         response.setCrewNames(crewNames);   // crewNames 리스트 설정
         response.setPositionsAndCrews(positionsAndCrews);
 
+        // Validate the DTO
+        response.validatePositionsAndCrewNames(); // 검증 메서드를 호출하여 유효성 검사
+
         return response;
     }
+
 
     public void updatePassword(String email, String newPassword) {
         UserEntity user = userRepository.findByEmail(email)
@@ -159,6 +163,15 @@ public class UserService {
     public void addCrew(String studentId, CrewRequestDto crewRequestDto) {
         UserEntity user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        // 사용자에게 등록된 크루명을 확인하여 3개 이상일 경우 예외 발생
+        long crewCount = user.getCrews().stream()
+                .filter(c -> c.getPosition().equals(crewRequestDto.getPosition()))
+                .count();
+
+        if (crewCount >= 3) {
+            throw new RuntimeException("해당 직책에는 최대 3개의 크루명만 등록할 수 있습니다.");
+        }
 
         String crewName = crewRequestDto.getCrewName() != null ? crewRequestDto.getCrewName() : "";
 

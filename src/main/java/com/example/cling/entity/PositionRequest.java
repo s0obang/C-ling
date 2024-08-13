@@ -40,4 +40,7 @@ public class PositionRequest {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    @Column(name = "crew_name", length = 100) // 크루 이름을 저장하기 위한 필드
+    private String crewName;
 }

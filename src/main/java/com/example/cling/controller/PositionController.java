@@ -1,5 +1,6 @@
 package com.example.cling.controller;
 
+import com.example.cling.dto.ApprovePositionDto;
 import com.example.cling.dto.CrewRequestDto;
 import com.example.cling.dto.PositionRequestDto;
 import com.example.cling.service.CrewService;
@@ -29,6 +30,7 @@ public class PositionController {
             @RequestParam("major") String major,
             @RequestParam("studentId") String studentId,
             @RequestParam("position") String position,
+            @RequestParam(value = "crewName", required = false) String crewName,  // 추가된 파라미터
             @RequestParam(value = "authenticationImage", required = false) MultipartFile authenticationImage) {
 
         PositionRequestDto positionRequestDto = PositionRequestDto.builder()
@@ -36,6 +38,7 @@ public class PositionController {
                 .major(major)
                 .studentId(studentId)
                 .position(position)
+                .crewName(crewName)
                 .authenticationImage(authenticationImage)
                 .build();
 
@@ -52,15 +55,19 @@ public class PositionController {
     }
 
     @PostMapping("/approve")
-    public ResponseEntity<String> approvePosition(@RequestParam("studentId") String studentId, @RequestParam("position") String position) {
+    public ResponseEntity<String> approvePosition(@RequestBody ApprovePositionDto approvePositionDto) {
         try {
-            userService.updatePosition(studentId, position);
-            return ResponseEntity.ok("{\"message\": \"직책이 성공적으로 승인되었습니다.\", \"status\": 200}");
+            userService.updatePosition(approvePositionDto.getStudentId(), approvePositionDto.getPosition());
+            crewService.addCrew(approvePositionDto.getStudentId(), new CrewRequestDto(
+                    approvePositionDto.getPosition(), approvePositionDto.getCrewName()
+            ));
+            return ResponseEntity.ok("{\"message\": \"직책과 크루명이 성공적으로 승인되었습니다.\", \"status\": 200}");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("{\"message\": \"직책 승인 처리 실패: " + e.getMessage() + "\", \"status\": 500}");
+                    .body("{\"message\": \"직책 및 크루명 승인 처리 실패: " + e.getMessage() + "\", \"status\": 500}");
         }
     }
+
 
     @PostMapping("/addCrew")
     public ResponseEntity<String> addCrew(

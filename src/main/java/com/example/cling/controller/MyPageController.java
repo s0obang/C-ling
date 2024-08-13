@@ -4,11 +4,14 @@ import com.example.cling.dto.MyPageResponseDto;
 import com.example.cling.dto.ProfileImageResponseDto;
 import com.example.cling.service.UserService;
 import com.example.cling.service.ProfileImageService;
+import com.example.cling.util.JwtUtil;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +25,7 @@ public class MyPageController {
 
     private final UserService userService;
     private final ProfileImageService profileImageService;
+    private final JwtUtil jwtUtil;
 
     @GetMapping("/user-info")
     public ResponseEntity<MyPageResponseDto> getUserInfo(@AuthenticationPrincipal UserDetails userDetails) {
@@ -49,5 +53,20 @@ public class MyPageController {
         }
 
         return ResponseEntity.ok(positionAndCrew);
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<MyPageResponseDto> getDetail(@RequestHeader("Authorization") String token) {
+        String studentId = extractStudentIdFromToken(token);
+        MyPageResponseDto responseDto = userService.getUserPositionAndCrew(studentId);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    private String extractStudentIdFromToken(String token) {
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7); // "Bearer " 제거
+        }
+        Claims claims = jwtUtil.extractClaims(token);
+        return claims.getSubject(); // JWT의 'sub' 클레임에서 사용자 ID 추출
     }
 }
