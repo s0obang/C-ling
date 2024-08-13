@@ -88,9 +88,10 @@ public class PositionController {
     @DeleteMapping("/deleteCrew")
     public ResponseEntity<String> deleteCrew(
             @RequestHeader("Authorization") String token,
-            @RequestParam("crewName") String crewName) {
+            @RequestBody CrewRequestDto crewRequestDto) {
 
         String studentId = extractStudentIdFromToken(token);
+        String crewName = crewRequestDto.getCrewName();
 
         try {
             crewService.deleteCrew(studentId, crewName);
