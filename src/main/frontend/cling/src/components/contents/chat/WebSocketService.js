@@ -34,14 +34,14 @@ const WebSocketService = {
         }
     },
 
-    send: (roomId, message) => {
+    sendMessage: (roomId, sender, message) => {
         if (WebSocketService.client && WebSocketService.client.connected) {
             WebSocketService.client.publish({
                 destination: `/pub/room/${roomId}/chat`,
-                body: JSON.stringify(message),
+                body: JSON.stringify({ sender, message }),
             });
         }
-    },
+    }
 };
 
 export default WebSocketService;
