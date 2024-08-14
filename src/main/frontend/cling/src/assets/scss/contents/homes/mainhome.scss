@@ -13,12 +13,15 @@
   .mainTitle {
     position: absolute;
     bottom: 10px;
-    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
     text-align: center;
     color: black;
     font-size: 32px;
     font-weight: bold; 
     padding: 20px;
+    white-space: pre-wrap;
   }
 
   .swiper {
