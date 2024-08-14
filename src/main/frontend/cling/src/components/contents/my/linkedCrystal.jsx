@@ -4,7 +4,6 @@ import BGPROFIL from '../../../assets/img/my/profil_background.png'
 import axios from 'axios';
 
 const LinkedCrystal = () => {
-
     const [users, setUsers] = useState([]);
     const [images, setImages] = useState({});
 

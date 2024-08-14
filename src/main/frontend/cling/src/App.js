@@ -49,7 +49,7 @@ function App() {
                 <Route path='/noticeWrite' element={<NoticeWrite />} />
                 <Route path='/noticeWrites' element={<NoticeWrites />} />
                 <Route path='/noticeEdit/:id' element={<NoticeEdit />} />
-                <Route path='/noticeOpen/:id' element={<NoticeOpen />} />
+                <Route path='/noticeOpen/:id' element={<NoticeOpen />} /> 
                 
                 <Route path='/myhome' element={<Myhome />} />
                 <Route path='/create/info' element={<Create />} />

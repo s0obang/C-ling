@@ -57,7 +57,7 @@ const NoticeEdit = () => {
       setTitle(title);
       setContent(content);
       const imageNames = images.map(img => img.originAttachmentName);
-      setFileNames(imageNames); // 기존 이미지 이름
+      setFileNames(imageNames); // 기존 이미지 이름 
       console.log('수정 페이지를 열었습니다', response);
       setIsLoading(false);
     })

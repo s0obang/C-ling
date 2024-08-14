@@ -38,7 +38,7 @@ const Mainhome = () => {
     });
   }
 
-  // 내 글만 보기
+  // 내 글만 보기 
   const handlemynotice = (e) => {
     if (showMyNotices) {
       allNotice();

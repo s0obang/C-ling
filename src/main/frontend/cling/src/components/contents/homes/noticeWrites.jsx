@@ -84,7 +84,7 @@ const NoticeWrites = () => {
       return;
     }
     setFileNames(files.map(file => file.name));
-    setImages(files);  // 파일들 저장
+    setImages(files);  // 파일들 저장 
   };
   
   return (

@@ -16,7 +16,7 @@ const NoticeOpen = () => {
   const [notice, setNotice] = useState(null);
   const [images, setImages] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태
+  const [isLoading, setIsLoading] = useState(true); //로딩 상태
   const navigate = useNavigate();
 
   useEffect(() => {

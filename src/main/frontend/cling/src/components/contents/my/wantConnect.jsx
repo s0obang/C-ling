@@ -11,7 +11,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/effect-creative';
 
 const WantConnect = () => {
-
     const [wantUsers, setWantUsers] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState({});
