@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../../assets/scss/contents/matching/same_major.scss';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, useAnimation } from 'framer-motion';
@@ -6,10 +6,12 @@ import { useInView } from 'react-intersection-observer';
 import Header from '../../Header';
 import Bubble1 from '../../../assets/img/matching/speech-bubble1.png';
 import Bubble2 from '../../../assets/img/matching/speech-bubble2.png';
+import axios from 'axios';
 
 const Samemajor = () => {
     const location = useLocation();
     const profiles = location.state?.profiles || [];
+    const [profileImages, setProfileImages] = useState({});
 
     const containerVariants = {
         hidden: {},
@@ -35,6 +37,33 @@ const Samemajor = () => {
         }
     }, [containerControls, inView]);
 
+    useEffect(() => {
+        if (profiles.length > 0) {
+            profiles.forEach(profile => {
+                fetchProfileImage(profile.studentId);
+            });
+        }
+    }, [profiles]);
+
+    const fetchProfileImage = (studentId) => {
+        axios.get(`https://clinkback.store/profile-image/get/${studentId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+        })
+            .then(response => {
+                if (response.data && response.data.imageByte) {
+                    setProfileImages(prevImages => ({
+                        ...prevImages,
+                        [studentId]: `data:image/jpeg;base64,${response.data.imageByte}`
+                    }));
+                }
+            })
+            .catch(err => {
+                console.error(`Failed to fetch profile image for studentId ${studentId}:`, err);
+            });
+    };
+
     return (
         <div className='samemajor'>
             <Header />
@@ -59,7 +88,10 @@ const Samemajor = () => {
                             className="profile-link"
                             state={{ profiles }}
                         >
-                            <img src={profile.profileImageUrl} alt="프로필사진" />
+                            <img 
+                                src={profileImages[profile.studentId] || ''} 
+                                alt="프로필사진" 
+                            />
                             <div className="bubbleimg">
                                 <img src={index % 2 === 0 ? Bubble1 : Bubble2} alt="말풍선" />
                                 <div className="bubble-text">

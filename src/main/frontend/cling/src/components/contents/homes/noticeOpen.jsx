@@ -1,61 +1,95 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from '../../Header';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { IoChevronBackCircleOutline } from "react-icons/io5";
+import '../../../assets/scss/contents/homes/noticeOpen.scss';
 import axios from 'axios';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import '../../../assets/scss/contents/homes/noticeOpen.scss'
-import image1 from '../../../assets/img/logo.png'
-import image2 from '../../../assets/img/logo.png'
-import image3 from '../../../assets/img/logo.png'
-import image4 from '../../../assets/img/logo.png'
-import image5 from '../../../assets/img/logo.png'
 
-const images = [
-    image1,
-    image2,
-    image3,
-    image4,
-    image5
-];
-
-const notice = [
-    ['제목입디다', '내용1']
-];
-
-const NoticePage = ({ src, className }) => {
-  const location = useLocation();
-  const { selectedIndex } = location.state || { selectedIndex: 0 };
-  const [currentIndex, setCurrentIndex] = useState(selectedIndex);
+const NoticeOpen = () => {
+  const { id } = useParams();
+  const [notice, setNotice] = useState(null);
+  const [images, setImages] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); //로딩 상태
   const navigate = useNavigate();
 
-{/*const [posts, setPosts] = useState([]);
   useEffect(() => {
-    axios({
-      method:'GET',
-      url:''
-    }).then(response => setPosts(response.data))
-  })*/}
-  
+    if (id) {
+      opennotice();
+      handleEditBox();
+    }
+  }, [id]);
+
+  const opennotice = () => {
+    axios.get(`https://clinkback.store/notice/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    })
+    .then((response) => {
+      setNotice(response.data);
+      const base64Images = response.data.images.map(image => `data:image/jpeg;base64,${image.attachmentByteList}`);
+      setImages(base64Images);
+      setIsLoading(false); // 데이터 로드 완료
+      console.log('게시글 가져오기 완료:', response);
+    })
+    .catch((error) => {
+      console.error('게시글을 가져오는 중 오류가 발생했습니다.', error);
+      setIsLoading(false);
+    });
+  };
+
+  const handleEditBox = () => {
+    axios.get(`https://clinkback.store/api/auth/getLoggedInUsername`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    })
+    .then((response) => {
+      setCurrentUserId(response.data.toString());
+      console.log('userId:', response);
+    })
+    .catch((error) => {
+      console.error('userId를 가져오지 못했습니다.', error);
+    });
+  };
+
   const editNotice = () => {
+    navigate(`/noticeEdit/${id}`);
+  };
 
-  }
   const deleteNotice = () => {
-    // 삭제 기능 구현. 내가 쓴 글이면 보이게
-  }
+    const userConfirmed = window.confirm('게시글을 삭제하시겠습니까?');
+    
+    if (userConfirmed) {
+    axios.delete(`https://clinkback.store/notice/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    })
+    .then(response => {
+        alert('게시글이 삭제되었습니다');
+        console.log('삭제되었습니다', response);
+        navigate(-1);
+    })
+    .catch(error => {
+        console.error('오류가 발생했습니다.', error);
+    });
+  }};
 
-  const handleSlideChange = (swiper) => {
-    setCurrentIndex(swiper.activeIndex);
-  }
-  
-  const GonoticeWrite = () => {
+  const goNoticeWrite = () => {
     navigate('/noticeWrites');
   };
+
+  if (isLoading) {
+    return null; // 로딩 중일 때 아무것도 렌더링하지 않음
+  }
 
   return (
     <div id="noticeOpen">
@@ -63,46 +97,47 @@ const NoticePage = ({ src, className }) => {
       <div id="imgbox">
         <Swiper
           className="mainBanner"
-          grabCursor={true} //잡기 커서 활성화
-          slidesPerView={1}   
-          spaceBetween={30} // 슬라이드 간 간격 
-          pagination={{clickable: true}}  //하단 동그라미
-          centeredSlides={true} //센터모드
-          autoplay={false} 
+          grabCursor={true}
+          slidesPerView={1}
+          spaceBetween={30}
+          pagination={{ clickable: true }}
+          centeredSlides={true}
+          autoplay={false}
           modules={[Pagination, Autoplay]}
-          initialSlide={selectedIndex}
-          onSlideChange={handleSlideChange}
         >
           {images.map((src, index) => (
-            <SwiperSlide key={index} className="Slide">
-              <img src={src} alt={`image-${index}`} className="imghuman" />
-            </SwiperSlide>
-          ))}
+              <SwiperSlide key={index} className="Slide">
+                <img src={src} alt={`mage-${index}`} className="imghuman" />
+              </SwiperSlide>
+            ))
+          }
         </Swiper>
-        
       </div>
       <div id="contentBox">
-        <div className="backBox">
+        <div id="topBox">
+          <IoChevronBackCircleOutline className="back" onClick={() => navigate(-1)} />
+          <span className="text1">{notice.title}</span>
           
         </div>
-          <div id = "title">
-          <IoChevronBackCircleOutline className="back" onClick={()=>{navigate(-1)}} />
-          <span className="text1">{notice[0][0]}</span>
-          </div>
-        <div id="editBox">
-          <span id="edit" onClick={editNotice}>수정하기</span>
-          <span> / </span>
-          <span id="delete" onClick={deleteNotice}>삭제하기</span>
+        <div id="editBox1">
+        {notice && currentUserId === notice.userId && (
+            <div id="editBox2">
+              <span id="edit" onClick={editNotice}>수정하기</span>
+              <span> / </span>
+              <span id="delete" onClick={deleteNotice}>삭제하기</span>
+            </div>
+          )}
         </div>
-          <div id = "contents">
-          <span className="text2">{notice[0][1]}</span>
-          </div>
+        <span className="createdDate">{notice.createdDate}</span>
+        <div id="contents">
+          <span className="text2">{notice.content}</span>
+        </div>
       </div>
       <div>
-        <button id="btnWrite" onClick={GonoticeWrite}>글 작성하기</button>
+        <button id="btnWrite" onClick={goNoticeWrite}>글 작성하기</button>
       </div>
     </div>
   );
-}
+};
 
-export default NoticePage;
+export default NoticeOpen;

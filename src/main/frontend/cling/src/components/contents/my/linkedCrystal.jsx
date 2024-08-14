@@ -4,27 +4,44 @@ import BGPROFIL from '../../../assets/img/my/profil_background.png'
 import axios from 'axios';
 
 const LinkedCrystal = () => {
-
     const [users, setUsers] = useState([]);
+    const [images, setImages] = useState({});
+
     useEffect(() => {
         showLinked();
       }, []);
-    
-    const showLinked = () => {
-      axios.get('https://clinkback.store/matching', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.error('연결된 수정이들 목록을 가져오는 중 오류가 발생했습니다.', error);
-      });
-    }
-    
+      
+      const showLinked = () => {
+        axios.get('https://clinkback.store/matching', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+        })
+        .then(response => {
+            setUsers(response.data);
+
+            response.data.forEach(user => {
+                axios.get(`https://clinkback.store/profile-image/get/${user.studentId}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    },
+                })
+                .then(imageResponse => {
+                    setImages(prevImages => ({
+                        ...prevImages,
+                        [user.studentId]: imageResponse.data.imageByte
+                    }));
+                })
+                .catch(error => {
+                    console.error(`${user.studentId}의 이미지를 불러오는데 실패했습니다.:`, error);
+                });
+            });
+        })
+        .catch(error => {
+            console.error('연결된 수정이에 대한 정보는 불러오는데 실패했습니다.', error);
+        });
+    };
+      
     return (
         <div className="linkedprofil">
             <div className="profilcard">
@@ -33,11 +50,14 @@ const LinkedCrystal = () => {
                 </div>
                 <div id="profillist">
                     {users.length === 0 ? (
-                        <h2 className="message">나와 연결된 수정이가 없습니다!</h2>
+                        <span className="linkedZero">나와 연결된 수정이가 없습니다 !</span>
                     ) : (
-                        users.map((user, index) => (
-                            <div className="profil" key={index}>
-                                <img src={user.profileImageUrl} alt="profile" className="imghuman" />
+                        users.map(user => (
+                            <div className="profil" key={user.studentId}>
+                                <img 
+                                    src={`data:image/jpeg;base64,${images[user.studentId]}`}  
+                                    alt={`profile-${user.studentId}`} className="imghuman" 
+                                />
                                 <img src={BGPROFIL} alt="imgprofil" className="imgprofil" />
                                 <div id="info">
                                     <div className="infotext">

@@ -11,9 +11,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/effect-creative';
 
 const WantConnect = () => {
-
     const [wantUsers, setWantUsers] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [images, setImages] = useState({});
 
     useEffect(() => {
         showWantConnect();
@@ -25,14 +25,30 @@ const WantConnect = () => {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         },
       })
-      .then((response) => {
+      .then(response => {
         setWantUsers(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-            console.error('연결을 원하는 수정이들 목록을 가져오는 중 오류가 발생했습니다.', error);
-      });
-    }
+
+        response.data.forEach(user => {
+            axios.get(`https://clinkback.store/profile-image/get/${user.studentId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                },
+            })
+            .then(imageResponse => {
+                setImages(prevImages => ({
+                    ...prevImages,
+                    [user.studentId]: imageResponse.data.imageByte
+                }));
+            })
+            .catch(error => {
+                console.error(`${user.studentId}의 이미지를 불러오는데 실패했습니다.:`, error);
+            });
+        });
+    })
+    .catch((error) => {
+        console.error('연결을 원하는 수정이들 목록을 가져오는 중 오류가 발생했습니다.', error);
+        });
+    };
 
     const handleSlideChange = (swiper) => {
         setCurrentIndex(swiper.realIndex);
@@ -41,7 +57,7 @@ const WantConnect = () => {
 
     //수락
     const handleAccept =() => {
-        const studentId = wantUsers[currentIndex].studentId;
+        const studentId = wantUsers[currentIndex]?.studentId;
 
         axios.post('https://clinkback.store/request/accept', { studentId },
             {
@@ -64,7 +80,7 @@ const WantConnect = () => {
     }
     //거절
     const handleDecline=() => {
-        const studentId = wantUsers[currentIndex].studentId;
+        const studentId = wantUsers[currentIndex]?.studentId; 
 
         axios.delete('https://clinkback.store/request/decline',
             {
@@ -91,9 +107,9 @@ const WantConnect = () => {
         <div id="wantPage">
             <span id="title"> 연결을 원하는 수정이들 </span>
             {wantUsers.length === 0 ? (
-                <h2 className="message">
+                <div id="noConnections">
                     나와 연결을 원하는 수정이가 없습니다!
-                </h2>
+                </div>
             ) : (
                 <>
                     <div id="box1">
@@ -123,10 +139,12 @@ const WantConnect = () => {
                                 }}
                                 onSlideChange={handleSlideChange}
                             >
-                                {wantUsers.map((item, index) => (
-                                    <SwiperSlide key={index} className="Slide">
+                                {wantUsers.map((user, index) => (
+                                    <SwiperSlide key={user.studentId} className="Slide">
                                         <div className="image-container">
-                                        <img src={item.profileImageUrl} alt={`slide-${index}`} className="imgList" />
+                                        <img 
+                                            src={`data:image/jpeg;base64,${images[user.studentId]}`}
+                                            alt={`slide-${index}`} className="imgList" />
                                         </div>
                                     </SwiperSlide>
                                 ))}

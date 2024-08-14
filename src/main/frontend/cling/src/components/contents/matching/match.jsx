@@ -11,14 +11,23 @@ import axios from 'axios';
 
 const Match = () => {
     const [users, setUsers] = useState([]);
+    const [profileImages, setProfileImages] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
         matching();
     }, []);
 
+    useEffect(() => {
+        if (users.length > 0) {
+            users.forEach(user => {
+                fetchProfileImage(user.studentId);
+            });
+        }
+    }, [users]);
+
     const matching = () => {
-        axios.get('http://13.48.207.238:1234/matching', {
+        axios.get('https://clinkback.store/matching', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             },
@@ -31,9 +40,28 @@ const Match = () => {
             });
     };
 
+    const fetchProfileImage = (studentId) => {
+        axios.get(`https://clinkback.store/profile-image/get/${studentId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+        })
+            .then(response => {
+                if (response.data && response.data.imageByte) {
+                    setProfileImages(prevImages => ({
+                        ...prevImages,
+                        [studentId]: `data:image/jpeg;base64,${response.data.imageByte}`
+                    }));
+                }
+            })
+            .catch(err => {
+                console.error(`Failed to fetch profile image for studentId ${studentId}:`, err);
+            });
+    };
+
     const enterChatRoom = (user) => {
         console.log(`Bearer ${localStorage.getItem('accessToken')}`)
-        axios.get(`http://13.48.207.238:1234/roomEnter?id2=${user.studentId}`, {
+        axios.get(`https://clinkback.store/roomEnter?id2=${user.studentId}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             },
@@ -87,9 +115,14 @@ const Match = () => {
                         <Slider {...settings}>
                             {users.map(user => (
                                 <div key={user.studentId} className="slide">
-                                    <div className="profileimg">
-                                        <img src={user.profileImageUrl} alt="프로필사진" />
-                                    </div>
+                                    {profileImages[user.studentId] && (
+                                        <div className="profileimg">
+                                            <img 
+                                                src={profileImages[user.studentId]} 
+                                                alt="프로필사진" 
+                                            />
+                                        </div>
+                                    )}
                                     <div className="slide-content">
                                         <button className="btn" onClick={() => enterChatRoom(user)}>
                                             채팅하기
