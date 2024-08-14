@@ -19,11 +19,11 @@ const Myprofil = () => {
     const [major, setMajor] = useState(null);
     const [positions, setPositions] = useState([]);
     const [profileImageFile, setProfileImageFile] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [profileImagePreview, setProfileImagePreview] = useState(null);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     const fetchUserInfo = () => {
-        setLoading(true);
         axios.get('https://clinkback.store/api/my-page/position-and-crew', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`
@@ -31,42 +31,33 @@ const Myprofil = () => {
         })
             .then(res => {
                 if (res.status === 200) {
-                    console.log(res.data);
                     setMyinfo(res.data);
                     setName(res.data.name || '');
                     setEmail(res.data.email || '');
                     setMajor(res.data.major ? { value: res.data.major, label: res.data.major } : null);
                     setPositions(res.data.positions);
                     setProfileImageFile(res.data.profileImageUrl);
+                    setProfileImagePreview(res.data.profileImageUrl);
+                    setLoading(false);
                 }
             })
             .catch(err => {
                 console.error(err);
             })
-            .finally(() => setLoading(false));
+
     };
 
     useEffect(() => {
         fetchUserInfo();
     }, []);
 
-
-
-    const logout = () => {
-        axios.post('https://clinkback.store/api/auth/logout', {}, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-            }
-        })
-            .then(res => {
-                if (res.status === 200) {
-                    navigate('/');
-                }
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    }
+    const handleProfileImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setProfileImageFile(file);
+            setProfileImagePreview(URL.createObjectURL(file));
+        }
+    };
 
     const editProfil = () => {
         const formData = new FormData();
@@ -93,23 +84,42 @@ const Myprofil = () => {
                 console.error(err);
             })
     };
-    const delbadge = (id) =>{
-        
-        axios.post('https://clinkback.store/api/auth/updateUser',  {
+
+    const logout = () => {
+        axios.post('https://clinkback.store/api/auth/logout', {}, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             }
         })
             .then(res => {
                 if (res.status === 200) {
-                    
+                    navigate('/');
                 }
             })
             .catch(err => {
                 console.error(err);
+            });
+    };
+    const delbadge = (crewName) => {
+        axios.delete('https://clinkback.store/api/position/deleteCrew', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            data: {
+                crewName: crewName
+            }
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    console.log( res);
+                    fetchUserInfo();
+                }
             })
-    }
-
+            .catch(err => {
+                console.error( err);
+            });
+    };
+    
 
     const majorLists = [
         { value: '국어국문학과', label: '국어국문학과' },
@@ -153,6 +163,7 @@ const Myprofil = () => {
         { value: '유아교육과', label: '유아교육과' }
     ];
 
+
     return (
         <div className='myprofil'>
             <div className={`modal-badge ${badgeModal ? '' : 'hide'}`}>
@@ -163,108 +174,106 @@ const Myprofil = () => {
             <div className={`delmodaldiv ${delModal ? '' : 'hide'}`}>
                 <img src={cancle} alt="닫기" onClick={() => setDelModal(false)} />
 
-                {myinfo.positions && myinfo.positions.length > 0 && (
-                    myinfo.positions.map((position, index) => (
+                {myinfo.positionsAndCrews && myinfo.positionsAndCrews.length > 0 && (
+                    myinfo.positionsAndCrews.map((positionsAndCrews, index) => (
                         <div className="badgelist">
                             <div id="badgenamediv" key={index}>
-                                <span id="badgename">{position}</span>
+                                <span id="badgename">{positionsAndCrews.position}</span>
 
                             </div>
-                            <button className="del" onClick={() => delbadge(index)}>삭제하기</button>
+                            <button className="del" onClick={() => delbadge(positionsAndCrews.crewName)}>삭제하기</button>
                         </div>
 
                     ))
                 )}
 
-
                 <div className="submitBox">
-                    <button className="btnSubmit">저장</button>
+                    <button className="btnSubmit" onClick={() => setDelModal(false)}>저장</button>
                 </div>
             </div>
+            {
+                loading ? (
+                    <div className="loading">
+                        <img src={Spinner} alt="Loading" />
+                    </div>
+                ) : (
+                    <div className="">
+                        <div className={`wrap ${badgeModal || delModal ? 'blur ' : ''}`}>
+                            <div id="name">
+                                <div id="username">{myinfo.name} 님</div>
+                                <div className="badgeBox">
+                                    {myinfo.positionsAndCrews && myinfo.positionsAndCrews.length > 0 && (
+                                        myinfo.positionsAndCrews.map((positionsAndCrews, index) => (
+                                            <div id="badgenamediv" key={index}>
+                                                <span id="badgename">{positionsAndCrews.position}</span>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
 
-            {loading ? (
-                <div className="loading">
-                    <img src={Spinner} alt="Loading" />
-                </div>
-
-            ) : (
-                <div className="">
-
-                    <div className={`wrap ${badgeModal || delModal ? 'blur' : ''}`}>
-                        <div id="name">
-                            <div id="username">{myinfo.name} 님</div>
-                            <div className="badgeBox">
-                                {myinfo.positions && myinfo.positions.length > 0 && (
-                                    myinfo.positions.map((position, index) => (
-                                        <div id="badgenamediv" key={index}>
-                                            <span id="badgename">{position}</span>
+                                <div className="btn">
+                                    <div className="btn1" onClick={() => setBadgeModal(true)}>역할 뱃지 등록하기</div>
+                                    <h3>/</h3>
+                                    <div className="btn2" onClick={() => setDelModal(true)}>삭제하기</div>
+                                </div>
+                            </div>
+                            <div className="profil">
+                                <div className="profil-img">
+                                    <img src={profileImagePreview || IMG_PROFIL} alt="프로필 이미지" className="preview" />
+                                    {!edit &&
+                                        <div className="img-send">
+                                            <label htmlFor="img">
+                                                <img src={Plus} className="plusbtn" />
+                                            </label>
+                                            <input type="file" id="img" onChange={handleProfileImageChange} />
                                         </div>
-                                    ))
+                                    }
+                                </div>
+                                <div className="profil-info">
+                                    <div>
+                                        <h3>이름</h3>
+                                        <input
+                                            type="text"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            disabled={edit}
+                                        />
+                                    </div>
+                                    <div>
+                                        <h3>학번</h3>
+                                        <h3>{myinfo.studentId}</h3>
+                                    </div>
+                                    <div>
+                                        <h3>학과</h3>
+                                        <select
+                                            className="majorSelectOption custom-select"
+                                            value={major?.value || ''}
+                                            disabled={edit}
+                                            onChange={(e) => setMajor({ value: e.target.value, label: e.target.options[e.target.selectedIndex].text })}
+                                        >
+                                            {majorLists.map((major) => (
+                                                <option key={major.value} value={major.value}>
+                                                    {major.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="set-logout">
+                                {edit ? (
+                                    <button className="set" onClick={() => setEdit(false)}>수정하기</button>
+                                ) : (
+                                    <button className="set" onClick={() => editProfil()}>완료하기</button>
                                 )}
-                            </div>
-
-                            <div className="btn">
-                                <div className="btn1" onClick={() => setBadgeModal(true)}>역할 뱃지 등록하기</div>
                                 <h3>/</h3>
-                                <div className="btn2" onClick={() => setDelModal(true)}>삭제하기</div>
+                                <button className="logout" onClick={logout}>로그아웃</button>
                             </div>
-                        </div>
-                        <div className="profil">
-                            <div className="profil-img">
-                                <img src={`${profileImageFile}`} alt="프로필 이미지" />
-                                {!edit &&
-                                    <div className="img-send">
-                                        <label htmlFor="img">
-                                            <img src={Plus} className="plusbtn" />
-                                        </label>
-                                        <input type="file" id="img" />
-                                    </div>}
-                            </div>
-                            <div className="profil-info">
-                                <div>
-                                    <h3>이름</h3>
-                                    <input
-                                        type="text"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        disabled={edit}
-                                    />
-                                </div>
-                                <div>
-                                    <h3>학번</h3>
-                                    <h3>{myinfo.studentId}</h3>
-                                </div>
-                                <div>
-                                    <h3>학과</h3>
-                                    <select
-                                        className="majorSelectOption custom-select"
-                                        value={major?.value || ''}
-                                        disabled={edit}
-                                        onChange={(e) => setMajor({ value: e.target.value, label: e.target.options[e.target.selectedIndex].text })}
-                                    >
-                                        {majorLists.map((major) => (
-                                            <option key={major.value} value={major.value}>
-                                                {major.label}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div className="set-logout">
-                            {edit ? (
-                                <button className="set" onClick={() => setEdit(false)}>수정하기</button>
-                            ) : (
-                                <button className="set" onClick={() => editProfil()}>완료하기</button>
-                            )}
-                            <h3>/</h3>
-                            <button className="logout" onClick={logout}>로그아웃</button>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 }
 

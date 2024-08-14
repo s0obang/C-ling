@@ -334,6 +334,9 @@
                 justify-content: center;
                 align-items: center;
                 position: relative;
+                .preview{
+                    object-fit: cover;
+                }
 
                 img {
                     width: 168px;

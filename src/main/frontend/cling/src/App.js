@@ -41,12 +41,13 @@ function App() {
                 <Route path='/crew' element = {<Crew />} />
                 <Route path='/mycrew' element = {<Mycrew />} />
                 <Route path='/mycrew/PassList' element = {<PassList />} />
-                <Route path='/mycrew/:crewId' element={<Mycrew />} />  
+                <Route path='/mycrew/:department' element={<Mycrew />} />  
                 <Route path='/notice/:id' element={<NoticeDetail />} />   
 
                 <Route path='/create' element={<Checkschool />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/noticeWrite' element={<NoticeWrite />} />
+                <Route path='/noticeWrite/:department' element={<NoticeWrite />} />
                 <Route path='/noticeWrites' element={<NoticeWrites />} />
                 <Route path='/noticeEdit/:id' element={<NoticeEdit />} />
                 <Route path='/noticeOpen/:id' element={<NoticeOpen />} /> 

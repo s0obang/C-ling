@@ -135,13 +135,41 @@
             }
 
         }
+        .preview{
+
+            width: auto;
+            position: absolute;
+            left: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 20px;
+            padding: 0 10px;
+            .file-item{
+                display: flex;
+                align-items: center;
+                img{
+                    height: 30px;
+                    width: 30px;
+                    margin-left: 20px;
+                    cursor: pointer;
+                }
+            }
+
+            .image-preview {
+                color: #7095fd;
+            }
+            .file-preview {
+                color: #b68cff;
+            }
+        }
 
         #btnBox {
             display: flex;
             justify-content: flex-end;
-
             gap: 30px;
             margin-bottom: 100px;
+            position: relative;
+            z-index: 100;
 
             button, label {
                 display: flex;
