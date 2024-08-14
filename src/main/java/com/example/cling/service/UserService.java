@@ -124,8 +124,6 @@ public class UserService {
         response.setCrewNames(crewNames);   // crewNames 리스트 설정
         response.setPositionsAndCrews(positionsAndCrews);
 
-        // Validate the DTO
-        response.validatePositionsAndCrewNames(); // 검증 메서드를 호출하여 유효성 검사
 
         return response;
     }
