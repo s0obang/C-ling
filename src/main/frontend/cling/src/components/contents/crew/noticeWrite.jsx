@@ -5,15 +5,50 @@ import Header from '../../Header';
 import '../../../assets/scss/contents/crew/noticeWrite.scss';
 import left from '../../../assets/img/crew/left.png';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const NoticeWrite = () => {
+const NoticeWrite = (name) => {
     const [title, setTitle] = useState('');
     const [endDate, setEndDate] = useState(new Date());
     const [selectionPlan, setSelectionPlan] = useState('1');
     const [content, setContent] = useState('');
-
-
+    const [image, setImage] = useState(null);
+    const [file, setFile] = useState(null);
     const navigate = useNavigate();
+
+    const write = () => {
+        const formData = new FormData();
+        formData.append('recruitingDepartment', {name}); 
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('step', selectionPlan);
+        formData.append('startDate', formattedDate);
+        formData.append('dueDate', endDate.toISOString().split('T')[0]);
+
+        if (image) {
+            formData.append('images', image);
+        }
+
+        if (file) {
+            formData.append('file', file);
+        }
+
+        axios.post('https://clinkback.store/recruitment/write', formData, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    console.log(res);   
+                    navigate(-1);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    };
 
     const today = new Date();
     const formattedDate = `${today.getFullYear()}/${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}`;
@@ -22,7 +57,13 @@ const NoticeWrite = () => {
         navigate(-1);
     };
 
-    
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+    };
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
 
     return (
         <div id="noticeWrite">
@@ -30,9 +71,9 @@ const NoticeWrite = () => {
             <div className="wrap">
                 <div className="title">
                     <img src={left} alt="뒤로가기" onClick={handleBackClick} />
-                    <h1>컴퓨터공학과 제 13대 학생회</h1>
+                    <h1>{name}</h1>
                 </div>
-                <form className="form">
+                <div className="form">
                     <input
                         id="title"
                         type="text"
@@ -50,7 +91,6 @@ const NoticeWrite = () => {
                                 onChange={(date) => setEndDate(date)}
                                 dateFormat="yyyy/MM/dd"
                                 className="endday"
-                                
                             />
                         </div>
                         <div className="plan-select">
@@ -70,16 +110,24 @@ const NoticeWrite = () => {
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                     />
-                </form>
+
+                </div>
                 <div id="btnBox">
-                    
-                    <button className="send-img">
-                        이미지 업로드
-                    </button>
-                    <button className="send-file">
-                        파일 첨부하기
-                    </button>
-                    <button className="send">
+                    <label htmlFor="send-img" className='send-img'>이미지 업로드</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        id="send-img"
+                    />
+                    <label htmlFor='send-file' className="send-file">파일 첨부하기</label>
+                    <input
+                        type="file"
+                        onChange={handleFileChange}
+
+                        id='send-file'
+                    />
+                    <button className="send" onClick={write}>
                         작성완료
                     </button>
                 </div>

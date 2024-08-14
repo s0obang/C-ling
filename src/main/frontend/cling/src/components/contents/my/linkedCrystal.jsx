@@ -33,7 +33,7 @@ const LinkedCrystal = () => {
                 </div>
                 <div id="profillist">
                     {users.length === 0 ? (
-                        <span className="linkedZero">나와 연결된 수정이가 없습니다 !</span>
+                        <h2 className="message">나와 연결된 수정이가 없습니다!</h2>
                     ) : (
                         users.map((user, index) => (
                             <div className="profil" key={index}>

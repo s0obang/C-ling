@@ -91,9 +91,9 @@ const WantConnect = () => {
         <div id="wantPage">
             <span id="title"> 연결을 원하는 수정이들 </span>
             {wantUsers.length === 0 ? (
-                <div id="noConnections">
+                <h2 className="message">
                     나와 연결을 원하는 수정이가 없습니다!
-                </div>
+                </h2>
             ) : (
                 <>
                     <div id="box1">

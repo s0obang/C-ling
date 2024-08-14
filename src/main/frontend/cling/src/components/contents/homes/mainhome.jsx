@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../../Header';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 import { IoIosArrowDown } from "react-icons/io";
+import axios from 'axios';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -41,6 +42,9 @@ const noticeLists = [
 ];
 
 const Mainhome = () => {
+  useEffect(()=>{
+    console.log(`Bearer ${localStorage.getItem('accessToken')}`)
+  })
   const navigate = useNavigate();
 
   const GonoticePage = (index) => {

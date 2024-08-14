@@ -12,10 +12,10 @@ const Myhome = () => {
         <div className="myhome">
             <Header />
             
-            <div className='myprofil'>
 
-                <Myprofil  />
-            </div>
+
+                <Myprofil />
+
             <div>
                 <span><LinkedCrystal /></span>
             </div>
