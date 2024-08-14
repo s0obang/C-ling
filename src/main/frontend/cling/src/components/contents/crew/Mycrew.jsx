@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../../assets/scss/contents/crew/crew.scss';
 import Header from '../../Header';
 import left from '../../../assets/img/crew/left.png';
 import NoticeList from './NoticeList';
 import Recrewting from './Recrewting';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import List from './List';
 import axios from 'axios'
@@ -13,6 +13,32 @@ import axios from 'axios'
 const Mycrew = () => {
    
     const navigate = useNavigate();
+    const { department } = useParams();
+
+    const [myCrew, setMyCrew] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const encodedDepartment = encodeURIComponent(department);
+        console.log(decodeURIComponent(encodedDepartment));
+        axios.get(`https://clinkback.store/applications/${ decodeURIComponent(encodedDepartment)}/info`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            }
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    console.log(res);
+                    setMyCrew(res.data);
+                    setLoading(false);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+
+            });
+    }, []);
+
 
     const handleBackClick = () => {
         navigate(-1);

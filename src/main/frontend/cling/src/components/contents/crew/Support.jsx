@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const Support = () => {
     const [apply, setApply] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const fetchSupport = () => {
         axios.get('https://clinkback.store/application/my', {
@@ -18,6 +18,7 @@ const Support = () => {
             .then(res => {
                 if (res.status === 200) {
                     console.log(res.data);
+                    setApply(res.data);
                     setLoading(false);
                 }
             })
@@ -38,10 +39,26 @@ const Support = () => {
 
     const handleDeleteApply = (applyId) => {
         if (window.confirm('정말로 이 지원서를 삭제하시겠습니까?')) {
-            const updatedApply = apply.filter(item => item.id !== applyId);
-            setApply(updatedApply);
+            setLoading(true);
+            axios.put(`https://clinkback.store/application/display/${applyId}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            })
+                .then(res => {
+                    if (res.status === 200) {
+                        console.log(res.data);
+                        fetchSupport();
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    setLoading(false);
+                });
         }
     };
+
+
 
     const downFile = (id, name) => {
         axios.get(`https://clinkback.store/download/${id}`, {
@@ -66,6 +83,7 @@ const Support = () => {
             });
     };
 
+
     return (
         <motion.div className="apply"
             variants={fadeIn}
@@ -73,14 +91,33 @@ const Support = () => {
             animate="visible">
             <h2 className='sub-title'>현재 나의 지원 현황</h2>
             {loading ? (
-                <img src={Spinner} alt="Loading..." />
+                <div className="loading">
+                    <img src={Spinner} alt="Loading..." />
+                </div>
             ) : (
-                apply.length > 0 ? (
-                    apply.map((item) => (
+                apply.filter(item => item.view).length > 0 && (
+                    apply.filter(item => item.view).map((item) => (
                         <div className="apply-crew" key={item.id}>
                             <div className="crewname">{item.recruitingDepartment}</div>
-                            {item.firstResult && <div className="result first">{item.firstResult}</div>}
-                            {item.secondResult && <div className="result second">{item.secondResult}</div>}
+
+                            {item.firstResult === null ? (
+                                <div className="result null">미정</div>
+                            ) : (
+                                <div className={`result first ${item.firstResult ? 'pass' : 'fail'}`}>
+                                    {item.firstResult ? '합격' : '불합격'}
+                                </div>
+                            )}
+
+                            {item.firstResult !== null && (
+                                item.secondResult === null ? (
+                                    <div className="result null">미정</div>
+                                ) : (
+                                    <div className={`result second ${item.secondResult ? 'pass' : 'fail'}`}>
+                                        {item.secondResult ? '합격' : '불합격'}
+                                    </div>
+                                )
+                            )}
+
 
                             <div className="link">
                                 {item.application.length > 0 && (
@@ -99,9 +136,7 @@ const Support = () => {
                             </div>
                         </div>
                     ))
-                ) : (
-                    <p>지원서가 없습니다.</p>
-                )
+                ) 
             )}
         </motion.div>
     );

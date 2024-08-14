@@ -5,6 +5,7 @@ const Position = () => {
     const [name, setName] = useState('');
     const [studentId, setStudentId] = useState('');
     const [position, setPosition] = useState('');
+    const [crewname, setCrewname] = useState('');
     const [file, setFile] = useState(null);
 
     const handleSubmit = (e) => {
@@ -14,6 +15,8 @@ const Position = () => {
         formData.append('name', name);
         formData.append('studentId', studentId);
         formData.append('position', position);
+        formData.append('major', null);
+        formData.append('crewName', crewname );
         if (file) {
             formData.append('file', file);
         }
@@ -27,6 +30,12 @@ const Position = () => {
             .then(res => {
                 if (res.status === 200) {
                     console.log(res);
+                    alert('직책 및 크루 신청이 완료 되었습니다. 승인 완료시 자동 추가 됩니다.');
+                    setName('');
+                    setStudentId('');
+                    setPosition('');
+                    setCrewname('');
+                    setFile(null);
                 }
             })
             .catch(err => {
@@ -69,6 +78,16 @@ const Position = () => {
                         type="text"
                         value={position}
                         onChange={(e) => setPosition(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className='formcolumn'>
+                    <span className="formtext">크루</span>
+                    <input
+                        className="input"
+                        type="text"
+                        value={crewname}
+                        onChange={(e) => setCrewname(e.target.value)}
                         required
                     />
                 </div>
