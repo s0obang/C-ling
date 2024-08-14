@@ -1,4 +1,3 @@
-//ProfileImageService
 package com.example.cling.service;
 
 import com.example.cling.dto.ProfileImageResponseDto;
@@ -47,7 +46,7 @@ public class ProfileImageServiceImpl implements ProfileImageService {
             ProfileImage profileImage = profileImageRepository.findByUser(user)
                     .orElse(ProfileImage.builder().user(user).build());
 
-            profileImage.setUrl(uploadFolder + fileName);
+            profileImage.setUrl(uploadFolder + "/" + fileName);
             profileImage.setUser(user);
 
             profileImageRepository.save(profileImage);
