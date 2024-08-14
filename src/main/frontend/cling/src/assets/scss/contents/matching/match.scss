@@ -1,5 +1,6 @@
-/* match.scss */
+
 .match {
+   
     .Matching{
         background: linear-gradient(90deg,#3851FF,  #8037FF);
         border: none !important;
@@ -75,13 +76,16 @@
     
     .clinkbtn {
         padding: 10px;
-        width: 110px;
+        width: 145px;
+        height: 55px;
         background-color: black;
         border: white 1px solid;
-        border-radius: 20px;
+        border-radius: 30px;
         color: white;
         justify-content: center;
         margin: 50px;
+        font-size: 20px;
+        font-weight: 600;
     }
 
     .clinkbtn:hover {

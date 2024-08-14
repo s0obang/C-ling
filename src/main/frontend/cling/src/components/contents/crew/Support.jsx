@@ -49,6 +49,7 @@ const Support = () => {
                     if (res.status === 200) {
                         console.log(res.data);
                         fetchSupport();
+                        
                     }
                 })
                 .catch(err => {
@@ -137,7 +138,8 @@ const Support = () => {
                                 ) : (
                                     <div className={`result second ${item.secondResult ? 'pass' : 'fail'}`}>
                                         { item.secondResult ? '최종 합격' : '불합격' }
-                                                                       
+                                    
+                                    
                                     </div>
                                 )
                             )}

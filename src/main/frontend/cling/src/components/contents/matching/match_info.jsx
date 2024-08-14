@@ -49,6 +49,7 @@ const majorLists = [
 const MatchInfo = () => {
     const navigate = useNavigate();
 
+
     const clinkSame = async (path) => {
         try {
             const response = await axios.get('https://clinkback.store/clink-same', {
@@ -57,11 +58,11 @@ const MatchInfo = () => {
                 },
             });
 
-            navigate('/loading', { state: { profiles: response.data } });
 
-            setTimeout(() => {
-                navigate(path, { state: { profiles: response.data } });
-            }, 800);
+
+
+            navigate(path, { state: { profiles: response.data } });
+
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -77,11 +78,9 @@ const MatchInfo = () => {
                 }
             });
 
-            navigate('/loading', { state: { profiles: response.data } });
 
-            setTimeout(() => {
-                navigate(path, { state: { profiles: response.data } });
-            }, 800);
+            navigate(path, { state: { profiles: response.data } });
+
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -98,7 +97,7 @@ const MatchInfo = () => {
 
             <div className='matching-form'>
                 <input className="studentId" type="text" placeholder='Student id' />
-                
+
                 <select className="major">
                     <option value="">Major</option>
                     {majorLists.map((major) => (

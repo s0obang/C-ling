@@ -4,6 +4,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, EffectCreative, Pagination } from 'swiper/modules';
 import { ImCircleLeft, ImCircleRight } from "react-icons/im";
 import axios from 'axios';
+import { motion, AnimatePresence } from 'framer-motion';
+import Spinner from '../../../assets/img/loading.gif';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -14,7 +16,12 @@ const WantConnect = () => {
     const [wantUsers, setWantUsers] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState({});
+    const [loading, setLoading] = useState(true);
 
+    const fadeIn = {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 1 } }
+    };
     useEffect(() => {
         showWantConnect();
       }, []);
@@ -39,6 +46,7 @@ const WantConnect = () => {
                     ...prevImages,
                     [user.studentId]: imageResponse.data.imageByte
                 }));
+                setLoading(false);
             })
             .catch(error => {
                 console.error(`${user.studentId}의 이미지를 불러오는데 실패했습니다.:`, error);
@@ -106,13 +114,17 @@ const WantConnect = () => {
     return (
         <div id="wantPage">
             <span id="title"> 연결을 원하는 수정이들 </span>
+            
             {wantUsers.length === 0 ? (
                 <div id="noConnections">
                     나와 연결을 원하는 수정이가 없습니다!
                 </div>
             ) : (
                 <>
-                    <div id="box1">
+                    <motion.div id="box1"
+                     variants={fadeIn}
+                     initial="hidden"
+                     animate="visible">
                         <ImCircleLeft id="prevButton" />
                         <div id="box2">
                             <Swiper
@@ -152,13 +164,19 @@ const WantConnect = () => {
                             <div id="circle">{wantUsers.length}</div>
                         </div>
                         <ImCircleRight id="nextButton" />
-                    </div>
+                    </motion.div>
 
-                    <div id="yesOrNo">
+                    <motion.div id="yesOrNo"
+                     variants={fadeIn}
+                     initial="hidden"
+                     animate="visible">
                         <button className="button" onClick={handleAccept}>수락</button>
                         <button className="button" onClick={handleDecline}>거절</button>
-                    </div>
-                    <div id="introduce">
+                    </motion.div>
+                    <motion.div id="introduce"
+                     variants={fadeIn}
+                     initial="hidden"
+                     animate="visible">
                         <div className="balloonBox">
                         <div className="balloon1">
                         {`${wantUsers[currentIndex].studentId} ${wantUsers[currentIndex].name} 입니다`}
@@ -167,7 +185,7 @@ const WantConnect = () => {
                         <div className="balloon2">
                         {wantUsers[currentIndex].major}
                         </div>
-                    </div>
+                    </motion.div>
                 </>
             )}
         </div>

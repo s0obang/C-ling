@@ -9,11 +9,14 @@ import Bubble2 from '../../../assets/img/matching/speech-bubble2.png';
 import SmallBubble1 from '../../../assets/img/matching/small-speech-bubble1.png';
 import SmallBubble2 from '../../../assets/img/matching/small-speech-bubble2.png';
 import axios from 'axios';
+import Loading from './loading';
 
 const OtherMajor = () => {
     const location = useLocation();
     const profiles = location.state?.profiles || [];
     const [profileImages, setProfileImages] = useState({});
+    const [loading, setLoading] = useState(true);
+
 
     const containerVariants = {
         hidden: {},
@@ -60,6 +63,7 @@ const OtherMajor = () => {
                         [studentId]: `data:image/jpeg;base64,${response.data.imageByte}`
                     }));
                 }
+                setLoading(false);
             })
             .catch(err => {
                 console.error(`Failed to fetch profile image for studentId ${studentId}:`, err);
@@ -67,8 +71,11 @@ const OtherMajor = () => {
     };
 
     return (
-        <div className='othermajor'>
+        <>
             <Header />
+            {loading ? (
+                <Loading />
+            ) : (<div className='othermajor'>
             <div>
                 <h1 className="text">크링된 다른 과 수정이를 확인해보세요</h1>
             </div>
@@ -95,13 +102,13 @@ const OtherMajor = () => {
                                 alt="프로필사진" 
                             />
                             <div className="bubbleimg">
-                                <img src={profile.studentId % 2 === 0 ? Bubble1 : Bubble2} alt="말풍선" />
+                                <img src={index % 2 === 0 ? Bubble1 : Bubble2} alt="말풍선" />
                                 <div className="bubble-text">
                                     {profile.studentId} {profile.name}입니다.
                                 </div>
                             </div>
                             <div className="smallbubbleimg">
-                                <img src={profile.studentId % 2 === 0 ? SmallBubble1 : SmallBubble2} alt="말풍선" />
+                                <img src={index % 2 === 0 ? SmallBubble1 : SmallBubble2} alt="말풍선" />
                                 <div className="bubble-text">
                                     {profile.major}
                                 </div>
@@ -110,7 +117,8 @@ const OtherMajor = () => {
                     </motion.div>
                 ))}
             </motion.div>
-        </div>
+            </div>)}
+        </>
     );
 };
 
