@@ -1,6 +1,7 @@
 //PositionRequestServiceImpl
 package com.example.cling.service;
 
+import com.example.cling.dto.MyPageResponseDto;
 import com.example.cling.dto.PositionRequestDto;
 import com.example.cling.entity.Crew;
 import com.example.cling.entity.PositionRequest;
@@ -28,6 +29,7 @@ public class PositionRequestServiceImpl implements PositionRequestService {
     private final PositionRequestRepository positionRequestRepository;
     private final UserRepository userRepository;
     private final CrewRepository crewRepository;
+    private final UserService UserService;
 
     @Value("${position.image.path}")
     private String positionImagePath;
@@ -35,6 +37,16 @@ public class PositionRequestServiceImpl implements PositionRequestService {
     @Override
     @Transactional
     public void processPositionRequest(PositionRequestDto positionRequestDto) {
+        // 사용자 정보와 직책 리스트를 가져옴
+        MyPageResponseDto userResponseDto = UserService.getUserDetails(positionRequestDto.getStudentId());
+        List<String> currentPositions = userResponseDto.getPositions();
+
+        // 현재 직책 개수와 요청하려는 직책 개수를 검토
+        if (currentPositions.size() >= 3 && !currentPositions.contains(positionRequestDto.getPosition())) {
+            throw new RuntimeException("직책은 최대 3개까지만 등록 가능합니다.");
+        }
+
+        // 기타 직책 요청 처리
         MultipartFile authenticationImage = positionRequestDto.getAuthenticationImage();
         String imageUrl = "";
 
@@ -56,29 +68,6 @@ public class PositionRequestServiceImpl implements PositionRequestService {
 
         UserEntity user = userRepository.findByStudentId(positionRequestDto.getStudentId())
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-
-        // 현재 요청에서 직책과 크루명 검증
-        List<PositionRequest> currentRequests = positionRequestRepository.findByUser(user);
-
-        long positionCount = currentRequests.stream()
-                .map(PositionRequest::getPosition)
-                .filter(Objects::nonNull)
-                .distinct()
-                .count();
-
-        long crewCount = currentRequests.stream()
-                .map(PositionRequest::getCrewName)
-                .filter(Objects::nonNull)
-                .distinct()
-                .count();
-
-        // 직책과 크루명이 각각 4개 이상인 경우 예외 발생
-        if (positionCount >= 4 && !currentRequests.stream().anyMatch(req -> req.getPosition().equals(positionRequestDto.getPosition()))) {
-            throw new RuntimeException("직책은 최대 3개까지만 등록 가능합니다.");
-        }
-        if (crewCount >= 4 && !currentRequests.stream().anyMatch(req -> req.getCrewName().equals(positionRequestDto.getCrewName()))) {
-            throw new RuntimeException("크루명은 최대 3개까지만 등록 가능합니다.");
-        }
 
         PositionRequest positionRequest = PositionRequest.builder()
                 .name(positionRequestDto.getName())

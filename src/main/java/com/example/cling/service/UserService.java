@@ -207,4 +207,36 @@ public class UserService {
         return userRepository.save(user);
     }
 
+
+
+    public MyPageResponseDto getUserDetails(String studentId) {
+        UserEntity user = userRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        // UserEntity를 MyPageResponseDto로 변환
+        List<String> positions = user.getCrews().stream()
+                .map(Crew::getPosition)
+                .distinct()
+                .collect(Collectors.toList());
+
+        List<String> crewNames = user.getCrews().stream()
+                .map(Crew::getCrewName)
+                .distinct()
+                .collect(Collectors.toList());
+
+        List<MyPageResponseDto.PositionAndCrew> positionsAndCrews = user.getCrews().stream()
+                .map(c -> new MyPageResponseDto.PositionAndCrew(c.getPosition(), c.getCrewName()))
+                .collect(Collectors.toList());
+
+        return MyPageResponseDto.builder()
+                .name(user.getName())
+                .studentId(user.getStudentId())
+                .profileImageUrl(user.getProfileImage() != null ? user.getProfileImage().getUrl() : defaultImageUrl)
+                .major(user.getMajor())
+                .positions(positions)
+                .crewNames(crewNames)
+                .positionsAndCrews(positionsAndCrews)
+                .build();
+    }
+
 }
