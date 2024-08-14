@@ -4,17 +4,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 import { IoIosArrowDown } from "react-icons/io";
-
 import 'swiper/css';
 import 'swiper/css/pagination';
-
 import '../../../assets/scss/contents/homes/mainhome.scss';
 import axios from 'axios';
 
 const Mainhome = () => {
   const navigate = useNavigate();
   const [noticeAll, setNoticeAll] = useState([]);
+  const [myNotices, setMyNotices] = useState([]);
   const [showMyNotices, setShowMyNotices] = useState(false);
+  
   const sortedNotices = [...noticeAll].reverse();
   const latestNotices = sortedNotices.slice(0, 5);
 
@@ -38,24 +38,27 @@ const Mainhome = () => {
     });
   }
 
-  // 내 글만 보기 
-  const handlemynotice = (e) => {
+  const fetchMyNotices = () => {
+    axios.get('https://clinkback.store/notice/my', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      },
+    })
+    .then((response) => {
+      setMyNotices(response.data);
+      console.log('내 글 목록:', response.data);
+    })
+    .catch((error) => {
+      console.error('내 글 목록을 찾을 수 없습니다.', error);
+      alert('내 글 목록을 찾을 수 없습니다.');
+    });
+  }
+
+  const handleMyNotice = () => {
     if (showMyNotices) {
-      allNotice();
+      allNotice(); // 전체 공지사항을 다시 가져옵니다.
     } else {
-      axios.get('https://clinkback.store/notice/my', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        },
-      })
-      .then((response) => {
-        setNoticeAll(response.data);
-        console.log('내 글 목록:', response.data);
-      })
-      .catch((error) => {
-        console.error('내 글 목록을 찾을 수 없습니다.', error);
-        alert('내 글 목록을 찾을 수 없습니다.');
-      });
+      fetchMyNotices(); // 내 공지사항을 가져옵니다.
     }
     setShowMyNotices(!showMyNotices);
   };
@@ -85,10 +88,8 @@ const Mainhome = () => {
         modules={[Pagination, Autoplay]}
       >
         {latestNotices.map((notice, index) => {
-          
-          const firstImage = notice.images[0] ;
+          const firstImage = notice.images[0];
           const imageSrc = `data:image/jpg;base64,${firstImage.attachmentByteList}`;
-
 
           return (
             <SwiperSlide key={index} className="Slide" onClick={() => goNoticeOpen(notice.id)}>
@@ -103,12 +104,15 @@ const Mainhome = () => {
       <IoIosArrowDown className='downIcon' />
       <div className='downIconBG' />
       <div className="myNoticeBox">
-        <div className="myNotice" onClick={handlemynotice}>
+        <div className="myNotice" onClick={handleMyNotice}>
           {showMyNotices ? '전체 글 보기' : '내 글만 보기'}
         </div>
       </div>
       <div className="tableBox">
-        {sortedNotices.map((notice, index) => (
+        {(showMyNotices ? myNotices : sortedNotices).length === 0 && (
+          <div className="noNotices">{showMyNotices ? '작성한 게시글이 없습니다.' : ' '}</div>
+        )}
+        {(showMyNotices ? myNotices : sortedNotices).map((notice, index) => (
           <div key={index} className="noticeItem">
             <div id="notices" onClick={() => goNoticeOpen(notice.id)}>
               <div className="noticeDate">{notice.createdDate}</div>

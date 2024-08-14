@@ -34,18 +34,14 @@
     }
 
     .major {
-        width: 400px;
-        height: 50px;
+        width: 464px;
+        height: 71px;
         border-radius: 30px;
         padding: 10px 30px;
         margin: 5px 0;
         font-size: 25px;
         color: rgba(129, 55, 255, 0.4);
         outline: none;
-    }
-
-    .major::placeholder {
-        color: rgba(129, 55, 255, 0.4);
     }
 
     .button-group {
