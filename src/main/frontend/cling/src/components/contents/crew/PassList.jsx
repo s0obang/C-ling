@@ -1,30 +1,65 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PassListItem from './PassListItem';
+import axios from 'axios';
+
 import '../../../assets/scss/contents/crew/passlist.scss';
 
-const PassList = () => {
-    const students = [
-        { studentId: '20231168', name: '최수진', fileName: '파일명1' },
-        { studentId: '20231169', name: '홍길동', fileName: '파일명2' }
-        
-    ];
+const PassList = ({ department }) => {
+    const [plan, setPlan] = useState('1');
+    const [viewPlan, setViewPlan] = useState('1');
+    const [id, setId] = useState('');
+
+    const fetch = () => {
+        axios.get(`https://clinkback.store/applications/${department}/info`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+        .then(res => {
+            if (res.status === 200) {
+                console.log(res.data);
+                setPlan(res.data.step);
+                setId(res.data.id);
+
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    };
+
+    useEffect(() => {
+        fetch();
+    }, [department]);
+
+
+    const getPlanOptions = (plan) => {
+        if (plan === '2') {
+            return (
+                <>
+                    <option value="1" >1차</option>
+                    <option value="2">2차</option>
+                </>
+            );
+        } else {
+            return (
+                <option value="1">1차</option>
+            );
+        }
+    };
 
     return (
         <div className='passlist'>
+             <select className="plan" onChange={(e) => setViewPlan(e.target.value)} >
+                {getPlanOptions(plan)}
+            </select>
             <div className="table-title">
                 <div className='passlist-item'>학번/이름</div>
                 <div className='passlist-item'>첨부파일</div>
                 <div className='passlist-item'>합/불</div>
             </div>
-            {students.map((student, index) => (
-                <PassListItem
-                    key={index}
-                    studentId={student.studentId}
-                    name={student.name}
-                    fileName={student.fileName}
-                />
-            ))}
            
+            <PassListItem department = {department} plan = {viewPlan} recruitingId={id}/>
         </div>
     );
 };

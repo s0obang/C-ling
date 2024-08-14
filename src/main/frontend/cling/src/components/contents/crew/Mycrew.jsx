@@ -11,7 +11,7 @@ import axios from 'axios'
 
 
 const Mycrew = () => {
-   
+
     const navigate = useNavigate();
     const { department } = useParams();
 
@@ -21,7 +21,7 @@ const Mycrew = () => {
     useEffect(() => {
         const encodedDepartment = encodeURIComponent(department);
         console.log(decodeURIComponent(encodedDepartment));
-        axios.get(`https://clinkback.store/applications/${ decodeURIComponent(encodedDepartment)}/info`, {
+        axios.get(`https://clinkback.store/applications/${decodeURIComponent(encodedDepartment)}/info`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             }
@@ -57,11 +57,16 @@ const Mycrew = () => {
                 animate="visible">
                 <div className="title">
                     <img src={left} alt="뒤로가기" onClick={handleBackClick} />
-                    <h1>컴퓨터공학과 제 13대 학생회</h1>
+                    <h1>{department}</h1>
                 </div>
-                <NoticeList  />
-                <Recrewting />
-                <List />
+                <NoticeList department={department} />
+                <Recrewting department={department} />
+                {myCrew && (
+                    <List
+                        department={myCrew.department || ""}
+                        step={myCrew.step || ""}
+                        title={myCrew.title || ""}
+                    />)}
             </motion.div>
             <div className="empty"></div>
             <div className="empty"></div>

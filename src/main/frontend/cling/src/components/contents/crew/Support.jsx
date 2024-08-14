@@ -58,6 +58,24 @@ const Support = () => {
         }
     };
 
+    const step = (department) =>{
+        axios.get(`https://clinkback.store/applications/${department}/info`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    console.log(res.data.step);
+                   return res.data.step;
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                
+            });
+    }
+
 
 
     const downFile = (id, name) => {
@@ -104,7 +122,12 @@ const Support = () => {
                                 <div className="result null">미정</div>
                             ) : (
                                 <div className={`result first ${item.firstResult ? 'pass' : 'fail'}`}>
-                                    {item.firstResult ? '합격' : '불합격'}
+                                    {step(item.recruitingDepartment) === '1' ? (
+                                       <>  { item.firstResult ? '최종 합격' : '불합격' }</>
+                                    ) : (<> {item.firstResult ? '1차 합격' : '불합격'}</>
+                                    )
+                                    }
+
                                 </div>
                             )}
 
@@ -113,7 +136,8 @@ const Support = () => {
                                     <div className="result null">미정</div>
                                 ) : (
                                     <div className={`result second ${item.secondResult ? 'pass' : 'fail'}`}>
-                                        {item.secondResult ? '합격' : '불합격'}
+                                        { item.secondResult ? '최종 합격' : '불합격' }
+                                                                       
                                     </div>
                                 )
                             )}
@@ -136,7 +160,7 @@ const Support = () => {
                             </div>
                         </div>
                     ))
-                ) 
+                )
             )}
         </motion.div>
     );
