@@ -13,12 +13,15 @@
   .mainTitle {
     position: absolute;
     bottom: 10px;
-    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
     text-align: center;
     color: black;
     font-size: 32px;
     font-weight: bold; 
     padding: 20px;
+    white-space: pre-wrap;
   }
 
   .swiper {
@@ -40,7 +43,7 @@
   }
   .imgBanner{
       display: block;
-      border-radius: 30px; // 둥근 모서리
+      border-radius: 30px; //둥근 모서리
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -81,11 +84,13 @@
       cursor: pointer;
       text-decoration: underline 1px;
       text-underline-position: under;
+      display: inline-block; 
+      width: auto; 
+      padding: 5px 10px;
     }
     .myNotice:hover{
           color: #8953ff;
     }
-
   }
   .tableBox{
     width: 800px;
@@ -96,6 +101,11 @@
     padding:10px 50px;
     padding-bottom: 50px;
 
+    .noNotices{
+      text-align: center;
+      margin-top: 150px;
+      font-size: 18px;
+    }
     #notices{
       cursor: pointer;
       padding: 10px;

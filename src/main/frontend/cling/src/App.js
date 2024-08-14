@@ -4,6 +4,7 @@ import Checkschool from "./components/contents/user/CheckSchool";
 import Landing from './components/landing';
 import NoticeWrite from './components/contents/crew/NoticeWrite';
 import NoticeWrites from './components/contents/homes/noticeWrites';
+import NoticeEdit from './components/contents/homes/noticeEdit';
 import NoticeOpen from './components/contents/homes/noticeOpen';
 import Myhome from "./components/contents/my/myhome";
 
@@ -47,7 +48,8 @@ function App() {
                 <Route path='/login' element={<Login />} />
                 <Route path='/noticeWrite' element={<NoticeWrite />} />
                 <Route path='/noticeWrites' element={<NoticeWrites />} />
-                <Route path='/noticeOpen' element={<NoticeOpen />} />
+                <Route path='/noticeEdit/:id' element={<NoticeEdit />} />
+                <Route path='/noticeOpen/:id' element={<NoticeOpen />} /> 
                 
                 <Route path='/myhome' element={<Myhome />} />
                 <Route path='/create/info' element={<Create />} />
