@@ -41,7 +41,7 @@ function App() {
                 <Route path='/mycrew' element = {<Mycrew />} />
                 <Route path='/mycrew/PassList' element = {<PassList />} />
                 <Route path='/mycrew/:crewId' element={<Mycrew />} />  
-                <Route path='/notice/:noticeId' element={<NoticeDetail />} />   
+                <Route path='/notice/:id' element={<NoticeDetail />} />   
 
                 <Route path='/create' element={<Checkschool />} />
                 <Route path='/login' element={<Login />} />

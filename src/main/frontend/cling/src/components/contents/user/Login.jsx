@@ -21,7 +21,7 @@ const Login = () => {
         params.append('studentId', studentId);
         params.append('password', password);
 
-        axios.post('http://13.48.207.238:1234/api/auth/login', params, {
+        axios.post('https://clinkback.store/api/auth/login', params, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }

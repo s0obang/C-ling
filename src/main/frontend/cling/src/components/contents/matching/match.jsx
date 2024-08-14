@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '../../Header';
 import '../../../assets/scss/contents/matching/match.scss';
@@ -6,6 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from 'axios';
+
 
 const Match = () => {
     const [users, setUsers] = useState([]);
@@ -72,6 +74,7 @@ const Match = () => {
                 console.error('Failed to enter chat room:', err);
             });
     };
+
 
     const settings = {
         dots: false,

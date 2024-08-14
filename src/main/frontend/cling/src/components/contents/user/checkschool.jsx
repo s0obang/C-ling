@@ -25,7 +25,7 @@ const CheckSchool = () => {
             });
     }
     const authCheck = () => {
-        axios.post('http://13.48.207.238:1234/mailauthCheck', {
+        axios.post('https://clinkback.store/mailauthCheck', {
             email: email,
             authNum :authNum
         })

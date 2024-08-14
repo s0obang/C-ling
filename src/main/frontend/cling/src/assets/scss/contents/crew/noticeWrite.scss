@@ -82,6 +82,9 @@
                     font-size: 24px;
                     border: none;
                 }
+                select>option{
+                    background-color: #cedafc;
+                }
             }
         }
 
@@ -140,7 +143,7 @@
             gap: 30px;
             margin-bottom: 100px;
 
-            button {
+            button, label {
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -151,6 +154,10 @@
                 color: white;
                 font-size: 24px;
                 font-weight: 600;
+                cursor: pointer;
+            }
+            #send-img, #send-file{
+                display: none;
             }
             button:hover{
                 width:160px ;

@@ -97,4 +97,9 @@
     ::-webkit-scrollbar-track {
         background: rgba(220, 20, 60, .1);  //스크롤바 뒷 배경 색
     }
+    .message{
+        justify-content: center;
+        display: flex;
+        align-items: center;
+    }
 }

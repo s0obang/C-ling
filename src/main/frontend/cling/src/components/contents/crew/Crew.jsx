@@ -2,23 +2,22 @@ import React, { useState, useEffect } from 'react';
 import '../../../assets/scss/contents/crew/crew.scss';
 import Banner from '../../../assets/img/crew/top.png';
 import Plus from '../../../assets/img/crew/plus.png';
-import Trash from '../../../assets/img/crew/Trash.png';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../Header';
-import { motion, AnimatePresence } from 'framer-motion';
+import axios from 'axios'
+import CrewList from './CrewList';
+import Support from './Support';
 
 const Crew = () => {
+
     const fadeIn = {
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { duration: 1 } }
     };
 
-    const [apply, setApply] = useState([
-        { id: 1, name: 'WAGI', firstResult: '1차 합격', secondResult: '2차 합격' }
-    ]);
-    const [recrewting, setRecrewting] = useState([
-        { id: 1, name: 'NCT WISH', title: '얼굴 괜찮고 키크고 일본어 할 줄 아는 남학생 찾습니다.' }
-    ]);
+    
+   
     const [myCrew, setMyCrew] = useState([
         { id: 1, name: '컴퓨터공학과 제 13대 학생회', badge: '컴퓨터공학과 2학년 과대표', status: '리크루팅 현황 확인하기' }
     ]);
@@ -81,12 +80,7 @@ const Crew = () => {
         }
     };
 
-    const handleDeleteApply = (applyId) => {
-        if (window.confirm('정말로 이 지원서를 삭제하시겠습니까?')) {
-            const updatedApply = apply.filter(item => item.id !== applyId);
-            setApply(updatedApply);
-        }
-    };
+    
 
     const handleOptionChange = (e) => {
         setCrewForm(prevForm => ({
@@ -117,52 +111,15 @@ const Crew = () => {
                     <img src={Banner} alt="배너" />
                     
                 </motion.div>
-                <motion.div className="apply"variants={fadeIn}
-                 initial="hidden"
-                 animate="visible">
-                    <h2 className='sub-title'>현재 나의 지원 현황</h2>
-                    {apply.map((item) => (
-                        <div className="apply-crew" key={item.id}>
-                            <div className="crewname">{item.name}</div>
-                            <div className="result first">{item.firstResult}</div>
-                            <div className="result second">{item.secondResult}</div>
-                            <div className="link">
-                                <Link>지원서 다시보기 /</Link>
-                                <Link to={`/notice/${item.id}`}>공지사항 보기</Link>
-                                <img
-                                    src={Trash}
-                                    alt="쓰레기"
-                                    className="trash-icon"
-                                    onClick={() => handleDeleteApply(item.id)}
-                                />
-                            </div>
-                        </div>
-                    ))}
-                </motion.div>
-                <motion.div className="recrewting"
-                variants={fadeIn}
-                initial="hidden"
-                animate="visible">
-                    <h2 className='sub-title'>리크루팅 중인 크루</h2>
-                    <div className="notice-list">
-                        {recrewting.map((item) => (
-                            <div className="notice" key={item.id}>
-                                <div className="wrap">
-                                    <h3 className='name'>{item.name}</h3>
-                                    <Link className='notice-title' to={`/recrewting/${item.id}`}><h3>{item.title}</h3></Link>
-                                </div>
-                                <div className="line"></div>
-                            </div>
-                        ))}
-                    </div>
-                </motion.div>
+                <Support />
+               
+               <CrewList />
                 <motion.div className="mycrew"
                 variants={fadeIn}
                 initial="hidden"
                 animate="visible">
                     <div className='sub-title'>
                         <h2 className='sub-title'>나의 크루</h2>
-                        <button className='addbtn' onClick={toggleCrewForm}>{`${crewForm.isAdding ? '완료' : '추가하기'}`}</button>
                     </div>
                     <div className={`${nullBadge ? 'nullcrew' : 'hide'}`}>
                         <h2>현재 내가 관리 중인 크루가 없습니다.</h2>
