@@ -1,29 +1,55 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import '../../../assets/scss/contents/chat/chat.scss';
 import Ib from '../../../assets/img/chat/imagebutton.png';
 import Sb from '../../../assets/img/chat/sendbutton.png';
 import Header from '../../Header';
 import WebSocketService from './WebSocketService';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 
 const Chat = () => {
   const { roomId } = useParams(); 
   const location = useLocation(); 
   const { userInfo: locationUserInfo } = location.state || {}; 
   const [userInfo, setUserInfo] = useState(locationUserInfo || {
-    profileImage: '',
     name: '',
-    studentNumber: '',
-    department: ''
+    studentId: '',
+    major: ''
   });
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    axios.get(`http://13.48.207.238:1234/oldChat/${roomId}`, {
+    const fetchProfileImage = async () => {
+      try {
+        const response = await axios.get(`https://clinkback.store/profile-image/get/${userInfo.studentId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        });
+
+        if (response.data && response.data.imageByte) {
+          setUserInfo(prevUserInfo => ({
+            ...prevUserInfo,
+            profileImage: `data:image/jpeg;base64,${response.data.imageByte}`
+          }));
+        }
+      } catch (error) {
+        console.error("Failed to fetch profile image:", error);
+      }
+    };
+
+    fetchProfileImage();
+  }, [userInfo.studentId]);
+
+  const onMessageReceived = (message) => {
+    const parsedMessage = JSON.parse(message.body);
+    setMessages(prevMessages => [...prevMessages, parsedMessage]);
+  };
+
+  useEffect(() => {
+    axios.get(`https://clinkback.store/oldChat/${roomId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }
@@ -44,29 +70,16 @@ const Chat = () => {
     };
   }, [roomId]);
 
-  const onMessageReceived = (message) => {
-    const parsedMessage = JSON.parse(message.body);
-    setMessages(prevMessages => [...prevMessages, parsedMessage]);
-  };
-
   const sendMessage = () => {
     if (inputMessage.trim() !== '') {
-      axios.get('http://13.48.207.238:1234/api/auth/getLoggedInUsername', {
+      axios.get('https://clinkback.store/api/auth/getLoggedInUsername', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
       })
       .then(response => {
         const sender = response.data;
-        const messageObject = {
-          room: roomId,
-          sender: sender,
-          message: inputMessage,
-          sendDate: new Date().toISOString(),
-          imageBytes: null
-        };
-
-        WebSocketService.send(roomId, messageObject);
+        WebSocketService.sendMessage(roomId, sender, inputMessage);
         setInputMessage('');
       })
       .catch(error => {
@@ -75,33 +88,77 @@ const Chat = () => {
     }
   };
 
+  // 이미지 리사이즈 및 압축 코드임
+  const resizeImage = (file, maxWidth, maxHeight, callback) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth) {
+          height = Math.floor((height * maxWidth) / width);
+          width = maxWidth;
+        }
+
+        if (height > maxHeight) {
+          width = Math.floor((width * maxHeight) / height);
+          height = maxHeight;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob((blob) => {
+          callback(blob);
+        }, 'image/jpeg', 0.8);
+      };
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   const sendImage = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        axios.get('http://13.48.207.238:1234/api/auth/getLoggedInUsername', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-          }
-        })
-        .then(response => {
-          const sender = response.data;
-          const messageObject = {
-            room: roomId,
-            sender: sender,
-            message: "Image sent",
-            sendDate: new Date().toISOString(),
-            imageBytes: reader.result.split(',')[1] 
-          };
+      axios.get('https://clinkback.store/api/auth/getLoggedInUsername', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      })
+      .then(response => {
+        const sender = response.data;
 
-          WebSocketService.send(roomId, messageObject);
-        })
-        .catch(error => {
-          console.error("Failed to get logged in username:", error);
+        // 이미지 압축하는 코드임
+        resizeImage(file, 1024, 1024, (resizedBlob) => {
+          const formData = new FormData();
+          formData.append('imageFile', resizedBlob, file.name);
+          formData.append('sender', sender);
+
+          axios.post(`https://clinkback.store/room/${roomId}/sendImage`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            }
+          })
+          .then(response => {
+            console.log('Image sent:', response.data);
+          })
+          .catch(error => {
+            console.error("Failed to send image:", error);
+          });
         });
-      };
-      reader.readAsDataURL(file);
+      })
+      .catch(error => {
+        console.error("Failed to get logged in username:", error);
+      });
     }
   };
 
@@ -114,9 +171,11 @@ const Chat = () => {
       <Header />
       <div className='content'>
         <div className="chat-header">
-          <div className="profile-img">
-            <img src={userInfo.profileImage} alt={`${userInfo.name}의 프로필`} />
-          </div>
+          {userInfo.profileImage && (
+            <div className="profile-img">
+              <img src={userInfo.profileImage} alt={`${userInfo.name}의 프로필`} />
+            </div>
+          )}
 
           <div className="user-info">
             <div className='text'>{userInfo.name}</div>
@@ -126,18 +185,17 @@ const Chat = () => {
         </div>
 
         <div className="chat-messages">
-            {messages.map((msg, index) => (
-                <div key={index} className={`chat-message ${msg.sender === userInfo.studentNumber ? 'me' : 'other'}`}>
-                {msg.imageBytes ? (
-                    <img src={`data:image/jpeg;base64,${msg.imageBytes}`} alt="sent image" className="sent-image" />
-                ) : (
-                    <span>{msg.message}</span>
-                )}
-                </div>
-            ))}
-            <div ref={messagesEndRef} />
+          {messages.map((msg, index) => (
+            <div key={index} className={`chat-message ${msg.sender === userInfo.studentNumber ? 'me' : 'other'}`}>
+              {msg.imageBytes ? (
+                <img src={`data:image/jpeg;base64,${msg.imageBytes}`} alt="sent image" className="sent-image" />
+              ) : (
+                <span>{msg.message}</span>
+              )}
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
         </div>
-
 
         <div className="chat-input">
           <input
