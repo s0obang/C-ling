@@ -165,7 +165,7 @@ public class RecruitmentService {
     public RecruitmentInfoDto getRecruitmentInfo(String recruitingDepartment) {
         Recruitment recruitment = recruitmentRepository.findFirstByRecruitingDepartmentOrderByIdDesc(recruitingDepartment);
         if (recruitment == null) {
-            throw new IllegalArgumentException("No recruitment found for department: " + recruitingDepartment);
+            return null;
         }
         return RecruitmentInfoDto.toDto(recruitment);
     }
