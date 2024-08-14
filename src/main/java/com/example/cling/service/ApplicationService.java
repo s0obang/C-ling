@@ -61,7 +61,7 @@ public class ApplicationService {
         Recruitment recruitment = recruitmentRepository.findFirstByRecruitingDepartmentOrderByIdDesc(recruitingDepartment);
 
         if (recruitment == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "부서 이름을 다시 확인하세요." + recruitingDepartment);
+            return null;
         }
 
         List<Application> applications = recruitment.getApplications();
