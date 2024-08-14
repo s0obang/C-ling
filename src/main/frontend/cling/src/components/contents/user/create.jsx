@@ -44,7 +44,7 @@ const Create = () => {
             }
 
 
-            axios.post('http://13.48.207.238:1234/api/auth/signup', formData, {
+            axios.post('https://clinkback.store/api/auth/signup', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -58,7 +58,13 @@ const Create = () => {
                 })
                 .catch(err => {
                     console.error(err);
-                    alert('회원가입 실패 ')
+                    if (err.status === 200) {
+                        alert('이미 가입이 완료된 회원입니다.')
+                    }
+                    else{
+                        alert('회원가입이 실패했습니다.')
+                    }
+                   
 
                 });
         };

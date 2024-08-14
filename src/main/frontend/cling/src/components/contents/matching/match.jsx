@@ -1,5 +1,5 @@
 // Match.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../../Header';
 import '../../../assets/scss/contents/matching/match.scss';
 import Ex from '../../../assets/img/eximg.png';
@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axios from 'axios';
 
 const users = [
     { id: 1, name: 'User1' },
@@ -24,6 +25,26 @@ const users = [
 ];
 
 const Match = () => {
+    useEffect(() => {
+        axios.get('http://13.48.207.238:1234/matching', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+
+             }
+           
+        })
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log(res);
+
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+               
+            });
+    })
+
     
     const settings = {
         dots: false,
