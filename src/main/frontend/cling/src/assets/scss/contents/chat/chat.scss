@@ -69,7 +69,7 @@
     background-color: rgba(1, 1, 1, 1.0);
     display: flex;
     flex-direction: column;
-    height: 100%; // Height adjusted to take full available space
+    height: 100%;
 }
 
 .chat-message {
@@ -82,7 +82,7 @@
 }
 
 .chat-message.me {
-    background-color: rgba(90, 69, 255, 1.0);
+    background-color: rgba(121, 57, 255, 1.0);
     border-radius: 15px;
     padding: 10px;
     color: white;
@@ -90,7 +90,7 @@
 }
 
 .chat-message.other {
-    background-color: rgba(121, 57, 255, 1.0);
+    background-color: rgba(90, 69, 255, 1);
     border-radius: 15px;
     padding: 10px;
     color: white;
