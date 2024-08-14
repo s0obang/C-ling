@@ -151,11 +151,10 @@
     .swiper-slide img {
         width: 350px;
         height: 350px;
-        object-fit: contain;
+        object-fit: cover;
         border: 45px solid white; 
         border-radius: 50px;
         box-sizing: border-box; 
-        background-color: black;
     }
     .swiper-pagination-bullet {
         border: solid white !important;
