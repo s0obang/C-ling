@@ -81,11 +81,13 @@
       cursor: pointer;
       text-decoration: underline 1px;
       text-underline-position: under;
+      display: inline-block; 
+      width: auto; 
+      padding: 5px 10px;
     }
     .myNotice:hover{
           color: #8953ff;
     }
-
   }
   .tableBox{
     width: 800px;
@@ -96,6 +98,11 @@
     padding:10px 50px;
     padding-bottom: 50px;
 
+    .noNotices{
+      text-align: center;
+      margin-top: 150px;
+      font-size: 18px;
+    }
     #notices{
       cursor: pointer;
       padding: 10px;
