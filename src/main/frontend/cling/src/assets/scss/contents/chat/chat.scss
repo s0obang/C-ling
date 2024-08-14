@@ -84,7 +84,7 @@
     border-radius: 15px;
     padding: 10px;
     color: white;
-    align-self: flex-end;
+    align-self: flex-start;
 }
 
 .chat-message.other {
@@ -92,8 +92,9 @@
     border-radius: 15px;
     padding: 10px;
     color: white;
-    align-self: flex-start;
+    align-self: flex-end;
 }
+
 
 .sent-image {
     max-width: 100%;
