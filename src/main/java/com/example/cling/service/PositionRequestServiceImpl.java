@@ -72,11 +72,11 @@ public class PositionRequestServiceImpl implements PositionRequestService {
                 .distinct()
                 .count();
 
-        // 직책과 크루명이 각각 3개 이상인 경우 예외 발생
-        if (positionCount >= 3 && !currentRequests.stream().anyMatch(req -> req.getPosition().equals(positionRequestDto.getPosition()))) {
+        // 직책과 크루명이 각각 4개 이상인 경우 예외 발생
+        if (positionCount >= 4 && !currentRequests.stream().anyMatch(req -> req.getPosition().equals(positionRequestDto.getPosition()))) {
             throw new RuntimeException("직책은 최대 3개까지만 등록 가능합니다.");
         }
-        if (crewCount >= 3 && !currentRequests.stream().anyMatch(req -> req.getCrewName().equals(positionRequestDto.getCrewName()))) {
+        if (crewCount >= 4 && !currentRequests.stream().anyMatch(req -> req.getCrewName().equals(positionRequestDto.getCrewName()))) {
             throw new RuntimeException("크루명은 최대 3개까지만 등록 가능합니다.");
         }
 
