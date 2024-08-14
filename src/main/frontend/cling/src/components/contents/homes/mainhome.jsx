@@ -1,109 +1,124 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../Header';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 import { IoIosArrowDown } from "react-icons/io";
-import axios from 'axios';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 
 import '../../../assets/scss/contents/homes/mainhome.scss';
-import image1 from '../../../assets/img/logo.png';
-import image2 from '../../../assets/img/logo.png';
-import image3 from '../../../assets/img/logo.png';
-import image4 from '../../../assets/img/logo.png';
-import image5 from '../../../assets/img/logo.png';
-
-const images = [
-  image1,
-  image2,
-  image3,
-  image4,
-  image5
-];
-
-const noticeLists = [
-  { date: '24.07.29', titles: '제목이다재1' },
-  { date: '24.07.29', titles: '제목이다재2' },
-  { date: '24.07.29', titles: '제목이다재3' },
-  { date: '24.07.29', titles: '제목이다재4' },
-  { date: '24.07.29', titles: '제목이다재5' },
-  { date: '24.07.29', titles: '제목이다재6' },
-  { date: '24.07.29', titles: '제목이다재7' },
-  { date: '24.07.29', titles: '제목이다재8' },
-  { date: '24.07.29', titles: '제목이다재9' },
-  { date: '24.07.29', titles: '제목이다재10' },
-  { date: '24.07.29', titles: '제목이다재11' },
-  { date: '24.07.29', titles: '제목이다재12' },
-  { date: '24.07.29', titles: '제목이다재13' },
-  { date: '24.07.29', titles: '제목이다재14' }
-];
+import axios from 'axios';
 
 const Mainhome = () => {
-  useEffect(()=>{
-    console.log(`Bearer ${localStorage.getItem('accessToken')}`)
-  })
   const navigate = useNavigate();
+  const [noticeAll, setNoticeAll] = useState([]);
+  const [showMyNotices, setShowMyNotices] = useState(false);
+  const sortedNotices = [...noticeAll].reverse();
+  const latestNotices = sortedNotices.slice(0, 5);
 
-  const GonoticePage = (index) => {
-    navigate('/notice', { state: { selectedIndex: index } });
+  useEffect(() => {
+    allNotice();
+  }, []);
+
+  const allNotice = () => {
+    axios.get('https://clinkback.store/notice', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      },
+    })
+    .then((response) => {
+      setNoticeAll(response.data);
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error('HOME 화면의 데이터를 불러오는 데 실패했습니다.', error);
+      alert('HOME 화면의 데이터를 불러오는 데 실패했습니다.');
+    });
+  }
+
+  // 내 글만 보기
+  const handlemynotice = (e) => {
+    if (showMyNotices) {
+      allNotice();
+    } else {
+      axios.get('https://clinkback.store/notice/my', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+      })
+      .then((response) => {
+        setNoticeAll(response.data);
+        console.log('내 글 목록:', response.data);
+      })
+      .catch((error) => {
+        console.error('내 글 목록을 찾을 수 없습니다.', error);
+        alert('내 글 목록을 찾을 수 없습니다.');
+      });
+    }
+    setShowMyNotices(!showMyNotices);
   };
 
-  const GonoticeWrite = () => {
+  const goNoticeWrite = () => {
     navigate('/noticeWrites');
     window.scrollTo(0, 0);
   };
 
-  const GonoticeOpen = (index) => {
-    navigate('/noticeOpen');
+  const goNoticeOpen = (id) => {
+    console.log(`공지사항 상세보기 페이지로 이동합니다. ID: ${id}`);
+    navigate(`/noticeOpen/${id}`);
     window.scrollTo(0, 0);
   };
-
-  const latestNotices = noticeLists.slice(0, 5);
 
   return (
     <div id="mainhome">
       <Header />
       <Swiper
         className="mainBanner"
-        grabCursor={true} // 잡기 커서 활성화
+        grabCursor={true}
         slidesPerView={'auto'}
-        spaceBetween={170} // 슬라이드 간 간격
-        pagination={{ clickable: true }} // 하단 동그라미
-        centeredSlides={true} // 센터모드
+        spaceBetween={170}
+        pagination={{ clickable: true }}
+        centeredSlides={true}
         autoplay={{ delay: 2500 }}
         modules={[Pagination, Autoplay]}
       >
-        {latestNotices.map((notice, index) => (
-          <SwiperSlide key={index} className="Slide" onClick={() => GonoticeOpen(index)}>
-            <img src={images[index % images.length]} alt={`slide-${index}`} className="imgBanner" />
-            <div className="mainTitle">
-              <div className="noticeTitle">{notice.titles}</div>
-            </div>
-          </SwiperSlide>
-        ))}
+        {latestNotices.map((notice, index) => {
+          
+          const firstImage = notice.images[0] ;
+          const imageSrc = `data:image/jpg;base64,${firstImage.attachmentByteList}`;
+
+
+          return (
+            <SwiperSlide key={index} className="Slide" onClick={() => goNoticeOpen(notice.id)}>
+              <img src={imageSrc} alt={`slide-${index}`} className="imgBanner" />
+              <div className="mainTitle">
+                <div>{notice.title}</div>
+              </div>
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
       <IoIosArrowDown className='downIcon' />
       <div className='downIconBG' />
       <div className="myNoticeBox">
-        <div className="myNotice">
-          내 글만 보기
+        <div className="myNotice" onClick={handlemynotice}>
+          {showMyNotices ? '전체 글 보기' : '내 글만 보기'}
         </div>
       </div>
       <div className="tableBox">
-        {noticeLists.map((notice, index) => (
-          <div key={index}>
-            <div id="notices">
-            <div className="noticeDate">{notice.date}</div>
-            <div className="noticeTitle" onClick={() => GonoticeOpen(index)}>{notice.titles}</div>
+        {sortedNotices.map((notice, index) => (
+          <div key={index} className="noticeItem">
+            <div id="notices" onClick={() => goNoticeOpen(notice.id)}>
+              <div className="noticeDate">{notice.createdDate}</div>
+              <div className="noticeTitle">{notice.title}</div>
             </div>
           </div>
         ))}
       </div>
       <div>
-        <button id="btnWrite" onClick={GonoticeWrite}>글 작성하기</button>
+        <button id="btnWrite" onClick={goNoticeWrite}>글 작성하기</button>
       </div>
     </div>
   );

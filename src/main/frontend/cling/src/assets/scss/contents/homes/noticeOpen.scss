@@ -53,28 +53,14 @@
             width: 100%;
         }
 
-        #editBox {
-            margin-top: 10px;
-            margin-bottom: 50px;
-            font-size: 14px;
-        }
         
-        #delete, #edit {
-            cursor: pointer;
-            text-decoration: underline 1px;
-            text-underline-position: under;
-        }
-
-        #delete:hover, #edit:hover{
-            color: #8953ff;
-        }
-
-        #title {
+        #topBox {
             display: flex;
             font-size: 35px;
             max-width: 500px;
             word-break: break-all;
             text-align: center;
+
             .back {
                 position: absolute;
                 font-size: 40px;
@@ -90,21 +76,43 @@
                 text-align: center;
                 width: 500px;
                 padding: 15px;
-                width: 500px;
+                white-space: pre-wrap;
+            }
+        }
+        
+        #editBox1{
+            margin-bottom: 70px;
+            #editBox2 {
+                margin-top: 10px;
+                font-size: 14px;
+            }
+            #delete, #edit {
+                cursor: pointer;
+                text-decoration: underline 1px;
+                text-underline-position: under;
+            }
+            #delete:hover, #edit:hover{
+                color: #8953ff;
             }
         }
 
+        .createdDate{
+            margin-left: 0;
+            width: 800px;
+            font-weight: bold;
+        }
         #contents {
             display: flex;
-
+            
             .text2 {
                 font-size: 16px;
                 margin: 0px 100px;
-                min-width: 600px;
+                width: 800px;
                 padding: 15px;
                 min-height: 300px;
                 max-height: 500px;
                 overflow-y: scroll;
+                white-space: pre-wrap;
             }
         }
     }
