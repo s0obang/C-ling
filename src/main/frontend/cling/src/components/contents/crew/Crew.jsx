@@ -16,6 +16,10 @@ const Crew = () => {
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { duration: 1 } }
     };
+    const slowfadeIn = {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 3 } }
+    };
    
     const [myCrew, setMyCrew] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -53,7 +57,7 @@ const Crew = () => {
             <Header />
             <div className="wrap">
                 <motion.div className="banner"
-                 variants={fadeIn}
+                 variants={slowfadeIn}
                  initial="hidden"
                  animate="visible">
                     <img src={Banner} alt="배너" />
