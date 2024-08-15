@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -152,15 +153,27 @@ public class RequestService {
         String major = student.getMajor();
         List<UserEntity> sameMajorUsers = userRepository.findSameMajorUsers(major, userId);
 
-        // 매칭된 사용자 찾아서
+        // 매칭된 사용자 찾기
         List<String> matchedUser = matchingService.getAllMatchings(userId)
                 .stream()
                 .map(UserResponseDto::getStudentId)
                 .collect(Collectors.toList());
 
-        // 매칭된 사용자 제외 (쿼리로 제외했지만 서비스 레이어에서 한 번 더 필터링 해주도록 로직 구성)
+        // 학번 뒷자리 4자리 추출 함수
+        Function<String, String> lastFourId = id -> {
+            if (id != null && id.length() == 8) {
+                return id.substring(id.length() - 4);
+            }
+            return "";
+        };
+
+        // 현재 사용자의 학번 뒷자리 4자리
+        String userIdLast = lastFourId.apply(userId);
+
+        // 매칭된 사용자 제외 및 학번 뒷자리 4자리 같은 사람만 필터링
         List<UserEntity> filteredUsers = sameMajorUsers.stream()
                 .filter(userEntity -> !matchedUser.contains(userEntity.getStudentId()))
+                .filter(userEntity -> lastFourId.apply(userEntity.getStudentId()).equals(userIdLast))
                 .collect(Collectors.toList());
 
         return filteredUsers.stream()
@@ -189,9 +202,21 @@ public class RequestService {
                 .map(UserResponseDto::getStudentId)
                 .collect(Collectors.toList());
 
-        // 매칭된 사용자 제외 (쿼리로 제외했지만 서비스 레이어에서 한 번 더 필터링 해주도록 로직 구성)
+        // 학번 뒷자리 2자리 추출 함수
+        Function<String, String> lastTwoId = id -> {
+            if (id != null && id.length() == 8) {
+                return id.substring(id.length() - 2);
+            }
+            return "";
+        };
+
+        // 현재 사용자의 학번 뒷자리 2자리
+        String userIdLast = lastTwoId.apply(userId);
+
+        // 매칭된 사용자 제외 및 학번 뒷자리 2자리 같은 사람만 필터링
         List<UserEntity> filteredUsers = otherMajorUsers.stream()
                 .filter(userEntity -> !matchedUser.contains(userEntity.getStudentId()))
+                .filter(userEntity -> lastTwoId.apply(userEntity.getStudentId()).equals(userIdLast))
                 .collect(Collectors.toList());
 
         return filteredUsers.stream()
