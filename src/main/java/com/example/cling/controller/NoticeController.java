@@ -42,7 +42,8 @@ public class NoticeController {
                                                @AuthenticationPrincipal UserDetails userDetails,
                                                @RequestParam("title") String title,
                                                @RequestParam("content") String content,
-                                               @RequestParam("images") List<MultipartFile> images
+                                               @RequestParam("images") List<MultipartFile> images,
+                                               @RequestParam("position") String position
     ) throws Exception {
 
         //이미지가 없는 경우 저장 x
@@ -51,11 +52,12 @@ public class NoticeController {
         }
 
 
-        String authenticatedUserId = userDetails.getUsername();
+        String studentId = userDetails.getUsername();
 
         NoticeCreateDto noticeCreateDto =
                 NoticeCreateDto.builder()
-                        .userId(authenticatedUserId)
+                        .userId(studentId)
+                        .position(position)
                         .title(title)
                         .content(content)
                         .build();

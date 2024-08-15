@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +18,8 @@ public class NoticeDto {
     private int id;
     @NotBlank(message = "User cannot be blank")
     private String userId;
+    @NotBlank(message = "Position cannot be blank")
+    private String position;
     @NotBlank(message = "Title cannot be blank")
     private String title;
     @NotBlank(message = "Content cannot be blank")
@@ -50,6 +51,7 @@ public class NoticeDto {
         return new NoticeDto(
                 notice.getId(),
                 notice.getUserId(),
+                notice.getPosition(),
                 notice.getTitle(),
                 notice.getContent(),
                 imageDtoList,

@@ -49,6 +49,7 @@ public class NoticeService {
     public NoticeDto write(NoticeCreateDto noticeCreateDto) {
         Notice notice = new Notice();
         notice.setUserId(noticeCreateDto.getUserId());
+        notice.setPosition(noticeCreateDto.getPosition());
         notice.setTitle(noticeCreateDto.getTitle());
         notice.setContent(noticeCreateDto.getContent());
         Notice savedNotice = noticeRepository.save(notice);
@@ -119,7 +120,7 @@ public class NoticeService {
 
         attachmentRepository.deleteAll(notice.getImages());
 
-        baseDir += "/notice";
+        baseDir = "/home/ubuntu/uploads/Attachments/notice";
         // 게시물 아이디에 해당하는 폴더 삭제
         String postDirName = baseDir + "/" + id;
         File postDir = new File(postDirName);

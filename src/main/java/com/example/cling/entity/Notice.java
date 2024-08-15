@@ -22,6 +22,9 @@ public class Notice extends BaseTimeEntity {
     private int id;
 
     @Column(nullable = false)
+    private String position;
+
+    @Column(nullable = false)
     private String userId;
 
     @Column(nullable = false)

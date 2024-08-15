@@ -11,11 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class NoticeCreateDto {
-    @NotBlank(message = "User cannot be blank")
-    private String userId;
     @NotBlank(message = "Title cannot be blank")
     private String title;
     @NotBlank(message = "Content cannot be blank")
     private String content;
+    @NotBlank(message = "Position cannot be blank")
+    private String position;
+    @NotBlank(message = "User cannot be blank")
+    private String userId;
 
 }
