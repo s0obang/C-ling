@@ -59,7 +59,7 @@ const PassList = ({ department }) => {
                 <div className='passlist-item'>합/불</div>
             </div>
            
-            <PassListItem department = {department} plan = {viewPlan} recruitingId={id}/>
+            <PassListItem department = {department} onStep = {viewPlan} recruitingId={id}  plan = {plan} />
         </div>
     );
 };

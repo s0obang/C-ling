@@ -4,7 +4,7 @@ import '../../../assets/scss/contents/crew/passlist.scss';
 import { motion } from 'framer-motion';
 import Spinner from '../../../assets/img/loading.gif';
 
-const PassListItem = ({ department, plan, recruitingId }) => {
+const PassListItem = ({ department, plan, recruitingId , onStep}) => {
     const [students, setStudents] = useState([]);
     const [results, setResults] = useState({});
     const [isComplete, setIsComplete] = useState(false);
@@ -22,7 +22,7 @@ const PassListItem = ({ department, plan, recruitingId }) => {
             setFirst(true);
             fetchStudents();
         }
-    }, [plan]);
+    }, [onStep]);
 
     useEffect(() => {
         checkCompletion();
@@ -30,7 +30,7 @@ const PassListItem = ({ department, plan, recruitingId }) => {
 
     useEffect(() => {
         fetchStudents();
-    }, [plan]);
+    }, [onStep]);
 
     const fetchStudents = () => {
         axios.get(`https://clinkback.store/applications/${department}`, {
@@ -62,8 +62,8 @@ const PassListItem = ({ department, plan, recruitingId }) => {
 
 
     const handleSaveResults = () => {
-        if (isComplete) {
-            axios.put(`https://clinkback.store/updateResults?step=${plan}&recruitingId=${recruitingId}`, results, {
+        if (isComplete && (plan === onStep)) {
+            axios.put(`https://clinkback.store/updateResults?step=${onStep}&recruitingId=${recruitingId}`, results, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`
                 }
