@@ -37,10 +37,7 @@ public class Recruitment extends BaseTimeEntity {
     @Column(nullable = false)
     private String dueDate;
 
-    @Column(nullable = false)
-    private boolean isCompleted;
-
-    @Column(columnDefinition = "VARCHAR(255) DEFAULT '1'")
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT '1'", nullable = true)
     private String onStep;
 
     @OneToMany(
