@@ -103,6 +103,7 @@ public class SecurityConfig {
         configuration.addAllowedOrigin("http://13.48.207.238:1234");
         configuration.addAllowedOrigin("https://apic.app");
         configuration.addAllowedOrigin("https://clinkback.store");
+        configuration.addAllowedOrigin("https://sw-cling.netlify.app");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);

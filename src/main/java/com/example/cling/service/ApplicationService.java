@@ -13,6 +13,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.ByteArrayOutputStream;
@@ -93,8 +94,8 @@ public class ApplicationService {
                 Optional<UserEntity> userOptional = userRepository.findByStudentId(studentId);
                 if (userOptional.isPresent()) {
                     UserEntity user = userOptional.get();
-                    String subject = "[크링]에서 알람이 도착했어요!";
-                    String content = user.getName() + "님, 지원하신 크루에서 합격 여부를 등록 완료했어요!" + // html 형식으로 작성
+                    String subject = "[크링]" + application.getRecruitingDepartment() + " 크루에서 알람이 도착했어요!";
+                    String content = user.getName() + "님, 지원하신 " + application.getRecruitingDepartment() + "크루에서 합격 여부를 등록 완료했어요!" + // html 형식으로 작성
                             "<br><br>" +
                             "지금 CREW > 현재 지원 현황에서 합격 여부를 확인할 수 있습니다";
                     try {
@@ -108,19 +109,18 @@ public class ApplicationService {
                 throw new IllegalArgumentException("Application not found for student ID: " + studentId + " and recruiting department: " + recruitingDepartment);
             }
         }
+        updateOnStep(step, recruitingId);
 
-        // Recruitment의 step과 비교하여 모집 완료 여부 확인
-        Optional<Recruitment> recruitmentOptional = recruitmentRepository.findById(recruitingId);
-        if (recruitmentOptional.isPresent()) {
-            Recruitment recruitment = recruitmentOptional.get();
+    }
 
-            if (Integer.toString(step).equals(recruitment.getStep())) {
-                try {
-                    recruitment.setOnStep("0");
-                    recruitmentRepository.save(recruitment);
-                } catch (Exception e) {
-                    System.err.println("Failed to update recruitment step : " + e.getMessage());
-                }
+    public void updateOnStep(int step, int recruitingId) {
+        String newOnStep = (step == 1) ? "2" : (step == 2) ? "3" : null;
+
+        if (newOnStep != null) {
+            try {
+                recruitmentRepository.updateOnStepNative(newOnStep, recruitingId);
+            } catch (Exception e) {
+                System.err.println("Failed to update recruitment step: " + e.getMessage());
             }
         }
     }
@@ -137,11 +137,18 @@ public class ApplicationService {
             throw new IllegalArgumentException("Invalid step value: " + step);
         }
 
+        // 데이터 존재 여부 확인
+        if (applications.isEmpty()) {
+            throw new IllegalStateException("No applications found for the given parameters.");
+        }
+
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream))) {
             for (Application app : applications) {
                 writer.printf("학번: %s, 이름: %s%n", app.getStudentId(), app.getStudentName());
             }
+            // Writer를 수동으로 flush
+            writer.flush();
         }
 
         return new ByteArrayResource(outputStream.toByteArray());

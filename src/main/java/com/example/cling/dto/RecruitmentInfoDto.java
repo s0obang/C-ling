@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 public class RecruitmentInfoDto {
     @NotBlank(message = "RecruitingDepartment cannot be blank")
     private String RecruitingDepartment;
+    @NotBlank(message = "RecruitingDepartment cannot be blank")
+    private int id;
     @NotBlank(message = "Title cannot be blank")
     private String title;
     @NotBlank(message = "startDate cannot be blank")
@@ -24,14 +26,18 @@ public class RecruitmentInfoDto {
     private String dueDate;
     @NotBlank(message = "Step cannot be blank")
     private String step;
+    @NotBlank(message = "Step cannot be blank")
+    private String onStep;
 
     public static RecruitmentInfoDto toDto(Recruitment recruitment) {
         return new RecruitmentInfoDto(
                 recruitment.getRecruitingDepartment(),
+                recruitment.getId(),
                 recruitment.getTitle(),
                 recruitment.getStartDate(),
                 recruitment.getDueDate(),
-                recruitment.getStep()
+                recruitment.getStep(),
+                recruitment.getOnStep()
         );
     }
 
