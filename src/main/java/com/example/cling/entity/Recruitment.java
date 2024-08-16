@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class Recruitment extends BaseTimeEntity {
     @Column(nullable = false)
     private String dueDate;
 
-    @Column(columnDefinition = "VARCHAR(255) DEFAULT '1'", nullable = true)
+    @ColumnDefault("1")
     private String onStep;
 
     @OneToMany(
