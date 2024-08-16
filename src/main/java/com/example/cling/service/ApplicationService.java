@@ -19,10 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -61,7 +58,7 @@ public class ApplicationService {
         Recruitment recruitment = recruitmentRepository.findFirstByRecruitingDepartmentOrderByIdDesc(recruitingDepartment);
 
         if (recruitment == null) {
-            return null;
+            return Collections.emptyList();
         }
 
         List<Application> applications = recruitment.getApplications();
