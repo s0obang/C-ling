@@ -40,8 +40,8 @@ public class Recruitment extends BaseTimeEntity {
     @Column(nullable = false)
     private boolean isCompleted;
 
-    @Column(nullable = false)
-    private String onStep = "1";
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT '1'")
+    private String onStep;
 
     @OneToMany(
             mappedBy = "recruitment",
@@ -90,6 +90,15 @@ public class Recruitment extends BaseTimeEntity {
             application.setRecruitment(this);
         }
     }
+    public void updateOnStep(int step) {
+        if (step == 1) {
+            this.onStep = "2";
+        } else if (step == 2) {
+            this.onStep = "3";
+        }
+
+    }
+
 
 
 }

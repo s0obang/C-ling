@@ -60,7 +60,11 @@ public class ApplicationController {
                     .body(null);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
     }
+
+
 
 }
